@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://1d3pu2vomno0"]
+
+[ext_resource type="Script" path="res://scene/BulletProjectile.gd" id="1_ciecs"]
+[ext_resource type="Texture2D" uid="uid://5ihw6opnlfma" path="res://assets/character/RangedProjectile/3.png" id="2_dyv42"]
+
+[node name="BulletProjectile" type="Area2D"]
+collision_layer = 32
+collision_mask = 70
+script = ExtResource("1_ciecs")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-2.56, 1.44)
+rotation = -1.5708
+scale = Vector2(0.155, 0.155)
+texture = ExtResource("2_dyv42")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-2.56, 1.44)
+rotation = -1.5708
+scale = Vector2(0.155, 0.155)
+polygon = PackedVector2Array(80.2581, 16.5161, 15.7419, 35.871, -16.5161, 16.5161, 15.7419, -2.83871)
+
+[node name="Timeout" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timeout" to="." method="_on_bullet_timeout"]

@@ -1,0 +1,43 @@
+[gd_resource type="SpriteFrames" load_steps=9 format=3 uid="uid://bmxlmjhgv0e60"]
+
+[ext_resource type="Texture2D" uid="uid://doy1y6fadxudb" path="res://assets/character/MeleeProjectile/8.png" id="1_dyjeg"]
+[ext_resource type="Texture2D" uid="uid://bvtsg732ygtf6" path="res://assets/character/MeleeProjectile/7.png" id="2_2t8k4"]
+[ext_resource type="Texture2D" uid="uid://dtoh4cmhu14y0" path="res://assets/character/MeleeProjectile/6.png" id="3_2fghi"]
+[ext_resource type="Texture2D" uid="uid://dwsb8g7euueba" path="res://assets/character/MeleeProjectile/5.png" id="4_bi3mk"]
+[ext_resource type="Texture2D" uid="uid://ggfy6hrvup53" path="res://assets/character/MeleeProjectile/4.png" id="5_r8nx4"]
+[ext_resource type="Texture2D" uid="uid://ckw43p7uq8hc4" path="res://assets/character/MeleeProjectile/3.png" id="6_0qp4t"]
+[ext_resource type="Texture2D" uid="uid://bhlc0e138xckk" path="res://assets/character/MeleeProjectile/2.png" id="7_78mlc"]
+[ext_resource type="Texture2D" uid="uid://dgshn6g1gittu" path="res://assets/character/MeleeProjectile/1.png" id="8_xmuul"]
+
+[resource]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_dyjeg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_2t8k4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_2fghi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_bi3mk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_r8nx4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_0qp4t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_78mlc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_xmuul")
+}],
+"loop": false,
+"name": &"Slash",
+"speed": 24.0
+}]

@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://m5biwludvv4v"]
+
+[ext_resource type="Script" path="res://scene/Boss_Bomb_Projectile.gd" id="1_evamf"]
+[ext_resource type="Texture2D" uid="uid://dmjgpd6ykxqao" path="res://assets/SunGede.png" id="2_wk1hv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wefn3"]
+radius = 24.3311
+
+[node name="Boss_Bomb_Projectile" type="Area2D"]
+script = ExtResource("1_evamf")
+speed = null
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_wk1hv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wefn3")

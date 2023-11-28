@@ -1,0 +1,77 @@
+[gd_scene load_steps=10 format=3 uid="uid://caxjcyt48xmp0"]
+
+[ext_resource type="Texture2D" uid="uid://dn4belqy0k0hw" path="res://charaTBD.png" id="1_m28o7"]
+[ext_resource type="Script" path="res://Character.gd" id="1_pch7d"]
+[ext_resource type="AudioStream" uid="uid://cp6q4ybnwntmk" path="res://sound/Step/step1.mp3" id="3_pbu7b"]
+[ext_resource type="AudioStream" uid="uid://bf2yyb0jnrk7v" path="res://sound/Step/step2.mp3" id="4_1rxhg"]
+[ext_resource type="AudioStream" uid="uid://c1tveke6b8ols" path="res://sound/Step/step3.mp3" id="5_2q2xs"]
+[ext_resource type="AudioStream" uid="uid://l4sjluk7v7wr" path="res://sound/Step/step5.mp3" id="6_7nbl7"]
+[ext_resource type="AudioStream" uid="uid://bv74f6y4hx1x7" path="res://sound/Step/step6.mp3" id="7_rlqsk"]
+[ext_resource type="AudioStream" uid="uid://cy1e7xeyl38ar" path="res://sound/Step/step8.mp3" id="8_52yx0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e8tdo"]
+radius = 14.0357
+
+[node name="Character" type="CharacterBody2D"]
+collision_mask = 11
+script = ExtResource("1_pch7d")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+texture = ExtResource("1_m28o7")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+rotation_smoothing_enabled = true
+
+[node name="StepSfxCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="RangedCooldown" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="DashDuration" type="Timer" parent="."]
+wait_time = 1.25
+one_shot = true
+
+[node name="DashCooldown" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="StepSfx" type="Node2D" parent="."]
+
+[node name="Step1" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("3_pbu7b")
+
+[node name="Step2" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("4_1rxhg")
+
+[node name="Step3" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("5_2q2xs")
+
+[node name="Step4" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("6_7nbl7")
+
+[node name="Step5" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("3_pbu7b")
+
+[node name="Step6" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("7_rlqsk")
+
+[node name="Step7" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("8_52yx0")
+
+[node name="Step8" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("3_pbu7b")
+
+[node name="RangedBulletSpawn" type="Marker2D" parent="."]
+
+[node name="MeleeSlashSpawn" type="Marker2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_e8tdo")
+
+[connection signal="timeout" from="RangedCooldown" to="." method="_on_ranged_cooldown_timeout"]
+[connection signal="timeout" from="DashDuration" to="." method="_on_dash_duration_timeout"]
+[connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]

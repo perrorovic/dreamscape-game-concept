@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://bio2wxum33qhf"]
+
+[ext_resource type="Texture2D" uid="uid://dmjgpd6ykxqao" path="res://assets/SunGede.png" id="1_ineav"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="WorldType" type="Node" parent="."]
+
+[node name="Progress" type="TextureProgressBar" parent="WorldType"]
+top_level = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -29.9999
+offset_top = -97.9999
+offset_right = 570.0
+offset_bottom = 502.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.1, 0.1)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+value = 35.0
+rounded = true
+fill_mode = 4
+texture_under = ExtResource("1_ineav")
+texture_progress = ExtResource("1_ineav")
+tint_under = Color(0.152941, 0.152941, 0.152941, 1)
+
+[node name="PlayerHealth" type="Node" parent="."]
+
+[node name="Progress" type="ProgressBar" parent="PlayerHealth"]
+self_modulate = Color(1, 1, 0, 1)
+top_level = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -121.5
+offset_top = -35.0
+offset_right = 121.5
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+show_percentage = false

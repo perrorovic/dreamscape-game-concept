@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpougqpvggirn"]
+
+[ext_resource type="Texture2D" uid="uid://w0umxmxokln0" path="res://assets/MoonGede.png" id="1_5l7ui"]
+[ext_resource type="Script" path="res://scene/Boss_Slash_Projectile.gd" id="1_mxban"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3ibfd"]
+radius = 42.0
+
+[node name="Boss_Slash_Projectile" type="Area2D"]
+collision_layer = 32
+script = ExtResource("1_mxban")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.109804, 1, 1, 1)
+rotation = 2.04204
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("1_5l7ui")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_3ibfd")
+
+[node name="Timeout" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timeout" to="." method="_on_timeout"]

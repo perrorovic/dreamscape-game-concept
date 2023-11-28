@@ -1,0 +1,63 @@
+[gd_scene load_steps=12 format=3 uid="uid://caxjcyt48xmp0"]
+
+[ext_resource type="Texture2D" uid="uid://dn4belqy0k0hw" path="res://charaTBD.png" id="1_m28o7"]
+[ext_resource type="Script" path="res://Character.gd" id="1_pch7d"]
+[ext_resource type="AudioStream" uid="uid://cp6q4ybnwntmk" path="res://Sound/Step/step1.mp3" id="3_uwb2m"]
+[ext_resource type="AudioStream" uid="uid://bf2yyb0jnrk7v" path="res://Sound/Step/step2.mp3" id="4_i6jtw"]
+[ext_resource type="AudioStream" uid="uid://c1tveke6b8ols" path="res://Sound/Step/step3.mp3" id="5_2vndm"]
+[ext_resource type="AudioStream" uid="uid://l4sjluk7v7wr" path="res://Sound/Step/step5.mp3" id="6_evd5m"]
+[ext_resource type="AudioStream" uid="uid://bv74f6y4hx1x7" path="res://Sound/Step/step6.mp3" id="7_pkt1u"]
+[ext_resource type="AudioStream" uid="uid://cy1e7xeyl38ar" path="res://Sound/Step/step8.mp3" id="8_nbtg1"]
+[ext_resource type="AudioStream" uid="uid://dqgefklgapv6x" path="res://Sound/Step/leftknock.mp3" id="9_u2ej7"]
+[ext_resource type="AudioStream" uid="uid://cbw7pcdw6svro" path="res://Sound/Step/rightknock.mp3" id="10_jh3i3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e8tdo"]
+radius = 14.0357
+
+[node name="Character" type="CharacterBody2D"]
+collision_mask = 11
+script = ExtResource("1_pch7d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_e8tdo")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_m28o7")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+
+[node name="TimerStepSfx" type="Timer" parent="."]
+one_shot = true
+
+[node name="StepSfx" type="Node2D" parent="."]
+
+[node name="Step1" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("3_uwb2m")
+
+[node name="Step2" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("4_i6jtw")
+
+[node name="Step3" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("5_2vndm")
+
+[node name="Step4" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("6_evd5m")
+
+[node name="Step5" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("3_uwb2m")
+
+[node name="Step6" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("7_pkt1u")
+
+[node name="Step7" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("8_nbtg1")
+
+[node name="Step8" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("3_uwb2m")
+
+[node name="Step9" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("9_u2ej7")
+
+[node name="Step10" type="AudioStreamPlayer" parent="StepSfx"]
+stream = ExtResource("10_jh3i3")

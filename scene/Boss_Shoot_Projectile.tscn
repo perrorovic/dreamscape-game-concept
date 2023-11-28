@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://daetetsi7dtb7"]
+
+[ext_resource type="Script" path="res://scene/Boss_Shoot_Projectile.gd" id="1_vywf8"]
+[ext_resource type="Texture2D" uid="uid://dv62ae3ebe0na" path="res://assets/character/RangedProjectile/4.png" id="1_xek0f"]
+
+[node name="Boss_Shoot_Projectile" type="Area2D"]
+modulate = Color(1, 1, 0, 1)
+scale = Vector2(1.5, 1.5)
+collision_layer = 32
+script = ExtResource("1_vywf8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-2, 7)
+rotation = -1.5708
+scale = Vector2(0.155, 0.155)
+texture = ExtResource("1_xek0f")
+offset = Vector2(0, 2)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, -12, -2, -6, 0, -3, 2, -6)
+
+[node name="Timeout" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

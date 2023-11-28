@@ -1,0 +1,231 @@
+[gd_scene load_steps=14 format=3 uid="uid://dl1enj0x41grc"]
+
+[ext_resource type="Script" path="res://Main.gd" id="1_taoo3"]
+[ext_resource type="AudioStream" uid="uid://b4x6eksm6skkq" path="res://sound/BGM/Missing_Persons_-_Jeremy_Blake.mp3" id="2_ge8yg"]
+[ext_resource type="TileSet" uid="uid://ctdfec0656fuy" path="res://assets/tilesets/Day.tres" id="3_3jxug"]
+[ext_resource type="TileSet" uid="uid://cwbjq7frnhg80" path="res://assets/tilesets/DayTrap.tres" id="4_1tmdk"]
+[ext_resource type="TileSet" uid="uid://bfqk1npxl8dy1" path="res://assets/tilesets/Night.tres" id="5_63ebu"]
+[ext_resource type="TileSet" uid="uid://b51tr7d6awtno" path="res://assets/tilesets/NightTrap.tres" id="6_xhgku"]
+[ext_resource type="TileSet" uid="uid://crlqwe2tqeqv7" path="res://assets/tilesets/Tileset.tres" id="7_rpcob"]
+[ext_resource type="PackedScene" uid="uid://xxydai5do85b" path="res://scene/TrapCollision.tscn" id="8_i5cjx"]
+[ext_resource type="Script" path="res://TrapCollision.gd" id="9_fd8df"]
+[ext_resource type="PackedScene" uid="uid://caxjcyt48xmp0" path="res://scene/Character.tscn" id="10_tc7wq"]
+[ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="11_x8vvf"]
+[ext_resource type="PackedScene" uid="uid://bio2wxum33qhf" path="res://scene/UI.tscn" id="12_j6qy8"]
+[ext_resource type="PackedScene" uid="uid://dcdh88e4al28v" path="res://scene/Boss.tscn" id="13_ixunt"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_taoo3")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_ge8yg")
+volume_db = -5.0
+
+[node name="AbleToSwapWorldTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="DayNode" type="Node2D" parent="."]
+
+[node name="Day" type="TileMap" parent="DayNode"]
+tile_set = ExtResource("3_3jxug")
+format = 2
+layer_0/name = "Floor"
+layer_0/tile_data = PackedInt32Array(196605, 0, 0, 131069, 0, 0, 65533, 0, 0, 65532, 0, 0, -4, 0, 0, -65540, 0, 0, -131076, 0, 0, -196612, 0, 0, -262148, 0, 0, -327684, 0, 0, -393220, 0, 0, -393221, 0, 0, -393222, 0, 0, -393223, 0, 0, -327687, 0, 0, -262151, 0, 0, -196615, 0, 0, -131079, 0, 0, -65543, 0, 0, -7, 0, 0, 65529, 0, 0, 131065, 0, 0, 196601, 0, 0, 262137, 0, 0, 327673, 0, 0, 393209, 0, 0, 393210, 0, 0, 327674, 0, 0, 262138, 0, 0, 196602, 0, 0, 131066, 0, 0, 65530, 0, 0, -6, 0, 0, -65542, 0, 0, -131078, 0, 0, -196614, 0, 0, -262150, 0, 0, -327686, 0, 0, -327685, 0, 0, -262149, 0, 0, -196613, 0, 0, -131077, 0, 0, -65541, 0, 0, -5, 0, 0, 65531, 0, 0, 196603, 0, 0, 262139, 0, 0, 327675, 0, 0, 393211, 0, 0, 393212, 0, 0, 327676, 0, 0, 262140, 0, 0, 196604, 0, 0, 131068, 0, 0, 262141, 0, 0, 327677, 0, 0, 393213, 0, 0, 393214, 0, 0, 327678, 0, 0, 262142, 0, 0, 196606, 0, 0, 131070, 0, 0, 65534, 0, 0, -2, 0, 0, -65538, 0, 0, -131074, 0, 0, -196610, 0, 0, -262146, 0, 0, -327682, 0, 0, -393218, 0, 0, -393219, 0, 0, -327683, 0, 0, -393217, 0, 0, -327681, 0, 0, -262145, 0, 0, -196609, 0, 0, -131073, 0, 0, -65537, 0, 0, -1, 0, 0, 65535, 0, 0, 131071, 0, 0, 196607, 0, 0, 262143, 0, 0, 327679, 0, 0, 393215, 0, 0, 327680, 0, 0, 262144, 0, 0, 196608, 0, 0, 131072, 0, 0, 65536, 0, 0, 0, 0, 0, -65536, 0, 0, -131072, 0, 0, -196608, 0, 0, -262144, 0, 0, -327680, 0, 0, -393216, 0, 0, -458752, 0, 0, -458751, 0, 0, -393215, 0, 0, -327679, 0, 0, -262143, 0, 0, -196607, 0, 0, -131071, 0, 0, -131070, 0, 0, -196606, 0, 0, -262142, 0, 0, -327678, 0, 0, -393214, 0, 0, -458750, 0, 0, -458749, 0, 0, -393213, 0, 0, -327677, 0, 0, -262141, 0, 0, -262140, 0, 0, -327676, 0, 0, -393212, 0, 0, -458748, 0, 0, -458747, 0, 0, -393211, 0, 0, -327675, 0, 0, -262139, 0, 0, -196603, 0, 0, -196604, 0, 0, -131068, 0, 0, -131069, 0, 0, -65533, 0, 0, -65534, 0, 0, 2, 0, 0, 1, 0, 0, 65537, 0, 0, 131073, 0, 0, 131074, 0, 0, 65538, 0, 0, 65539, 0, 0, 3, 0, 0, 4, 0, 0, -65532, 0, 0, 65540, 0, 0, 131076, 0, 0, 131075, 0, 0, 196611, 0, 0, 196610, 0, 0, 262146, 0, 0, 262145, 0, 0, 327681, 0, 0, 327682, 0, 0, 327683, 0, 0, 262147, 0, 0, 262148, 0, 0, 196612, 0, 0, 196613, 0, 0, 131077, 0, 0, 65541, 0, 0, 5, 0, 0, 262149, 0, 0, 327685, 0, 0, 327684, 0, 0, -131067, 0, 0, -196611, 0, 0, -131075, 0, 0, -65539, 0, 0)
+layer_1/name = "Wall"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/tile_data = PackedInt32Array(-131074, 65536, 0, -131075, 65536, 0, -65539, 65536, 0, 65533, 65536, 0, 131069, 65536, 0, 131070, 65536, 0, 65536, 65536, 0, 65537, 65536, 0, 1, 65536, 0, -131071, 65536, 0, -196607, 65536, 0, -196608, 65536, 0, -262145, 65536, 0, -262146, 65536, 0, -327680, 65536, 0, -327678, 65536, 0, -327677, 65536, 0, -262141, 65536, 0, -131069, 65536, 0, -65533, 65536, 0, 3, 65536, 0, 131075, 65536, 0, 196611, 65536, 0, 196610, 65536, 0, 196608, 65536, 0, 262143, 65536, 0, 262142, 65536, 0, 262140, 65536, 0, 262139, 65536, 0, 196603, 65536, 0, 65531, 65536, 0, -5, 65536, 0, -65541, 65536, 0, -196613, 65536, 0, -262149, 65536, 0, -262148, 65536, 0, -65543, 65536, 0, -131079, 65536, 0, -196615, 65536, 0, -262151, 65536, 0, -327687, 65536, 0, -393223, 65536, 0, -393222, 65536, 0, -393221, 65536, 0, -393220, 65536, 0, -393219, 65536, 0, -393218, 65536, 0, -393217, 65536, 0, -458752, 65536, 0, -458751, 65536, 0, -458750, 65536, 0, -458749, 65536, 0, -458748, 65536, 0, -458747, 65536, 0, -393211, 65536, 0, -327675, 65536, 0, -262139, 65536, 0, -196603, 65536, 0, -131067, 65536, 0, 5, 65536, 0, 65541, 65536, 0, 131077, 65536, 0, 196613, 65536, 0, 262149, 65536, 0, 327685, 65536, 0, 327684, 65536, 0, 327683, 65536, 0, 327682, 65536, 0, 327681, 65536, 0, 327680, 65536, 0, 393215, 65536, 0, 393214, 65536, 0, 393213, 65536, 0, 393212, 65536, 0, 393211, 65536, 0, 393210, 65536, 0, 393209, 65536, 0, 327673, 65536, 0, 262137, 65536, 0, 196601, 65536, 0, 131065, 65536, 0, 65529, 65536, 0)
+
+[node name="DayTrap" type="TileMap" parent="DayNode"]
+tile_set = ExtResource("4_1tmdk")
+format = 2
+layer_0/name = "Floor"
+layer_0/tile_data = PackedInt32Array(-65535, 131072, 0, -196605, 131072, 0, -65531, 131072, 0, -262147, 131072, 0, -3, 131072, 0, 131067, 131072, 0, 196609, 131072, 0)
+layer_1/name = "Wall"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/tile_data = PackedInt32Array()
+
+[node name="NightNode" type="Node2D" parent="."]
+visible = false
+
+[node name="Night" type="TileMap" parent="NightNode"]
+modulate = Color(0.188235, 0.188235, 0.188235, 1)
+tile_set = ExtResource("5_63ebu")
+format = 2
+layer_0/name = "Floor"
+layer_0/tile_data = PackedInt32Array(196604, 196608, 0, 131068, 196608, 0, 65532, 196608, 0, -4, 196608, 0, -65540, 196608, 0, -131076, 196608, 0, -196612, 196608, 0, -262148, 196608, 0, -327684, 196608, 0, -393220, 196608, 0, -393221, 196608, 0, -393222, 196608, 0, -393223, 196608, 0, -327687, 196608, 0, -262151, 196608, 0, -196615, 196608, 0, -131079, 196608, 0, -65543, 196608, 0, -65542, 196608, 0, -131078, 196608, 0, -196614, 196608, 0, -262150, 196608, 0, -327686, 196608, 0, -327685, 196608, 0, -262149, 196608, 0, -196613, 196608, 0, -6, 196608, 0, 65530, 196608, 0, 65529, 196608, 0, 131065, 196608, 0, 196601, 196608, 0, 262137, 196608, 0, 327673, 196608, 0, 393209, 196608, 0, 393210, 196608, 0, 327674, 196608, 0, 262138, 196608, 0, 196602, 196608, 0, 131066, 196608, 0, 131067, 196608, 0, 65531, 196608, 0, -5, 196608, 0, -65541, 196608, 0, 196603, 196608, 0, 262139, 196608, 0, 327675, 196608, 0, 393211, 196608, 0, 393212, 196608, 0, 327676, 196608, 0, 262140, 196608, 0, 327677, 196608, 0, 393213, 196608, 0, 393214, 196608, 0, 327678, 196608, 0, 262142, 196608, 0, 196606, 196608, 0, 131070, 196608, 0, 65534, 196608, 0, -2, 196608, 0, -65538, 196608, 0, -131074, 196608, 0, -196610, 196608, 0, -262146, 196608, 0, -327682, 196608, 0, -393218, 196608, 0, -393219, 196608, 0, -327683, 196608, 0, -262147, 196608, 0, -196611, 196608, 0, -131075, 196608, 0, -65539, 196608, 0, -3, 196608, 0, 65533, 196608, 0, 131069, 196608, 0, 196605, 196608, 0, -393217, 196608, 0, -327681, 196608, 0, -262145, 196608, 0, -196609, 196608, 0, -262144, 196608, 0, -327680, 196608, 0, -393216, 196608, 0, -458752, 196608, 0, -458751, 196608, 0, -393215, 196608, 0, -393214, 196608, 0, -458750, 196608, 0, -458749, 196608, 0, -393213, 196608, 0, -327677, 196608, 0, -327678, 196608, 0, -262142, 196608, 0, -262143, 196608, 0, -196607, 196608, 0, -196608, 196608, 0, -131072, 196608, 0, -65537, 196608, 0, -1, 196608, 0, 65535, 196608, 0, 0, 196608, 0, -65536, 196608, 0, -65535, 196608, 0, -131071, 196608, 0, -131070, 196608, 0, -196606, 196608, 0, -196605, 196608, 0, -262141, 196608, 0, -262140, 196608, 0, -327676, 196608, 0, -393212, 196608, 0, -458748, 196608, 0, -458747, 196608, 0, -393211, 196608, 0, -327675, 196608, 0, -262139, 196608, 0, -196603, 196608, 0, -196604, 196608, 0, -131068, 196608, 0, -131069, 196608, 0, -65533, 196608, 0, -65534, 196608, 0, 2, 196608, 0, 1, 196608, 0, 65537, 196608, 0, 65536, 196608, 0, 131072, 196608, 0, 196607, 196608, 0, 262143, 196608, 0, 327679, 196608, 0, 393215, 196608, 0, 327680, 196608, 0, 262144, 196608, 0, 196608, 196608, 0, 196609, 196608, 0, 131073, 196608, 0, 131074, 196608, 0, 65538, 196608, 0, 196610, 196608, 0, 262146, 196608, 0, 262145, 196608, 0, 327681, 196608, 0, 327682, 196608, 0, 327683, 196608, 0, 262147, 196608, 0, 196611, 196608, 0, 131075, 196608, 0, 131076, 196608, 0, 65540, 196608, 0, 4, 196608, 0, -65532, 196608, 0, -65531, 196608, 0, -131067, 196608, 0, 5, 196608, 0, 65541, 196608, 0, 131077, 196608, 0, 196613, 196608, 0, 196612, 196608, 0, 262148, 196608, 0, 327684, 196608, 0, 327685, 196608, 0, 262149, 196608, 0, 3, 196608, 0)
+layer_1/name = "Wall"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/tile_data = PackedInt32Array(65529, 65536, 0, 131065, 65536, 0, 196601, 65536, 0, 262137, 65536, 0, 327673, 65536, 0, 393209, 65536, 0, 393210, 65536, 0, 393211, 65536, 0, 393212, 65536, 0, 393213, 65536, 0, 393214, 65536, 0, 393215, 65536, 0, 327680, 65536, 0, 327681, 65536, 0, 327682, 65536, 0, 327683, 65536, 0, 327684, 65536, 0, 327685, 65536, 0, 262149, 65536, 0, 196613, 65536, 0, 131077, 65536, 0, 65541, 65536, 0, 5, 65536, 0, 196610, 65536, 0, 196611, 65536, 0, 131075, 65536, 0, 3, 65536, 0, -65533, 65536, 0, -131069, 65536, 0, 196608, 65536, 0, 262143, 65536, 0, 262142, 65536, 0, 262140, 65536, 0, 262139, 65536, 0, 196603, 65536, 0, 65531, 65536, 0, -5, 65536, 0, -65541, 65536, 0, -65543, 65536, 0, -131079, 65536, 0, -196615, 65536, 0, -262151, 65536, 0, -327687, 65536, 0, -393223, 65536, 0, -393222, 65536, 0, -393221, 65536, 0, -393220, 65536, 0, -393219, 65536, 0, -393218, 65536, 0, -393217, 65536, 0, -458752, 65536, 0, -458751, 65536, 0, -458750, 65536, 0, -458749, 65536, 0, -458748, 65536, 0, -458747, 65536, 0, -393211, 65536, 0, -327675, 65536, 0, -262139, 65536, 0, -196603, 65536, 0, -131067, 65536, 0, -262141, 65536, 0, -327678, 65536, 0, -327677, 65536, 0, -327680, 65536, 0, -262145, 65536, 0, -262146, 65536, 0, -262148, 65536, 0, -262149, 65536, 0, -196613, 65536, 0, -131074, 65536, 0, -65539, 65536, 0, -131075, 65536, 0, 65533, 65536, 0, 131070, 65536, 0, 131069, 65536, 0, 65536, 65536, 0, 1, 65536, 0, 65537, 65536, 0, -131071, 65536, 0, -196608, 65536, 0, -196607, 65536, 0)
+
+[node name="NightTrap" type="TileMap" parent="NightNode"]
+tile_set = ExtResource("6_xhgku")
+format = 2
+layer_0/name = "Floor"
+layer_0/tile_data = PackedInt32Array(262141, 131072, 0, 131071, 131072, 0, -7, 131072, 0, -131077, 131072, 0, -131073, 131072, 0, -327679, 131072, 0, 65539, 131072, 0)
+layer_1/name = "Wall"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/tile_data = PackedInt32Array()
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("7_rpcob")
+format = 2
+layer_0/name = "Floor"
+layer_1/name = "Wall"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/tile_data = PackedInt32Array()
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+visible = false
+blend_mode = 1
+
+[node name="TrapCollisionDay" type="Node2D" parent="."]
+
+[node name="TrapCol" parent="TrapCollisionDay" instance=ExtResource("8_i5cjx")]
+position = Vector2(48, -15)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("9_fd8df")
+
+[node name="TrapCol2" parent="TrapCollisionDay" instance=ExtResource("8_i5cjx")]
+position = Vector2(-80, -16)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("9_fd8df")
+
+[node name="TrapCol3" parent="TrapCollisionDay" instance=ExtResource("8_i5cjx")]
+position = Vector2(112, -80)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("9_fd8df")
+
+[node name="TrapCol4" parent="TrapCollisionDay" instance=ExtResource("8_i5cjx")]
+position = Vector2(48, 112)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("9_fd8df")
+
+[node name="TrapCol5" parent="TrapCollisionDay" instance=ExtResource("8_i5cjx")]
+position = Vector2(-144, 48)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("9_fd8df")
+
+[node name="TrapCol6" parent="TrapCollisionDay" instance=ExtResource("8_i5cjx")]
+position = Vector2(-80, -144)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("9_fd8df")
+
+[node name="TrapCol7" parent="TrapCollisionDay" instance=ExtResource("8_i5cjx")]
+position = Vector2(177, -16)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("9_fd8df")
+
+[node name="TrapCollisionNight" type="Node2D" parent="."]
+
+[node name="TrapCol" parent="TrapCollisionNight" instance=ExtResource("8_i5cjx")]
+position = Vector2(-17, -80)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("9_fd8df")
+
+[node name="TrapCol2" parent="TrapCollisionNight" instance=ExtResource("8_i5cjx")]
+position = Vector2(-16, 48)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("9_fd8df")
+
+[node name="TrapCol3" parent="TrapCollisionNight" instance=ExtResource("8_i5cjx")]
+position = Vector2(112, 48)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("9_fd8df")
+
+[node name="TrapCol4" parent="TrapCollisionNight" instance=ExtResource("8_i5cjx")]
+position = Vector2(-80, 112)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("9_fd8df")
+
+[node name="TrapCol5" parent="TrapCollisionNight" instance=ExtResource("8_i5cjx")]
+position = Vector2(-145, -79)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("9_fd8df")
+
+[node name="TrapCol6" parent="TrapCollisionNight" instance=ExtResource("8_i5cjx")]
+position = Vector2(48, -144)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("9_fd8df")
+
+[node name="TrapCol7" parent="TrapCollisionNight" instance=ExtResource("8_i5cjx")]
+position = Vector2(-208, -15)
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("9_fd8df")
+
+[node name="EnemyProjectileTemp" type="Node2D" parent="."]
+
+[node name="ProjectileTemp" type="Node2D" parent="."]
+
+[node name="Boss" parent="." instance=ExtResource("13_ixunt")]
+position = Vector2(328, 65)
+metadata/_edit_lock_ = true
+
+[node name="Character" parent="." instance=ExtResource("10_tc7wq")]
+position = Vector2(532, 24)
+
+[node name="PointLight2D" type="PointLight2D" parent="Character"]
+energy = 2.5
+shadow_enabled = true
+texture = ExtResource("11_x8vvf")
+texture_scale = 0.4
+metadata/_edit_lock_ = true
+
+[node name="UI" parent="." instance=ExtResource("12_j6qy8")]
+
+[connection signal="timeout" from="AbleToSwapWorldTimer" to="Character" method="_on_able_to_swap_world_timer_timeout"]
+[connection signal="body_entered" from="TrapCollisionDay/TrapCol" to="TrapCollisionDay/TrapCol" method="_on_body_entered"]
+[connection signal="body_entered" from="TrapCollisionDay/TrapCol2" to="TrapCollisionDay/TrapCol2" method="_on_body_entered"]
+[connection signal="body_entered" from="TrapCollisionDay/TrapCol3" to="TrapCollisionDay/TrapCol3" method="_on_body_entered"]
+[connection signal="body_entered" from="TrapCollisionDay/TrapCol4" to="TrapCollisionDay/TrapCol4" method="_on_body_entered"]
+[connection signal="body_entered" from="TrapCollisionDay/TrapCol5" to="TrapCollisionDay/TrapCol5" method="_on_body_entered"]
+[connection signal="body_entered" from="TrapCollisionDay/TrapCol6" to="TrapCollisionDay/TrapCol6" method="_on_body_entered"]
+[connection signal="body_entered" from="TrapCollisionDay/TrapCol7" to="TrapCollisionDay/TrapCol7" method="_on_body_entered"]
+[connection signal="body_entered" from="TrapCollisionNight/TrapCol" to="TrapCollisionNight/TrapCol" method="_on_body_entered"]
+[connection signal="body_entered" from="TrapCollisionNight/TrapCol2" to="TrapCollisionNight/TrapCol2" method="_on_body_entered"]
+[connection signal="body_entered" from="TrapCollisionNight/TrapCol3" to="TrapCollisionNight/TrapCol3" method="_on_body_entered"]
+[connection signal="body_entered" from="TrapCollisionNight/TrapCol4" to="TrapCollisionNight/TrapCol4" method="_on_body_entered"]
+[connection signal="body_entered" from="TrapCollisionNight/TrapCol5" to="TrapCollisionNight/TrapCol5" method="_on_body_entered"]
+[connection signal="body_entered" from="TrapCollisionNight/TrapCol6" to="TrapCollisionNight/TrapCol6" method="_on_body_entered"]
+[connection signal="body_entered" from="TrapCollisionNight/TrapCol7" to="TrapCollisionNight/TrapCol7" method="_on_body_entered"]
+[connection signal="boss_action_bomb" from="Boss" to="." method="_on_boss_action_bomb"]
+[connection signal="boss_action_shoot" from="Boss" to="." method="_on_boss_action_shoot"]
+[connection signal="boss_action_slash" from="Boss" to="." method="_on_boss_action_slash"]
+[connection signal="mouse1_melee" from="Character" to="." method="_on_player_mouse1_melee"]
+[connection signal="mouse1_ranged" from="Character" to="." method="_on_player_mouse1_ranged"]

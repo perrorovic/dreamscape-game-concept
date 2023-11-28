@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://dcdh88e4al28v"]
+
+[ext_resource type="Texture2D" uid="uid://ce8e75fr45jps" path="res://assets/Fullmoon.png" id="1_nf1k8"]
+[ext_resource type="Script" path="res://scene/Boss.gd" id="1_pysr0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xur4y"]
+radius = 228.178
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dpi6b"]
+radius = 2195.05
+
+[node name="Boss" type="CharacterBody2D"]
+scale = Vector2(0.2, 0.2)
+collision_layer = 65
+collision_mask = 33
+script = ExtResource("1_pysr0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_nf1k8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xur4y")
+
+[node name="ActionCooldown" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="ShootCooldown" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="BombCooldown" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="SlashCooldown" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="AttackArea" type="Area2D" parent="."]
+scale = Vector2(1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("CircleShape2D_dpi6b")
+
+[node name="Health" type="ProgressBar" parent="."]
+offset_left = -150.0
+offset_top = 255.0
+offset_right = 150.0
+offset_bottom = 285.0
+show_percentage = false
+
+[connection signal="timeout" from="ShootCooldown" to="." method="_on_shoot_cooldown_timeout"]
+[connection signal="timeout" from="BombCooldown" to="." method="_on_bomb_cooldown_timeout"]
+[connection signal="timeout" from="SlashCooldown" to="." method="_on_slash_cooldown_timeout"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]

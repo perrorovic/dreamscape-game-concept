@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://1d3pu2vomno0"]
+
+[ext_resource type="Script" path="res://Scene/BulletProjectile.gd" id="1_0cit7"]
+[ext_resource type="Texture2D" uid="uid://5ihw6opnlfma" path="res://Art/Chara/RangedProjectile/3.png" id="2_p678q"]
+
+[node name="BulletProjectile" type="Area2D"]
+collision_layer = 32
+collision_mask = 6
+script = ExtResource("1_0cit7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2.44, -2.56)
+scale = Vector2(0.155, 0.155)
+texture = ExtResource("2_p678q")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(2.44, -2.56)
+scale = Vector2(0.155, 0.155)
+polygon = PackedVector2Array(74.5806, 16.5161, 3.61291, 35.871, -48, 16.5161, 3.61291, -2.8387)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

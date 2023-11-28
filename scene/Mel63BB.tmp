@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpwvnox347p7p"]
+
+[ext_resource type="Script" path="res://Scene/MeleeProjectile.gd" id="1_kn0ii"]
+[ext_resource type="SpriteFrames" uid="uid://bmxlmjhgv0e60" path="res://Art/Chara/MeeleProjectile.tres" id="1_yfph7"]
+
+[node name="MeleeProjectile" type="Area2D"]
+script = ExtResource("1_kn0ii")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-7, 23)
+scale = Vector2(0.155, 0.155)
+sprite_frames = ExtResource("1_yfph7")
+animation = &"Slash"
+frame = 7
+frame_progress = 1.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-4.76837e-07, 0)
+polygon = PackedVector2Array(-14, 22, -18, 17, -21, 9, -22, 0, 0, 0, 23, 0, 22, 10, 20, 17, 16, 23, 10, 27, 4.76837e-07, 28, -9, 26)
+
+[node name="MeleeCooldown" type="Timer" parent="."]

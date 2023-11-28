@@ -1,0 +1,30 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://vigrocty8esc"]
+
+[ext_resource type="Texture2D" uid="uid://bvkvbl1l6uek6" path="res://assets/character/RangedProjectile/1.png" id="1_m6xl3"]
+[ext_resource type="Texture2D" uid="uid://clerf00ldbhmi" path="res://assets/character/RangedProjectile/2.png" id="2_4gu4v"]
+[ext_resource type="Texture2D" uid="uid://5ihw6opnlfma" path="res://assets/character/RangedProjectile/3.png" id="3_6t68j"]
+[ext_resource type="Texture2D" uid="uid://dv62ae3ebe0na" path="res://assets/character/RangedProjectile/4.png" id="4_gmjpd"]
+[ext_resource type="Texture2D" uid="uid://gndyh2t83ll6" path="res://assets/character/RangedProjectile/5.png" id="5_vsr5k"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_m6xl3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_4gu4v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_6t68j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gmjpd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_vsr5k")
+}],
+"loop": true,
+"name": &"Shoot",
+"speed": 5.0
+}]

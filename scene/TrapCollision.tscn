@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://xxydai5do85b"]
+
+[ext_resource type="Texture2D" uid="uid://dirgfiextdn8q" path="res://TrapTBD.png" id="1_j3q5u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c5hwh"]
+size = Vector2(16, 18)
+
+[node name="TrapCol" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_c5hwh")
+
+[node name="TrapTbd" type="Sprite2D" parent="."]
+self_modulate = Color(0.388235, 0.0313726, 0.188235, 1)
+texture = ExtResource("1_j3q5u")
