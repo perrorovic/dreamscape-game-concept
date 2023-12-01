@@ -198,7 +198,7 @@ position = Vector2(328, 65)
 metadata/_edit_lock_ = true
 
 [node name="Character" parent="." instance=ExtResource("10_tc7wq")]
-position = Vector2(532, 24)
+position = Vector2(839, 66)
 
 [node name="PointLight2D" type="PointLight2D" parent="Character"]
 energy = 2.5

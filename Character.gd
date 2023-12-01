@@ -9,6 +9,7 @@ signal mouse1_ranged(player_position, player_rotation, player_direction)
 func _ready():
 	# Should move the health into UIs node
 	$"../UI/PlayerHealth/Progress".max_value = Global.player_health
+	$SwapAnimation/SwapTransisition.color = Color("#ffffff00")
 
 func _physics_process(_delta):
 	$"../UI/PlayerHealth/Progress".value = Global.player_health
@@ -49,30 +50,36 @@ func _movement():
 
 func _swap_world_type():
 	if Input.is_action_just_pressed("swap") and Global.worldType == "Day" and Global.player_ableToSwapWorld == true:
-		# Change the world type and change the value in globals
-		Global.worldType = "Night"
-		Global.player_ableToSwapWorld = false
-		Global.player_ableToMelee = false
-		Global.player_ableToShoot = true
-		# Change the collision mask of the player suitable for night worldType
-		set_collision_mask_value(2, false)
-		set_collision_mask_value(3, true)
-		# Start the timer for world swap
-		$"../AbleToSwapWorldTimer".start()
+		$SwapAnimation/SwapToNight.play("swap_to_night")
 	elif Input.is_action_just_pressed("swap") and Global.worldType == "Night" and Global.player_ableToSwapWorld == true:
-		# Change the world type and change the value in globals
-		Global.worldType = "Day"
-		Global.player_ableToSwapWorld = false
-		Global.player_ableToMelee = true
-		Global.player_ableToShoot = false
-		# Change the collision mask of the player suitable for day worldType
-		set_collision_mask_value(2, true)
-		set_collision_mask_value(3, false)
-		# Start the timer for world swap
-		$"../AbleToSwapWorldTimer".start()
+		$SwapAnimation/SwapToDay.play("swap_to_day")
 	# Set the progress value with timer time_left 
 	# (this isnt dynamic and will break when you change the timer. Set for 5s)
 	$"../UI/WorldType/Progress".value = 100 - $"../AbleToSwapWorldTimer".time_left * 20
+
+func _swap_world_type_to_night():
+	# Change the world type and change the value in globals
+	Global.worldType = "Night"
+	Global.player_ableToSwapWorld = false
+	Global.player_ableToMelee = false
+	Global.player_ableToShoot = true
+	# Change the collision mask of the player suitable for night worldType
+	set_collision_mask_value(2, false)
+	set_collision_mask_value(3, true)
+	# Start the timer for world swap
+	$"../AbleToSwapWorldTimer".start()
+
+func _swap_world_type_to_day():
+	# Change the world type and change the value in globals
+	Global.worldType = "Day"
+	Global.player_ableToSwapWorld = false
+	Global.player_ableToMelee = true
+	Global.player_ableToShoot = false
+	# Change the collision mask of the player suitable for day worldType
+	set_collision_mask_value(2, true)
+	set_collision_mask_value(3, false)
+	# Start the timer for world swap
+	$"../AbleToSwapWorldTimer".start()
 
 func _player_hit(damage):
 #	print("Player is hit!")
@@ -119,3 +126,11 @@ func _on_dash_duration_timeout():
 
 func _on_dash_cooldown_timeout():
 	Global.player_ableToDash = true
+
+func _on_swap_to_night_animation_finished(_anim_name):
+	_swap_world_type_to_night()
+	$SwapAnimation/ToVisible.play("to_visible")
+
+func _on_swap_to_day_animation_finished(_anim_name):
+	_swap_world_type_to_day()
+	$SwapAnimation/ToVisible.play("to_visible")
