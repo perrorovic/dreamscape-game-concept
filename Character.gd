@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @export var player_moveSpeed: float = 128.0
-var player_moveSpeedDefault: float = 128.0
+const player_moveSpeedDefault: float = 128.0
 
 signal mouse1_melee(player_position, player_rotation)
 signal mouse1_ranged(player_position, player_rotation, player_direction)
@@ -100,11 +100,13 @@ func _melee():
 		mouse1_melee.emit($MeleeSlashSpawn.global_position, rotation_degrees)
 
 func _dash():
-	if Input.is_action_just_pressed("mouse2") and Global.player_ableToDash == true: #and Global.worldType == "Day":
-		$DashDuration.start()
-		$DashCooldown.start()
-		Global.player_ableToDash = false
-		player_moveSpeed += 128
+	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):
+		if Input.is_action_just_pressed("mouse2") and Global.player_ableToDash == true : #and Global.worldType == "Day":
+			$DashDuration.start()
+			$DashCooldown.start()
+			Global.player_ableToDash = false
+			player_moveSpeed += 1500
+			set_collision_mask_value(1, false)
 
 func _ranged():
 	if Input.is_action_pressed("mouse1") and Global.player_ableToShoot == true and Global.worldType == "Night":
@@ -123,6 +125,7 @@ func _on_ranged_cooldown_timeout():
 
 func _on_dash_duration_timeout():
 	player_moveSpeed = player_moveSpeedDefault
+	set_collision_mask_value(1, true)
 
 func _on_dash_cooldown_timeout():
 	Global.player_ableToDash = true

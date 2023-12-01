@@ -20,7 +20,7 @@ func _on_timeout():
 	queue_free()
 
 func _on_body_entered(body):
-	if body.has_method("_player_hit"):
+	if body.has_method("_player_hit") and body.get_collision_mask_value(1) == true:
 		print("Player is hit by Shoot!")
 		body._player_hit(damage)
 		queue_free()

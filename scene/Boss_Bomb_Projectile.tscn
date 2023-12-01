@@ -22,5 +22,14 @@ shape = SubResource("CircleShape2D_wefn3")
 wait_time = 12.0
 one_shot = true
 
+[node name="DotTick" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="ExplosionWait" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timeout" to="." method="_on_timeout"]
+[connection signal="timeout" from="ExplosionWait" to="." method="_on_explosion_wait_timeout"]

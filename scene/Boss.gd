@@ -96,11 +96,13 @@ func _action_slash():
 #	print(movement_Queue)
 #	$MovementTimer/SlashTimer.start()
 
-func _on_attack_area_body_entered(_body):
-	boss_ableToAttack = true
+func _on_attack_area_body_entered(body: CharacterBody2D):
+	if body.name == "Character":
+		boss_ableToAttack = true
 
-func _on_attack_area_body_exited(_body):
-	boss_ableToAttack = false
+func _on_attack_area_body_exited(body: CharacterBody2D):
+	if body.name == "Character":
+		boss_ableToAttack = false
 
 func _on_shoot_cooldown_timeout():
 	boss_ableToShoot = true
