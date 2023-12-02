@@ -1,5 +1,11 @@
 extends Area2D
 
+# Create a signal that will be used in parent script
+#signal boss_createCrystal(spawn_position)
+# Keep a reference to your world scene (Main.tscn)
+# (This is how this projectile get assigned to in the main tree)
+#@onready var world = get_node("/root/Node2D/")
+
 @export var dot_damage: int = 1
 @export var explosion_damage: int = 30
 @export var speed: int = 175
@@ -10,18 +16,25 @@ var player_isInside:bool = false
 var target_position
 
 func _ready():
-	$Timeout.start()
+	# Connect 'boss_createCrystal' signal into the 'world' at '_on_boss_create_crystal' function with one-shot connection
+#	connect("boss_createCrystal", Callable(world, "_on_boss_create_crystal"), 4)
+#	$Boss_Crystal_Spire.hide()
+	$FlameArea.hide()
 	target_position = Global.player_position
 
 func _process(delta):
-	rotation_degrees += 1 * delta
+	$BombProjectile.rotation_degrees -= 120 * delta
 	position = position.move_toward(target_position, delta * speed)
+	$FlameArea.rotation_degrees -= 10 * delta
 	if position == target_position and $DotTick.time_left <= 0:
-		$Sprite2D.texture = preload("res://assets/Flame.png")
+		$BombProjectile.hide()
+		$FlameArea.show()
 		#Bomb will able deal damage on explosion and DoT
 		set_collision_mask_value(1, true)
-		rotation_degrees -= 10 * delta
-		scale = Vector2(3, 3)
+		# Change collision size for AOE bombing and stay as DoT area
+		$CollisionShape2D.scale = Vector2(4.3, 4.3)
+#		$Boss_Crystal_Spire.show()
+#		boss_createCrystal.emit(position)
 	#To give time to deal explosion damage for once otherwise bomb_isExploded is set to true immediately and player won't take explosion damage
 	if position == target_position and $ExplosionWait.is_stopped():
 		$ExplosionWait.start(0.1)
@@ -31,19 +44,19 @@ func _on_timeout():
 
 func _on_body_entered(body):
 	if body.has_method("_player_hit") and bomb_isExploded == false and body.get_collision_mask_value(1) == true:
-		print("Player is hit by Bomb Explosion!")
+#		print("Player is hit by Bomb Explosion!")
 		body._player_hit(explosion_damage)
 		set_collision_mask_value(1, false)
 		$DotTick.start()
 		
 	elif body.has_method("_player_hit") and bomb_isExploded == true and body.get_collision_mask_value(1) == true:
-		print("Player is hit by Bomb!")
+#		print("Player is hit by Bomb!")
 		body._player_hit(dot_damage)
 		set_collision_mask_value(1, false)
 		$DotTick.start()
 
 #To tell if bomb is exploded
 func _on_explosion_wait_timeout():
-	print("Change bomb_isExploded to True")
+#	print("Change bomb_isExploded to True")
 	bomb_isExploded = true
-	print(bomb_isExploded)
+#	print(bomb_isExploded)

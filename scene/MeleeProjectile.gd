@@ -11,7 +11,7 @@ func _process(_delta):
 	# if you want the slash to follow player direction at all time
 #	rotation_degrees = Global.player_rotation - 90
 	# This function break the projectile when going into night worldType
-	_check()
+#	_check()
 	
 func _check():
 	if Global.worldType == "Night":

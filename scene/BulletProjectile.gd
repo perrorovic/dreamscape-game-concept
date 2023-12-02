@@ -15,7 +15,7 @@ func _ready():
 func _process(delta):
 	position += set_direction * speed * delta
 	# This function break the projectile when going into day worldType
-	_check()
+#	_check()
 
 func _check():
 	if Global.worldType == "Day":

@@ -17,8 +17,6 @@
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_taoo3")
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-
 [node name="BGM" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_ge8yg")
 volume_db = -5.0
@@ -99,6 +97,7 @@ layer_1/tile_data = PackedInt32Array()
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
 visible = false
+energy = 0.25
 blend_mode = 1
 
 [node name="TrapCollisionDay" type="Node2D" parent="."]
@@ -191,6 +190,8 @@ script = ExtResource("9_fd8df")
 
 [node name="EnemyProjectileTemp" type="Node2D" parent="."]
 
+[node name="EnemyStaticObject" type="Node2D" parent="."]
+
 [node name="ProjectileTemp" type="Node2D" parent="."]
 
 [node name="Boss" parent="." instance=ExtResource("13_ixunt")]
@@ -198,7 +199,7 @@ position = Vector2(328, 65)
 metadata/_edit_lock_ = true
 
 [node name="Character" parent="." instance=ExtResource("10_tc7wq")]
-position = Vector2(839, 66)
+position = Vector2(596, 69)
 
 [node name="PointLight2D" type="PointLight2D" parent="Character"]
 energy = 2.5

@@ -13,4 +13,4 @@ var player_meleeSlashSpawn
 var player_ableToDash: bool = true
 
 # Used for damage for player
-var player_health: int = 200
+var player_health: float = 200.0

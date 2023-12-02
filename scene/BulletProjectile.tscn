@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://1d3pu2vomno0"]
+[gd_scene load_steps=4 format=3 uid="uid://1d3pu2vomno0"]
 
 [ext_resource type="Script" path="res://scene/BulletProjectile.gd" id="1_ciecs"]
 [ext_resource type="Texture2D" uid="uid://5ihw6opnlfma" path="res://assets/character/RangedProjectile/3.png" id="2_dyv42"]
+[ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="3_x1wbm"]
 
 [node name="BulletProjectile" type="Area2D"]
 collision_layer = 32
@@ -22,6 +23,12 @@ polygon = PackedVector2Array(80.2581, 16.5161, 15.7419, 35.871, -16.5161, 16.516
 
 [node name="Timeout" type="Timer" parent="."]
 one_shot = true
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(0.309804, 1, 0.435294, 1)
+shadow_enabled = true
+texture = ExtResource("3_x1wbm")
+texture_scale = 0.25
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timeout" to="." method="_on_bullet_timeout"]

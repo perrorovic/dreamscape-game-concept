@@ -10,6 +10,7 @@ func _ready():
 	# Should move the health into UIs node
 	$"../UI/PlayerHealth/Progress".max_value = Global.player_health
 	$SwapAnimation/SwapTransisition.color = Color("#ffffff00")
+	$CanvasModulate.color = Color("#db9042")
 
 func _physics_process(_delta):
 	$"../UI/PlayerHealth/Progress".value = Global.player_health
@@ -50,14 +51,17 @@ func _movement():
 
 func _swap_world_type():
 	if Input.is_action_just_pressed("swap") and Global.worldType == "Day" and Global.player_ableToSwapWorld == true:
-		$SwapAnimation/SwapToNight.play("swap_to_night")
+		_swap_world_type_to_night()
+#		$SwapAnimation/SwapToNight.play("swap_to_night")
 	elif Input.is_action_just_pressed("swap") and Global.worldType == "Night" and Global.player_ableToSwapWorld == true:
-		$SwapAnimation/SwapToDay.play("swap_to_day")
+		_swap_world_type_to_day()
+#		$SwapAnimation/SwapToDay.play("swap_to_day")
 	# Set the progress value with timer time_left 
 	# (this isnt dynamic and will break when you change the timer. Set for 5s)
 	$"../UI/WorldType/Progress".value = 100 - $"../AbleToSwapWorldTimer".time_left * 20
 
 func _swap_world_type_to_night():
+	$SwapRipple/Swap.play("swap_animation")
 	# Change the world type and change the value in globals
 	Global.worldType = "Night"
 	Global.player_ableToSwapWorld = false
@@ -70,6 +74,7 @@ func _swap_world_type_to_night():
 	$"../AbleToSwapWorldTimer".start()
 
 func _swap_world_type_to_day():
+	$SwapRipple/Swap.play_backwards("swap_animation")
 	# Change the world type and change the value in globals
 	Global.worldType = "Day"
 	Global.player_ableToSwapWorld = false

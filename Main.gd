@@ -8,12 +8,13 @@ var rangedProjectile: PackedScene = preload("res://scene/BulletProjectile.tscn")
 var boss_shootProjectile: PackedScene = preload("res://scene/Boss_Shoot_Projectile.tscn")
 var boss_bombProjectile: PackedScene = preload("res://scene/Boss_Bomb_Projectile.tscn")
 var boss_slashProjectile: PackedScene = preload("res://scene/Boss_Slash_Projectile.tscn")
+var boss_crystalSpire: PackedScene = preload("res://scene/Boss_Crystal_Spire.tscn")
 
 # World initiation
 var sun: Texture2D = preload("res://assets/SunGede.png")
-var sunModulate: Color = Color("#db9042")
-var moon: Texture2D = preload("res://assets/MoonGede.png")
-var moonModulate: Color = Color("#17a995")
+#var sunModulate: Color = Color("#db9042")
+var moon: Texture2D = preload("res://assets/Fullmoon.png")
+#var moonModulate: Color = Color("#17a995")
 
 func _ready():
 	$BGM.play()
@@ -42,7 +43,7 @@ func _init_day():
 func _check_world():
 	if Global.worldType == "Night":
 		# Change filter and lightning for night worldType
-		$CanvasModulate.color = moonModulate
+#		$CanvasModulate.color = moonModulate
 		$Character/PointLight2D.shadow_enabled = true
 		$Character/PointLight2D.energy = 2.5
 		# In night world sound are speed-up a little bit
@@ -59,7 +60,7 @@ func _check_world():
 		$"UI/WorldType/Progress".texture_progress = moon
 	if Global.worldType == "Day":
 		# Change filter and lightning for day worldType
-		$CanvasModulate.color = sunModulate
+#		$CanvasModulate.color = sunModulate
 		$Character/PointLight2D.shadow_enabled = false
 		$Character/PointLight2D.energy = 2
 		# In day world sound are normal
@@ -106,3 +107,9 @@ func _on_boss_action_bomb(boss_position):
 	var boss_bomb = boss_bombProjectile.instantiate() as Area2D
 	boss_bomb.position = boss_position
 	$EnemyProjectileTemp.add_child(boss_bomb,true)
+
+# This dont have node connect signals shown but still work as intended because it connected from spawned scene
+func _on_boss_create_crystal(spawn_position):
+	var boss_crystal = boss_crystalSpire.instantiate() as StaticBody2D
+	boss_crystal.position = spawn_position
+	$EnemyStaticObject.add_child(boss_crystal,true)

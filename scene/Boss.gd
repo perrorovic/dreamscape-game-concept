@@ -6,9 +6,6 @@ signal boss_action_shoot(boss_position, target_direction)
 signal boss_action_bomb(boss_position)
 signal boss_action_slash(boss_position, target_direction)
 
-#var shoot_projectile: PackedScene = preload()
-var bomb_projectile: PackedScene = preload("res://scene/Boss_Bomb_Projectile.tscn")
-var slash_projectile: PackedScene = preload("res://scene/Boss_Slash_Projectile.tscn")
 #var movement_queue: Array = ["Bomb","Bomb","Slash","Bomb","Slash"]
 var boss_ableToAttack: bool = false
 # Need to randomize a timer to set this to true once
@@ -18,12 +15,15 @@ var boss_ableToBomb: bool = true
 var boss_ableToSlash: bool = true
 
 func _ready():
+	$Moon.set_flip_h(false)
 	$Health.max_value = health
 
 func _process(_delta):
 	$Health.value = health
 	if boss_ableToAttack:
-		$Sprite2D.look_at(Global.player_position)
+		$Sprite2D2.look_at(Global.player_position)
+#		print($Sprite2D2.rotation_degrees)
+		_look_at()
 		if boss_ableToShoot:
 			_action_shoot()
 		if boss_ableToBomb:
@@ -57,6 +57,20 @@ func _process(_delta):
 #		print("POP SHOOT")
 #		print(movement_Queue)
 #		$MovementTimer/BossCooldownTimer.start(1.1)
+
+func _look_at():
+	# No ida on why this code only work with if-elif. dont touch it.
+	# This code determine the boss view to left or right regarding the player position
+	# Using the look_at() function to check the self.rotation
+	if $Sprite2D2.rotation_degrees > 90 or $Sprite2D2.rotation_degrees < -90:
+		$Moon.set_flip_h(true)
+	elif $Sprite2D2.rotation_degrees < 90 or $Sprite2D2.rotation_degrees > -90:
+		$Moon.set_flip_h(false) 
+	# This reset the rotation of the boss the fulfill the statement before
+	if $Sprite2D2.rotation_degrees <= -180:
+		$Sprite2D2.set_rotation_degrees(180)
+	elif $Sprite2D2.rotation_degrees >= 180:
+		$Sprite2D2.set_rotation_degrees(-180)
 
 func _hit(damage: int):
 	print("Boss is hit")
