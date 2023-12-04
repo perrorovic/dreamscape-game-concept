@@ -10,11 +10,9 @@ signal mouse1_ranged(player_position, player_rotation, player_direction)
 func _ready():
 	# Should move the health into UIs node
 	$"../UI/PlayerHealth/Progress".max_value = Global.player_health
-	$SwapAnimation/SwapTransisition.color = Color("#ffffff00")
 	$CanvasModulate.color = Color("#db9042")
 
 func _physics_process(_delta):
-	
 	$"../UI/PlayerHealth/Progress".value = Global.player_health
 	# Set location for melee slash to spawn
 	Global.player_position = global_position
@@ -28,8 +26,6 @@ func _physics_process(_delta):
 	_melee()
 	_dash()
 	_ranged()
-	
-	
 
 func _movement():
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -54,18 +50,20 @@ func _movement():
 	move_and_slide()
 
 func _swap_world_type():
+	# Animation problem of smooth modulating the color because the tilemaps are two different thing, day and night
+	# Swap world type to night
 	if Input.is_action_just_pressed("swap") and Global.worldType == "Day" and Global.player_ableToSwapWorld == true:
+		$Animation.play("change_world_to_night")
 		_swap_world_type_to_night()
-#		$SwapAnimation/SwapToNight.play("swap_to_night")
+	# Swap world type to day
 	elif Input.is_action_just_pressed("swap") and Global.worldType == "Night" and Global.player_ableToSwapWorld == true:
+		$Animation.play("change_world_to_day")
 		_swap_world_type_to_day()
-#		$SwapAnimation/SwapToDay.play("swap_to_day")
 	# Set the progress value with timer time_left 
 	# (this isnt dynamic and will break when you change the timer. Set for 5s)
 	$"../UI/WorldType/Progress".value = 100 - $"../AbleToSwapWorldTimer".time_left * 20
 
 func _swap_world_type_to_night():
-	$SwapRipple/Swap.play("swap_animation")
 	# Change the world type and change the value in globals
 	Global.worldType = "Night"
 	Global.player_ableToSwapWorld = false
@@ -78,7 +76,6 @@ func _swap_world_type_to_night():
 	$"../AbleToSwapWorldTimer".start()
 
 func _swap_world_type_to_day():
-	$SwapRipple/Swap.play_backwards("swap_animation")
 	# Change the world type and change the value in globals
 	Global.worldType = "Day"
 	Global.player_ableToSwapWorld = false
@@ -149,14 +146,6 @@ func _on_dash_duration_timeout():
 
 func _on_dash_cooldown_timeout():
 	Global.player_ableToDash = true
-
-func _on_swap_to_night_animation_finished(_anim_name):
-	_swap_world_type_to_night()
-	$SwapAnimation/ToVisible.play("to_visible")
-
-func _on_swap_to_day_animation_finished(_anim_name):
-	_swap_world_type_to_day()
-	$SwapAnimation/ToVisible.play("to_visible")
 
 func _on_reload_cooldown_timeout():
 	Global.player_ammo = Global.player_ammoMax

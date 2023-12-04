@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://dkexboc4bg04l"]
+
+[ext_resource type="Script" path="res://scene/Boss_Bomb_Projectile_Day.gd" id="1_s2wrl"]
+[ext_resource type="Texture2D" uid="uid://dmjgpd6ykxqao" path="res://assets/SunGede.png" id="2_vqq8q"]
+[ext_resource type="Texture2D" uid="uid://080n4l13skn6" path="res://assets/Flame.png" id="3_lvh4g"]
+[ext_resource type="PackedScene" uid="uid://sxhxfnlt2wej" path="res://scene/Boss_Crystal_Spire.tscn" id="4_crmvg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wefn3"]
+radius = 18.0278
+
+[node name="Boss_Bomb_Projectile_Day" type="Area2D"]
+collision_layer = 32
+collision_mask = 17
+script = ExtResource("1_s2wrl")
+
+[node name="BombProjectile" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(0.075, 0.075)
+texture = ExtResource("2_vqq8q")
+
+[node name="FlameArea" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_lvh4g")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wefn3")
+
+[node name="Timeout" type="Timer" parent="."]
+wait_time = 12.0
+one_shot = true
+
+[node name="DotTick" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="ExplosionWait" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="Boss_Crystal_Spire" parent="." instance=ExtResource("4_crmvg")]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timeout" to="." method="_on_timeout"]
+[connection signal="timeout" from="ExplosionWait" to="." method="_on_explosion_wait_timeout"]

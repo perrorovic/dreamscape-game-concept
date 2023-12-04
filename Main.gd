@@ -6,7 +6,8 @@ var rangedProjectile: PackedScene = preload("res://scene/BulletProjectile.tscn")
 
 # Boss projectile
 var boss_shootProjectile: PackedScene = preload("res://scene/Boss_Shoot_Projectile.tscn")
-var boss_bombProjectile: PackedScene = preload("res://scene/Boss_Bomb_Projectile.tscn")
+var boss_bombProjectileDay: PackedScene = preload("res://scene/Boss_Bomb_Projectile_Day.tscn")
+var boss_bombProjectileNight: PackedScene = preload("res://scene/Boss_Bomb_Projectile_Night.tscn")
 var boss_slashProjectile: PackedScene = preload("res://scene/Boss_Slash_Projectile.tscn")
 var boss_crystalSpire: PackedScene = preload("res://scene/Boss_Crystal_Spire.tscn")
 
@@ -105,9 +106,14 @@ func _on_boss_action_slash(boss_position, target_direction):
 	$EnemyProjectileTemp.add_child(boss_slash,true)
 
 func _on_boss_action_bomb(boss_position):
-	var boss_bomb = boss_bombProjectile.instantiate() as Area2D
-	boss_bomb.position = boss_position
-	$EnemyProjectileTemp.add_child(boss_bomb,true)
+	if Global.worldType == "Day":
+		var boss_bomb = boss_bombProjectileDay.instantiate() as Area2D
+		boss_bomb.position = boss_position
+		$EnemyProjectileTemp.add_child(boss_bomb,true)
+	if Global.worldType == "Night":
+		var boss_bomb = boss_bombProjectileNight.instantiate() as Area2D
+		boss_bomb.position = boss_position
+		$EnemyProjectileTemp.add_child(boss_bomb,true)
 
 # This dont have node connect signals shown but still work as intended because it connected from spawned scene
 func _on_boss_create_crystal(spawn_position):

@@ -30,14 +30,6 @@ one_shot = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 shape = SubResource("CircleShape2D_dpi6b")
 
-[node name="Health" type="ProgressBar" parent="."]
-visible = false
-offset_left = -150.0
-offset_top = 255.0
-offset_right = 150.0
-offset_bottom = 285.0
-show_percentage = false
-
 [node name="_look_at_temp" type="Sprite2D" parent="."]
 
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]

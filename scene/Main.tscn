@@ -25,6 +25,7 @@ wait_time = 5.0
 one_shot = true
 
 [node name="DayNode" type="Node2D" parent="."]
+visible = false
 
 [node name="Day" type="TileMap" parent="DayNode"]
 tile_set = ExtResource("3_3jxug")
@@ -159,19 +160,22 @@ metadata/_edit_lock_ = true
 
 [node name="Enemy_Day_Melee" parent="Node2D" instance=ExtResource("14_nw2rx")]
 position = Vector2(145, 145)
+collision_mask = 71
 
 [node name="Enemy_Day_Melee2" parent="Node2D" instance=ExtResource("14_nw2rx")]
 position = Vector2(-175, 147)
+collision_mask = 71
 
 [node name="Enemy_Day_Melee3" parent="Node2D" instance=ExtResource("14_nw2rx")]
 position = Vector2(-177, -178)
+collision_mask = 71
 
 [node name="Enemy_Day_Melee4" parent="Node2D" instance=ExtResource("14_nw2rx")]
 position = Vector2(145, -175)
+collision_mask = 71
 
 [node name="Character" parent="." instance=ExtResource("10_tc7wq")]
-position = Vector2(-16, -14)
-metadata/_edit_lock_ = true
+position = Vector2(-18, -16)
 
 [node name="PointLight2D" type="PointLight2D" parent="Character"]
 energy = 2.5

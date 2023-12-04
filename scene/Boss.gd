@@ -18,26 +18,24 @@ var boss_ableToBomb: bool = true
 var boss_ableToSlash: bool = true
 
 func _ready():
+	# Set the left-right view of the boss sprite
 	$Moon.set_flip_h(false)
+	# Set boss UI and hide the UI
 	$"../UI/BossHealth/Progress".max_value = health
-	$Health.hide()
-	##$Health.max_value = health
-	
+	$"../UI/BossHealth/Progress".hide()
 
 func _process(_delta):
 	$"../UI/BossHealth/Progress".value = health
 	if boss_ableToAttack:
 		$_look_at_temp.look_at(Global.player_position)
-#		print($Sprite2D2.rotation_degrees)
 		_look_at()
-		
 		if movement_queue == []:
-			print("movement_set1")
-			print(movement_set1)
-			print("movement_set2")
-			print(movement_set2)
-			print("movement_set3")
-			print(movement_set3)
+			#print("movement_set1")
+			#print(movement_set1)
+			#print("movement_set2")
+			#print(movement_set2)
+			#print("movement_set3")
+			#print(movement_set3)
 			var random :int = randi_range(1,3)
 			match random:
 				1:
@@ -52,7 +50,6 @@ func _process(_delta):
 				#movement_queue += movement_set2
 			#elif random == 3:
 				#movement_queue += movement_set3
-
 		elif movement_queue[0]=="shoot" and $ActionCooldown.time_left <= 0:
 			print(movement_queue)
 			_action_shoot()
@@ -106,7 +103,6 @@ func _action_slash():
 	# This direct the boss into the player
 	var direction: Vector2 = (Global.player_position - position).normalized()
 	boss_action_slash.emit(position, direction)
-
 
 func _on_attack_area_body_entered(body: CharacterBody2D):
 	if body.name == "Character":

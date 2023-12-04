@@ -47,10 +47,10 @@ func _hit(damage: int):
 	#How to hit player if colliding???
 	#alternative : create attack range for meele -> create melee projectile -> projectile hit player -> player take damage
 
-func _on_pathfinding_area_body_entered(body):
+func _on_pathfinding_area_body_entered(_body):
 	_following = true
 	
-func _on_pathfinding_area_body_exited(body):
+func _on_pathfinding_area_body_exited(_body):
 	_following = false
 	$ReturnCooldown.start()
 

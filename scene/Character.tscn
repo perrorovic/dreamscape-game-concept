@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://caxjcyt48xmp0"]
+[gd_scene load_steps=13 format=3 uid="uid://caxjcyt48xmp0"]
 
 [ext_resource type="Texture2D" uid="uid://dn4belqy0k0hw" path="res://charaTBD.png" id="1_m28o7"]
 [ext_resource type="Script" path="res://Character.gd" id="1_pch7d"]
@@ -8,131 +8,51 @@
 [ext_resource type="AudioStream" uid="uid://l4sjluk7v7wr" path="res://sound/Step/step5.mp3" id="6_7nbl7"]
 [ext_resource type="AudioStream" uid="uid://bv74f6y4hx1x7" path="res://sound/Step/step6.mp3" id="7_rlqsk"]
 [ext_resource type="AudioStream" uid="uid://cy1e7xeyl38ar" path="res://sound/Step/step8.mp3" id="8_52yx0"]
-[ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="9_nxcot"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e8tdo"]
 radius = 14.0357
 
-[sub_resource type="Animation" id="Animation_aftxo"]
-resource_name = "swap_to_night"
-length = 0.75
-step = 0.25
+[sub_resource type="Animation" id="Animation_bt1sv"]
+resource_name = "change_world_to_day"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("SwapTransisition:color")
+tracks/0/path = NodePath("CanvasModulate:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.75),
+"times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+"values": [Color(0.0901961, 0.662745, 0.584314, 1), Color(0.858824, 0.564706, 0.258824, 1)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_ip40r"]
-_data = {
-"swap_to_night": SubResource("Animation_aftxo")
-}
-
-[sub_resource type="Animation" id="Animation_qnkyg"]
-resource_name = "swap_to_day"
-length = 0.75
-step = 0.25
+[sub_resource type="Animation" id="Animation_doa5p"]
+resource_name = "change_world_to_night"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("SwapTransisition:color")
+tracks/0/path = NodePath("CanvasModulate:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.75),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_hb8vi"]
-_data = {
-"swap_to_day": SubResource("Animation_qnkyg")
-}
-
-[sub_resource type="Animation" id="Animation_q6xw8"]
-resource_name = "to_visible"
-length = 0.75
-step = 0.25
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("SwapTransisition:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.75),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_ntugn"]
-_data = {
-"to_visible": SubResource("Animation_q6xw8")
-}
-
-[sub_resource type="Animation" id="Animation_toiw8"]
-resource_name = "swap_animation"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../CanvasModulate:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0.858824, 0.564706, 0.258824, 1), Color(0.0901961, 0.662745, 0.584314, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = false
-tracks/1/path = NodePath("../Ripple:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(1e-05, 1e-05), Vector2(5, 5)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = false
-tracks/2/path = NodePath("../Ripple:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(0.858824, 0.564706, 0.258824, 1), Color(0.0901961, 0.662745, 0.584314, 1)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_k5frw"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d5vcv"]
 _data = {
-"swap_animation": SubResource("Animation_toiw8")
+"change_world_to_day": SubResource("Animation_bt1sv"),
+"change_world_to_night": SubResource("Animation_doa5p")
 }
 
 [node name="Character" type="CharacterBody2D"]
 collision_mask = 11
 script = ExtResource("1_pch7d")
-
-[node name="Ripple" type="Sprite2D" parent="."]
-visible = false
-modulate = Color(0.0901961, 0.662745, 0.584314, 1)
-self_modulate = Color(1, 1, 1, 0.392157)
-scale = Vector2(5, 5)
-texture = ExtResource("9_nxcot")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_e8tdo")
@@ -194,51 +114,15 @@ position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 rotation_smoothing_enabled = true
 
-[node name="SwapAnimation" type="Node" parent="."]
-
-[node name="SwapTransisition" type="ColorRect" parent="SwapAnimation"]
-visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -3497.0
-offset_top = -2080.0
-offset_right = 2024.0
-offset_bottom = 1112.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="SwapToNight" type="AnimationPlayer" parent="SwapAnimation"]
+[node name="Animation" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_ip40r")
-}
-
-[node name="SwapToDay" type="AnimationPlayer" parent="SwapAnimation"]
-libraries = {
-"": SubResource("AnimationLibrary_hb8vi")
-}
-
-[node name="ToVisible" type="AnimationPlayer" parent="SwapAnimation"]
-libraries = {
-"": SubResource("AnimationLibrary_ntugn")
-}
-
-[node name="SwapRipple" type="Node" parent="."]
-
-[node name="Swap" type="AnimationPlayer" parent="SwapRipple"]
-libraries = {
-"": SubResource("AnimationLibrary_k5frw")
+"": SubResource("AnimationLibrary_d5vcv")
 }
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.858824, 0.564706, 0.258824, 1)
+color = Color(0.0901961, 0.662745, 0.584314, 1)
 
 [connection signal="timeout" from="RangedCooldown" to="." method="_on_ranged_cooldown_timeout"]
 [connection signal="timeout" from="ReloadCooldown" to="." method="_on_reload_cooldown_timeout"]
 [connection signal="timeout" from="DashDuration" to="." method="_on_dash_duration_timeout"]
 [connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]
-[connection signal="animation_finished" from="SwapAnimation/SwapToNight" to="." method="_on_swap_to_night_animation_finished"]
-[connection signal="animation_finished" from="SwapAnimation/SwapToDay" to="." method="_on_swap_to_day_animation_finished"]
