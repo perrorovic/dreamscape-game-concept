@@ -44,7 +44,7 @@ script = ExtResource("1_u5u1h")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2(-4.76837e-07, 0)
-polygon = PackedVector2Array(0, 0, 43, -3, 44, 3)
+polygon = PackedVector2Array(-26, 39, -36, 25, -19, 20, 0, 0, 4, 44, -10, 46)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Sprite2D")

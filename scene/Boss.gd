@@ -5,8 +5,11 @@ extends CharacterBody2D
 signal boss_action_shoot(boss_position, target_direction)
 signal boss_action_bomb(boss_position)
 signal boss_action_slash(boss_position, target_direction)
-
-#var movement_queue: Array = ["Bomb","Bomb","Slash","Bomb","Slash"]
+#var movement_set1: Array = ["shoot","shoot","shoot","shoot","shoot","shoot","slash","slash","slash","slash","bomb","bomb"]
+var movement_set1: Array = ["shoot","shoot","shoot","bomb","shoot","shoot","slash"]
+var movement_set2: Array = ["bomb","shoot","shoot","slash","bomb","shoot","bomb",]
+var movement_set3: Array = ["slash","slash","shoot","shoot","bomb","slash","shoot"]
+var movement_queue: Array = []
 var boss_ableToAttack: bool = false
 # Need to randomize a timer to set this to true once
 # Without it the boss will launch 3 attack at the same time!
@@ -16,20 +19,71 @@ var boss_ableToSlash: bool = true
 
 func _ready():
 	$Moon.set_flip_h(false)
-	$Health.max_value = health
+	$"../UI/BossHealth/Progress".max_value = health
+	$Health.hide()
+	##$Health.max_value = health
+	#$ShootCooldown.start()
+	#$BombCooldown.start()
+	#$SlashCooldown.start()
+	
 
 func _process(_delta):
-	$Health.value = health
+	#var movement_set1: Array = ["shoot","shoot","shoot","shoot"]
+	#var movement_set2: Array = ["bomb"]
+	#var movement_set3: Array = ["slash","slash"]
+	$"../UI/BossHealth/Progress".value = health
+	##$Health.value = health
 	if boss_ableToAttack:
 		$Sprite2D2.look_at(Global.player_position)
-#		print($Sprite2D2.rotation_degrees)
+#		print($Sprite2D2.rotation_degrees)d
 		_look_at()
-		if boss_ableToShoot:
+		
+		if movement_queue == []:
+			print("movement_set1")
+			print(movement_set1)
+			print("movement_set2")
+			print(movement_set2)
+			print("movement_set3")
+			print(movement_set3)
+			var random :int = randi_range(1,3)
+			match random:
+				1:
+					movement_queue += movement_set1
+				2:
+					movement_queue += movement_set2
+				3: 
+					movement_queue += movement_set3
+			#if random == 1:
+				#movement_queue += movement_set1
+			#elif random == 2:
+				#movement_queue += movement_set2
+			#elif random == 3:
+				#movement_queue += movement_set3
+
+		elif movement_queue[0]=="shoot" and $ActionCooldown.time_left <= 0:
+			print(movement_queue)
 			_action_shoot()
-		if boss_ableToBomb:
-			_action_bomb()
-		if boss_ableToSlash:
+			movement_queue.pop_front()
+			#movement_queue.shuffle()
+			$ActionCooldown.start(1)
+		elif movement_queue[0]=="slash" and $ActionCooldown.time_left <= 0:
+			print(movement_queue)
 			_action_slash()
+			movement_queue.pop_front()
+			#movement_queue.shuffle()
+			$ActionCooldown.start(2)
+		elif movement_queue[0]=="bomb" and $ActionCooldown.time_left <= 0:
+			print(movement_queue)
+			_action_bomb()
+			movement_queue.pop_front()
+			#movement_queue.shuffle()
+			$ActionCooldown.start(3)
+		#if boss_ableToShoot:
+			#_action_shoot()
+		#if boss_ableToBomb:
+			#_action_bomb()
+		#if boss_ableToSlash:
+			#_action_slash()
 #	print("Boss able to Attack")
 #	if $MovementTimer/BossCooldownTimer.time_left <= 0:
 #		print("BOSS GERAK")
@@ -99,30 +153,36 @@ func _action_slash():
 	# This direct the boss into the player
 	var direction: Vector2 = (Global.player_position - position).normalized()
 	boss_action_slash.emit(position, direction)
-	
-#func _on_bomb_timer_timeout():
-#	movement_Queue.push_back("Bomb")
-#	print(movement_Queue)
-#	$MovementTimer/BombTimer.start()
 
-#func _on_slash_timer_timeout():
-#	movement_Queue.push_back("Slash")
-#	print(movement_Queue)
-#	$MovementTimer/SlashTimer.start()
+#func _action_shoot():
+	#var direction: Vector2 = (Global.player_position - position).normalized()
+	#movement_queue.pop_front()
+	#boss_action_shoot.emit(position, direction)
+	#
+#func _action_bomb():
+	#movement_queue.pop_front()
+	#boss_action_bomb.emit(position)
+	#
+#func _action_slash():
+	#movement_queue.pop_front()
+	#var direction: Vector2 = (Global.player_position - position).normalized()
+	#boss_action_slash.emit(position, direction)
 
 func _on_attack_area_body_entered(body: CharacterBody2D):
 	if body.name == "Character":
 		boss_ableToAttack = true
+		$"../UI/BossHealth/Progress".show()
 
 func _on_attack_area_body_exited(body: CharacterBody2D):
 	if body.name == "Character":
 		boss_ableToAttack = false
+		$"../UI/BossHealth/Progress".hide()
 
-func _on_shoot_cooldown_timeout():
-	boss_ableToShoot = true
-
-func _on_bomb_cooldown_timeout():
-	boss_ableToBomb = true
-
-func _on_slash_cooldown_timeout():
-	boss_ableToSlash = true
+#func _on_shoot_cooldown_timeout():
+	#movement_queue.push_back("shoot")
+#
+#func _on_bomb_cooldown_timeout():
+	#movement_queue.push_back("bomb")
+#
+#func _on_slash_cooldown_timeout():
+	#movement_queue.push_back("slash")

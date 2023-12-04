@@ -10,6 +10,7 @@ radius = 18.0278
 
 [node name="Boss_Bomb_Projectile" type="Area2D"]
 collision_layer = 32
+collision_mask = 17
 script = ExtResource("1_evamf")
 
 [node name="BombProjectile" type="Sprite2D" parent="."]

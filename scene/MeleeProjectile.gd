@@ -1,6 +1,8 @@
 extends Area2D
 
-@export var damage: int = 15
+@export var damage: int = 50
+
+var ableToHit:bool = true
 
 func _ready():
 	$AnimationPlayer.play("melee_slash")
@@ -25,6 +27,8 @@ func _on_body_entered(body):
 	# There is collision issues because in animation cast more than 1 collision
 	# Therefore the damage is set lower. because it hit x4
 	# print("Slash Collision")
-	if body.has_method("_hit"):
-		body._hit(damage)
-#		print("Slash Hit")
+	if ableToHit == true:
+		if body.has_method("_hit"):
+			body._hit(damage)
+			ableToHit = false
+	#		print("Slash Hit")

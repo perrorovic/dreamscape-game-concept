@@ -1,7 +1,7 @@
 extends StaticBody2D
 
 @export var health: float = 100.0
-var ableToBeHit: bool = true
+var ableToBeHit: bool = false
 
 func _ready():
 	pass

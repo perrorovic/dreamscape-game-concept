@@ -9,7 +9,7 @@ polygon = PackedVector2Array(-1, -46, 1, -46, 14, -12, 17, -2, 16, 7, 4, 42, 1, 
 load_path = "res://.godot/imported/crystalspire.png-0fec6d59c684a2823c598665e01efb8e.ctex"
 
 [node name="Boss_Crystal_Spire" type="StaticBody2D"]
-collision_layer = 65
+collision_layer = 64
 collision_mask = 33
 script = ExtResource("1_xyu41")
 

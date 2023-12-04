@@ -18,22 +18,33 @@ var target_position
 func _ready():
 	# Connect 'boss_createCrystal' signal into the 'world' at '_on_boss_create_crystal' function with one-shot connection
 #	connect("boss_createCrystal", Callable(world, "_on_boss_create_crystal"), 4)
-#	$Boss_Crystal_Spire.hide()
+	$Boss_Crystal_Spire.hide()
 	$FlameArea.hide()
 	target_position = Global.player_position
+	set_collision_mask_value(1, false)
+	$Boss_Crystal_Spire.set_collision_mask_value(6, false)
+	$Boss_Crystal_Spire.set_collision_layer_value(1, false)
+	$Boss_Crystal_Spire.set_collision_layer_value(7, false)
 
 func _process(delta):
 	$BombProjectile.rotation_degrees -= 120 * delta
 	position = position.move_toward(target_position, delta * speed)
 	$FlameArea.rotation_degrees -= 10 * delta
 	if position == target_position and $DotTick.time_left <= 0:
+		
 		$BombProjectile.hide()
 		$FlameArea.show()
 		#Bomb will able deal damage on explosion and DoT
 		set_collision_mask_value(1, true)
 		# Change collision size for AOE bombing and stay as DoT area
 		$CollisionShape2D.scale = Vector2(4.3, 4.3)
-#		$Boss_Crystal_Spire.show()
+		$Boss_Crystal_Spire.show()
+		$Boss_Crystal_Spire.set_collision_mask_value(6, true)
+		$Boss_Crystal_Spire.set_collision_layer_value(7, true)
+		$Boss_Crystal_Spire.set_collision_layer_value(1, true)
+		if $Boss_Crystal_Spire.ableToBeHit == false and $Boss_Crystal_Spire.health != 0:
+			$Boss_Crystal_Spire.ableToBeHit = true
+			
 #		boss_createCrystal.emit(position)
 	#To give time to deal explosion damage for once otherwise bomb_isExploded is set to true immediately and player won't take explosion damage
 	if position == target_position and $ExplosionWait.is_stopped():
