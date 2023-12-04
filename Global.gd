@@ -11,6 +11,7 @@ var player_rotation
 # Used in character to determine the action
 var player_meleeSlashSpawn
 var player_ableToDash: bool = true
-
+const player_ammoMax: int = 10
+var player_ammo:int = 10
 # Used for damage for player
 var player_health: float = 200.0

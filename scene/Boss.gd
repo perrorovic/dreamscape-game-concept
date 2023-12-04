@@ -22,20 +22,13 @@ func _ready():
 	$"../UI/BossHealth/Progress".max_value = health
 	$Health.hide()
 	##$Health.max_value = health
-	#$ShootCooldown.start()
-	#$BombCooldown.start()
-	#$SlashCooldown.start()
 	
 
 func _process(_delta):
-	#var movement_set1: Array = ["shoot","shoot","shoot","shoot"]
-	#var movement_set2: Array = ["bomb"]
-	#var movement_set3: Array = ["slash","slash"]
 	$"../UI/BossHealth/Progress".value = health
-	##$Health.value = health
 	if boss_ableToAttack:
-		$Sprite2D2.look_at(Global.player_position)
-#		print($Sprite2D2.rotation_degrees)d
+		$_look_at_temp.look_at(Global.player_position)
+#		print($Sprite2D2.rotation_degrees)
 		_look_at()
 		
 		if movement_queue == []:
@@ -64,67 +57,33 @@ func _process(_delta):
 			print(movement_queue)
 			_action_shoot()
 			movement_queue.pop_front()
+			#To shuffle the query
 			#movement_queue.shuffle()
 			$ActionCooldown.start(1)
 		elif movement_queue[0]=="slash" and $ActionCooldown.time_left <= 0:
 			print(movement_queue)
 			_action_slash()
 			movement_queue.pop_front()
-			#movement_queue.shuffle()
 			$ActionCooldown.start(2)
 		elif movement_queue[0]=="bomb" and $ActionCooldown.time_left <= 0:
 			print(movement_queue)
 			_action_bomb()
 			movement_queue.pop_front()
-			#movement_queue.shuffle()
 			$ActionCooldown.start(3)
-		#if boss_ableToShoot:
-			#_action_shoot()
-		#if boss_ableToBomb:
-			#_action_bomb()
-		#if boss_ableToSlash:
-			#_action_slash()
-#	print("Boss able to Attack")
-#	if $MovementTimer/BossCooldownTimer.time_left <= 0:
-#		print("BOSS GERAK")
-#	if movement_Queue.is_empty():
-#		print("kosong")
-#		pass
-#	elif  movement_Queue[0]=="Bomb" and $MovementTimer/BossCooldownTimer.time_left <= 0:
-#		movement_Bomb()
-#		movement_Queue.pop_front()
-#		print("POP BOMB")
-#		print(movement_Queue)
-#		##fungsine digawe beda men ora kabeh move sue meng movement selanjute
-#		##ex : shoot (projectile kecil dan jumlahe cuma 1) termasuk minor atk,
-#		##nek cooldown e kembar karo sing lia mungkin ngko diem e sue bgt nembe move selanjute
-#		$MovementTimer/BossCooldownTimer.start(2.5)
-#	elif movement_Queue[0]=="Slash" and $MovementTimer/BossCooldownTimer.time_left <= 0:
-#		movement_Slash()
-#		movement_Queue.pop_front()
-#		print("POP SLASH")
-#		print(movement_Queue)
-#		$MovementTimer/BossCooldownTimer.start(2.5)
-#	elif movement_Queue[0]=="Shoot" and $MovementTimer/BossCooldownTimer.time_left <= 0:
-#		movement_Shoot()
-#		movement_Queue.pop_front()
-#		print("POP SHOOT")
-#		print(movement_Queue)
-#		$MovementTimer/BossCooldownTimer.start(1.1)
 
 func _look_at():
-	# No ida on why this code only work with if-elif. dont touch it.
+	# No idea on why this code only work with if-elif. dont touch it.
 	# This code determine the boss view to left or right regarding the player position
 	# Using the look_at() function to check the self.rotation
-	if $Sprite2D2.rotation_degrees > 90 or $Sprite2D2.rotation_degrees < -90:
+	if $_look_at_temp.rotation_degrees > 90 or $_look_at_temp.rotation_degrees < -90:
 		$Moon.set_flip_h(true)
-	elif $Sprite2D2.rotation_degrees < 90 or $Sprite2D2.rotation_degrees > -90:
+	elif $_look_at_temp.rotation_degrees < 90 or $_look_at_temp.rotation_degrees > -90:
 		$Moon.set_flip_h(false) 
 	# This reset the rotation of the boss the fulfill the statement before
-	if $Sprite2D2.rotation_degrees <= -180:
-		$Sprite2D2.set_rotation_degrees(180)
-	elif $Sprite2D2.rotation_degrees >= 180:
-		$Sprite2D2.set_rotation_degrees(-180)
+	if $_look_at_temp.rotation_degrees <= -180:
+		$_look_at_temp.set_rotation_degrees(180)
+	elif $_look_at_temp.rotation_degrees >= 180:
+		$_look_at_temp.set_rotation_degrees(-180)
 
 func _hit(damage: int):
 	print("Boss is hit")
@@ -133,40 +92,21 @@ func _hit(damage: int):
 		queue_free()
 
 func _action_shoot():
-	$ShootCooldown.start(randf_range(0.8,2))
-	boss_ableToShoot = false
 #	print("Boss is Shooting!")
 	# This direct the boss into the player
 	var direction: Vector2 = (Global.player_position - position).normalized()
 	boss_action_shoot.emit(position, direction)
 	
 func _action_bomb():
-	$BombCooldown.start(randf_range(4.8,5))
-	boss_ableToBomb = false
 #	print("Boss is Bombing!")
 	boss_action_bomb.emit(position)
 	
 func _action_slash():
-	$SlashCooldown.start(randf_range(5.2,8))
-	boss_ableToSlash = false
 #	print("Boss is Slashing!")
 	# This direct the boss into the player
 	var direction: Vector2 = (Global.player_position - position).normalized()
 	boss_action_slash.emit(position, direction)
 
-#func _action_shoot():
-	#var direction: Vector2 = (Global.player_position - position).normalized()
-	#movement_queue.pop_front()
-	#boss_action_shoot.emit(position, direction)
-	#
-#func _action_bomb():
-	#movement_queue.pop_front()
-	#boss_action_bomb.emit(position)
-	#
-#func _action_slash():
-	#movement_queue.pop_front()
-	#var direction: Vector2 = (Global.player_position - position).normalized()
-	#boss_action_slash.emit(position, direction)
 
 func _on_attack_area_body_entered(body: CharacterBody2D):
 	if body.name == "Character":
@@ -178,11 +118,4 @@ func _on_attack_area_body_exited(body: CharacterBody2D):
 		boss_ableToAttack = false
 		$"../UI/BossHealth/Progress".hide()
 
-#func _on_shoot_cooldown_timeout():
-	#movement_queue.push_back("shoot")
-#
-#func _on_bomb_cooldown_timeout():
-	#movement_queue.push_back("bomb")
-#
-#func _on_slash_cooldown_timeout():
-	#movement_queue.push_back("slash")
+

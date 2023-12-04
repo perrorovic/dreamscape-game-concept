@@ -148,6 +148,10 @@ one_shot = true
 wait_time = 0.2
 one_shot = true
 
+[node name="ReloadCooldown" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
 [node name="DashDuration" type="Timer" parent="."]
 wait_time = 0.05
 one_shot = true
@@ -233,6 +237,7 @@ libraries = {
 color = Color(0.858824, 0.564706, 0.258824, 1)
 
 [connection signal="timeout" from="RangedCooldown" to="." method="_on_ranged_cooldown_timeout"]
+[connection signal="timeout" from="ReloadCooldown" to="." method="_on_reload_cooldown_timeout"]
 [connection signal="timeout" from="DashDuration" to="." method="_on_dash_duration_timeout"]
 [connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]
 [connection signal="animation_finished" from="SwapAnimation/SwapToNight" to="." method="_on_swap_to_night_animation_finished"]

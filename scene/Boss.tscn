@@ -25,17 +25,6 @@ shape = SubResource("CircleShape2D_xur4y")
 wait_time = 3.0
 one_shot = true
 
-[node name="ShootCooldown" type="Timer" parent="."]
-one_shot = true
-
-[node name="BombCooldown" type="Timer" parent="."]
-wait_time = 4.8
-one_shot = true
-
-[node name="SlashCooldown" type="Timer" parent="."]
-wait_time = 2.7
-one_shot = true
-
 [node name="AttackArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
@@ -49,10 +38,7 @@ offset_right = 150.0
 offset_bottom = 285.0
 show_percentage = false
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
+[node name="_look_at_temp" type="Sprite2D" parent="."]
 
-[connection signal="timeout" from="ShootCooldown" to="." method="_on_shoot_cooldown_timeout"]
-[connection signal="timeout" from="BombCooldown" to="." method="_on_bomb_cooldown_timeout"]
-[connection signal="timeout" from="SlashCooldown" to="." method="_on_slash_cooldown_timeout"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]

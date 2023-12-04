@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var player_moveSpeed: float = 128.0
 const player_moveSpeedDefault: float = 128.0
 
+var player_isReloading:bool = false
 signal mouse1_melee(player_position, player_rotation)
 signal mouse1_ranged(player_position, player_rotation, player_direction)
 
@@ -13,6 +14,7 @@ func _ready():
 	$CanvasModulate.color = Color("#db9042")
 
 func _physics_process(_delta):
+	
 	$"../UI/PlayerHealth/Progress".value = Global.player_health
 	# Set location for melee slash to spawn
 	Global.player_position = global_position
@@ -26,6 +28,8 @@ func _physics_process(_delta):
 	_melee()
 	_dash()
 	_ranged()
+	
+	
 
 func _movement():
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -112,15 +116,26 @@ func _dash():
 			Global.player_ableToDash = false
 			player_moveSpeed += 1500
 			set_collision_mask_value(1, false)
+	if Global.player_ableToDash == false:
+		$"../UI/PlayerDash/Progress".value = $"../UI/PlayerDash/Progress".max_value * (1 - $DashCooldown.time_left / $DashCooldown.wait_time)
 
 func _ranged():
-	if Input.is_action_pressed("mouse1") and Global.player_ableToShoot == true and Global.worldType == "Night":
+	if Input.is_action_pressed("mouse1") and Global.player_ableToShoot == true and Global.worldType == "Night" and Global.player_ammo >0:
 		$RangedCooldown.start()
 		Global.player_ableToShoot = false
 		var player_direction = (get_global_mouse_position() - position).normalized()
 #		send signal into ["res://Main.gd"] script to spawn ranged bullet based on these parameter
 #		all parameter will be set into ["res://Scene/BulletProjectile.gd"] in there
 		mouse1_ranged.emit($RangedBulletSpawn.global_position, rotation_degrees, player_direction)
+		Global.player_ammo -= 1
+	if Global.player_ammo == 0 and player_isReloading == false:
+		player_isReloading = true
+		print("reoad")
+		$ReloadCooldown.start()
+	if player_isReloading == true:
+		Global.player_ableToShoot = false
+		Global.player_ammo = Global.player_ammoMax/$ReloadCooldown.wait_time * ($ReloadCooldown.wait_time - $ReloadCooldown.time_left)
+		
 
 func _on_able_to_swap_world_timer_timeout():
 	Global.player_ableToSwapWorld = true
@@ -142,3 +157,8 @@ func _on_swap_to_night_animation_finished(_anim_name):
 func _on_swap_to_day_animation_finished(_anim_name):
 	_swap_world_type_to_day()
 	$SwapAnimation/ToVisible.play("to_visible")
+
+func _on_reload_cooldown_timeout():
+	Global.player_ammo = Global.player_ammoMax
+	Global.player_ableToShoot = true
+	player_isReloading = false

@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bio2wxum33qhf"]
+[gd_scene load_steps=4 format=3 uid="uid://bio2wxum33qhf"]
 
 [ext_resource type="Texture2D" uid="uid://dmjgpd6ykxqao" path="res://assets/SunGede.png" id="1_ineav"]
+[ext_resource type="Texture2D" uid="uid://bv6dhqfhvo4iw" path="res://assets/ui/ammo.png" id="2_0wt5f"]
+[ext_resource type="Texture2D" uid="uid://br5hquqxbuat6" path="res://assets/ui/dash.png" id="3_x81ot"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 
@@ -28,6 +30,7 @@ fill_mode = 4
 texture_under = ExtResource("1_ineav")
 texture_progress = ExtResource("1_ineav")
 tint_under = Color(0.152941, 0.152941, 0.152941, 1)
+metadata/_edit_lock_ = true
 
 [node name="PlayerHealth" type="Node" parent="."]
 
@@ -46,6 +49,7 @@ offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 0
 show_percentage = false
+metadata/_edit_lock_ = true
 
 [node name="BossHealth" type="Node" parent="."]
 
@@ -60,3 +64,49 @@ offset_right = 408.0
 offset_bottom = 68.0
 grow_horizontal = 2
 show_percentage = false
+metadata/_edit_lock_ = true
+
+[node name="PlayerReload" type="Node" parent="."]
+
+[node name="Progress" type="TextureProgressBar" parent="PlayerReload"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 47.0
+offset_top = -77.0
+offset_right = 270.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.3, 0.3)
+max_value = 10.0
+step = 0.1
+value = 8.0
+texture_under = ExtResource("2_0wt5f")
+texture_progress = ExtResource("2_0wt5f")
+tint_under = Color(0.152941, 0.152941, 0.152941, 1)
+metadata/_edit_lock_ = true
+
+[node name="PlayerDash" type="Node" parent="."]
+
+[node name="Progress" type="TextureProgressBar" parent="PlayerDash"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -109.0
+offset_top = -85.0
+offset_right = 324.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.15, 0.15)
+step = 0.1
+value = 100.0
+texture_under = ExtResource("3_x81ot")
+texture_progress = ExtResource("3_x81ot")
+tint_under = Color(0.054902, 0.054902, 0.054902, 1)
+metadata/_edit_lock_ = true

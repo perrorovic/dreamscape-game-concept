@@ -24,6 +24,7 @@ func _ready():
 func _process(_delta):
 	# Check world will check the worldType in Global to set everything accordingly
 	_check_world()
+	$UI/PlayerReload/Progress.value = Global.player_ammo
 
 func _init_day():
 	# Init for globals
