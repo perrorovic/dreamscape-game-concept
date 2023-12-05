@@ -38,7 +38,7 @@ func _process(delta):
 		#Bomb will able deal damage on explosion and DoT
 		set_collision_mask_value(1, true)
 		# Change collision size for AOE bombing and stay as DoT area
-		$CollisionShape2D.scale = Vector2(4.3, 4.3)
+		$CollisionShape2D.scale = Vector2(4.8, 4.8)
 		if $Boss_Crystal_Spire.ableToBeHit == false and $Boss_Crystal_Spire.health != 0:
 			$Boss_Crystal_Spire.ableToBeHit = true
 			

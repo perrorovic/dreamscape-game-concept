@@ -11,6 +11,9 @@ var boss_bombProjectileNight: PackedScene = preload("res://scene/Boss_Bomb_Proje
 var boss_slashProjectile: PackedScene = preload("res://scene/Boss_Slash_Projectile.tscn")
 var boss_crystalSpire: PackedScene = preload("res://scene/Boss_Crystal_Spire.tscn")
 
+# Enemy projectile
+var enemy_meleeDayProjectile: PackedScene = preload("res://scene/enemy_melee_projectile.tscn")
+
 # World initiation
 var sun: Texture2D = preload("res://assets/SunGede.png")
 #var sunModulate: Color = Color("#db9042")
@@ -120,3 +123,9 @@ func _on_boss_create_crystal(spawn_position):
 	var boss_crystal = boss_crystalSpire.instantiate() as StaticBody2D
 	boss_crystal.position = spawn_position
 	$EnemyStaticObject.add_child(boss_crystal,true)
+
+func _on_enemy_day_melee_enemy_melee_attack(enemy_position, target_direction):
+	var enemy_meleeDay = enemy_meleeDayProjectile.instantiate() as Area2D
+	enemy_meleeDay.position = enemy_position
+	enemy_meleeDay.set_rotation_degree = rad_to_deg(target_direction.angle()) - 90
+	$EnemyProjectileTemp.add_child(enemy_meleeDay,true)

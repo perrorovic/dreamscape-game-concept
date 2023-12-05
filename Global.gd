@@ -15,3 +15,8 @@ const player_ammoMax: int = 10
 var player_ammo:int = 10
 # Used for damage for player
 var player_health: float = 200.0
+
+func _process(_delta):
+	if Input.is_action_pressed("close"):
+		get_tree().quit()
+	pass

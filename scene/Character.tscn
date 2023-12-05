@@ -110,6 +110,7 @@ stream = ExtResource("3_pbu7b")
 [node name="MeleeSlashSpawn" type="Marker2D" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.5, 1.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 rotation_smoothing_enabled = true
