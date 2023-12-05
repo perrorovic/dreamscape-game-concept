@@ -51,19 +51,19 @@ func _process(_delta):
 			#elif random == 3:
 				#movement_queue += movement_set3
 		elif movement_queue[0]=="shoot" and $ActionCooldown.time_left <= 0:
-			print(movement_queue)
+			#print(movement_queue)
 			_action_shoot()
 			movement_queue.pop_front()
 			#To shuffle the query
 			#movement_queue.shuffle()
 			$ActionCooldown.start(1)
 		elif movement_queue[0]=="slash" and $ActionCooldown.time_left <= 0:
-			print(movement_queue)
+			#print(movement_queue)
 			_action_slash()
 			movement_queue.pop_front()
 			$ActionCooldown.start(2)
 		elif movement_queue[0]=="bomb" and $ActionCooldown.time_left <= 0:
-			print(movement_queue)
+			#print(movement_queue)
 			_action_bomb()
 			movement_queue.pop_front()
 			$ActionCooldown.start(3)
@@ -83,7 +83,7 @@ func _look_at():
 		$_look_at_temp.set_rotation_degrees(-180)
 
 func _hit(damage: int):
-	print("Boss is hit")
+	#print("Boss is hit")
 	health -= damage
 	if health <= 0:
 		queue_free()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dl1enj0x41grc"]
+[gd_scene load_steps=16 format=3 uid="uid://dl1enj0x41grc"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1_taoo3"]
 [ext_resource type="AudioStream" uid="uid://b4x6eksm6skkq" path="res://sound/BGM/Missing_Persons_-_Jeremy_Blake.mp3" id="2_ge8yg"]
@@ -6,10 +6,13 @@
 [ext_resource type="TileSet" uid="uid://bfqk1npxl8dy1" path="res://assets/tilesets/Night.tres" id="5_63ebu"]
 [ext_resource type="TileSet" uid="uid://crlqwe2tqeqv7" path="res://assets/tilesets/Tileset.tres" id="7_rpcob"]
 [ext_resource type="PackedScene" uid="uid://xxydai5do85b" path="res://scene/TrapCollision.tscn" id="8_i5cjx"]
+[ext_resource type="PackedScene" uid="uid://dcvyp41e6a18i" path="res://scene/Items_Dash.tscn" id="8_wr18p"]
 [ext_resource type="Script" path="res://TrapCollision.gd" id="9_fd8df"]
+[ext_resource type="PackedScene" uid="uid://b1welbqokla26" path="res://scene/Items_Ammo.tscn" id="9_kg4bj"]
 [ext_resource type="PackedScene" uid="uid://caxjcyt48xmp0" path="res://scene/Character.tscn" id="10_tc7wq"]
 [ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="11_x8vvf"]
 [ext_resource type="PackedScene" uid="uid://bio2wxum33qhf" path="res://scene/UI.tscn" id="12_j6qy8"]
+[ext_resource type="PackedScene" uid="uid://dwm6w62b4sx6s" path="res://scene/Items_Health.tscn" id="13_edutm"]
 [ext_resource type="PackedScene" uid="uid://dcdh88e4al28v" path="res://scene/Boss.tscn" id="13_ixunt"]
 [ext_resource type="PackedScene" uid="uid://bgm28uvfjb2m7" path="res://scene/enemy_day_melee.tscn" id="14_nw2rx"]
 
@@ -143,20 +146,40 @@ collision_layer = 8
 collision_mask = 0
 script = ExtResource("9_fd8df")
 
+[node name="ItemTemp" type="Node2D" parent="."]
+
 [node name="EnemyProjectileTemp" type="Node2D" parent="."]
 
 [node name="EnemyStaticObject" type="Node2D" parent="."]
 
 [node name="ProjectileTemp" type="Node2D" parent="."]
 
-[node name="Boss" parent="." instance=ExtResource("13_ixunt")]
-position = Vector2(1370, 89)
-metadata/_edit_lock_ = true
+[node name="Items_Dash" parent="ProjectileTemp" instance=ExtResource("8_wr18p")]
+position = Vector2(1091, 271)
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="Items_Ammo" parent="ProjectileTemp" instance=ExtResource("9_kg4bj")]
+position = Vector2(992, 349)
+
+[node name="Items_Health" parent="ProjectileTemp" instance=ExtResource("13_edutm")]
+position = Vector2(1006, 114)
+
+[node name="Items_Dash2" parent="ProjectileTemp" instance=ExtResource("8_wr18p")]
+position = Vector2(880, 198)
+
+[node name="Items_Ammo2" parent="ProjectileTemp" instance=ExtResource("9_kg4bj")]
+position = Vector2(909, 95)
+
+[node name="Items_Health2" parent="ProjectileTemp" instance=ExtResource("13_edutm")]
+position = Vector2(902, 299)
+
+[node name="Boss" parent="." instance=ExtResource("13_ixunt")]
+position = Vector2(1918, 121)
+
+[node name="Enemy_Day_Melee" parent="." instance=ExtResource("14_nw2rx")]
+position = Vector2(425, 3)
 
 [node name="Character" parent="." instance=ExtResource("10_tc7wq")]
-position = Vector2(-16, -15)
+position = Vector2(983, 208)
 
 [node name="PointLight2D" type="PointLight2D" parent="Character"]
 energy = 2.5
@@ -166,9 +189,6 @@ texture_scale = 0.4
 metadata/_edit_lock_ = true
 
 [node name="UI" parent="." instance=ExtResource("12_j6qy8")]
-
-[node name="Enemy_Day_Melee" parent="." instance=ExtResource("14_nw2rx")]
-position = Vector2(425, 3)
 
 [connection signal="timeout" from="AbleToSwapWorldTimer" to="Character" method="_on_able_to_swap_world_timer_timeout"]
 [connection signal="body_entered" from="TrapCollisionDay/TrapCol" to="TrapCollisionDay/TrapCol" method="_on_body_entered"]
@@ -188,6 +208,6 @@ position = Vector2(425, 3)
 [connection signal="boss_action_bomb" from="Boss" to="." method="_on_boss_action_bomb"]
 [connection signal="boss_action_shoot" from="Boss" to="." method="_on_boss_action_shoot"]
 [connection signal="boss_action_slash" from="Boss" to="." method="_on_boss_action_slash"]
+[connection signal="enemy_melee_attack" from="Enemy_Day_Melee" to="." method="_on_enemy_day_melee_enemy_melee_attack"]
 [connection signal="mouse1_melee" from="Character" to="." method="_on_player_mouse1_melee"]
 [connection signal="mouse1_ranged" from="Character" to="." method="_on_player_mouse1_ranged"]
-[connection signal="enemy_melee_attack" from="Enemy_Day_Melee" to="." method="_on_enemy_day_melee_enemy_melee_attack"]

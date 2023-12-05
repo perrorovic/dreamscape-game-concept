@@ -9,11 +9,13 @@ signal mouse1_ranged(player_position, player_rotation, player_direction)
 
 func _ready():
 	# Should move the health into UIs node
-	$"../UI/PlayerHealth/Progress".max_value = Global.player_health
+	$"../UI/PlayerHealth/Progress".max_value = Global.player_healthMax
+	$"../UI/PlayerAmmo/Progress".max_value = Global.player_ammoMax
 	$CanvasModulate.color = Color("#db9042")
 
 func _physics_process(_delta):
 	$"../UI/PlayerHealth/Progress".value = Global.player_health
+	$"../UI/PlayerAmmo/Progress".value = Global.player_ammo
 	# Set location for melee slash to spawn
 	Global.player_position = global_position
 	Global.player_meleeSlashSpawn = $MeleeSlashSpawn.global_position
@@ -127,12 +129,29 @@ func _ranged():
 		Global.player_ammo -= 1
 	if Global.player_ammo == 0 and player_isReloading == false:
 		player_isReloading = true
-		print("reoad")
+		print("reloading")
 		$ReloadCooldown.start()
 	if player_isReloading == true:
 		Global.player_ableToShoot = false
-		Global.player_ammo = Global.player_ammoMax/$ReloadCooldown.wait_time * ($ReloadCooldown.wait_time - $ReloadCooldown.time_left)
-		
+		# This should be in UI not directly mutate the value in 'Global.player_ammo' !!!
+		$"../UI/PlayerAmmo/Progress".value = $"../UI/PlayerAmmo/Progress".max_value * (1 - $ReloadCooldown.time_left / $ReloadCooldown.wait_time)
+		#print($"../UI/PlayerAmmo/Progress".value)
+		#Global.player_ammo = Global.player_ammoMax/$ReloadCooldown.wait_time * ($ReloadCooldown.wait_time - $ReloadCooldown.time_left)
+
+func _on_items_pickup(type):
+	print(type)
+	if type == "health":
+		Global.player_health += 25
+	elif type == "dash":
+		$DashCooldown.stop()
+		Global.player_ableToDash = true
+		$"../UI/PlayerDash/Progress".value = $"../UI/PlayerDash/Progress".max_value
+	elif type == "ammo":
+		$ReloadCooldown.stop()
+		Global.player_ammo = Global.player_ammoMax
+		$"../UI/PlayerAmmo/Progress".value = Global.player_ammoMax
+		Global.player_ableToShoot = true
+		player_isReloading = false
 
 func _on_able_to_swap_world_timer_timeout():
 	Global.player_ableToSwapWorld = true

@@ -1,5 +1,8 @@
 extends StaticBody2D
 
+# To show the crystal in front of EVERYTHING you need to change this
+# CanvasItems > Ordering > Z Index
+
 @export var health: float = 100.0
 var ableToBeHit: bool = false
 

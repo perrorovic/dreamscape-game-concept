@@ -28,7 +28,6 @@ func _ready():
 func _process(_delta):
 	# Check world will check the worldType in Global to set everything accordingly
 	_check_world()
-	$UI/PlayerReload/Progress.value = Global.player_ammo
 
 func _init_day():
 	# Init for globals
@@ -119,10 +118,10 @@ func _on_boss_action_bomb(boss_position):
 		$EnemyProjectileTemp.add_child(boss_bomb,true)
 
 # This dont have node connect signals shown but still work as intended because it connected from spawned scene
-func _on_boss_create_crystal(spawn_position):
-	var boss_crystal = boss_crystalSpire.instantiate() as StaticBody2D
-	boss_crystal.position = spawn_position
-	$EnemyStaticObject.add_child(boss_crystal,true)
+#func _on_boss_create_crystal(spawn_position):
+	#var boss_crystal = boss_crystalSpire.instantiate() as StaticBody2D
+	#boss_crystal.position = spawn_position
+	#$EnemyStaticObject.add_child(boss_crystal,true)
 
 func _on_enemy_day_melee_enemy_melee_attack(enemy_position, target_direction):
 	var enemy_meleeDay = enemy_meleeDayProjectile.instantiate() as Area2D

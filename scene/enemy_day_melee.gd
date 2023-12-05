@@ -7,7 +7,6 @@ extends CharacterBody2D
 
 signal enemy_melee_attack(enemy_position, target_direction)
 
-
 var is_following: bool = false
 var is_patrolling: bool = false
 var is_attacking: bool = false
@@ -19,11 +18,8 @@ func _ready():
 	$Health.max_value = health
 
 func _physics_process(_delta):
-
-	_patrol()
-	
-	$Sprite2D.look_at($NavigationAgent2D.get_next_path_position())
 	$Health.value = health
+	
 	if is_attacking == true:
 		speed = 0
 	elif Global.worldType == "Day" and is_patrolling == false:
@@ -35,11 +31,14 @@ func _physics_process(_delta):
 	elif Global.worldType == "Night" and is_patrolling == true:
 		speed = speed_night * 0.5
 	
+	$Sprite2D.look_at($NavigationAgent2D.get_next_path_position())
 	path_direction = to_local($NavigationAgent2D.get_next_path_position()).normalized()
 	velocity = path_direction * speed
 	#Speed assigned on each node *bug*
 	if !$NavigationAgent2D.is_navigation_finished():
 		move_and_slide()
+	
+	_patrol()
 
 func _on_pathfinding_cooldown_timeout():
 	if is_following == true:
@@ -75,7 +74,7 @@ func _on_attack_area_body_entered(body):
 		$MeleeCooldown.start()
 		
 func _on_melee_cooldown_timeout():
-	print(is_attacking)
+	#print(is_attacking)
 	$AttackArea.set_collision_mask_value(1, true)
 	is_attacking = false
 	
