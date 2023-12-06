@@ -32,14 +32,7 @@ func _physics_process(_delta):
 func _movement():
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * player_moveSpeed
-	#	if Input.is_action_just_pressed("move_Down"):
-#		$Sprite2D.rotation_degrees = 180
-#	if Input.is_action_just_pressed("move_Up"):
-#		$Sprite2D.rotation_degrees = 0
-#	if Input.is_action_just_pressed("move_Left"):
-#		$Sprite2D.rotation_degrees = 270
-#	if Input.is_action_just_pressed("move_Right"):
-#		$Sprite2D.rotation_degrees = 90
+
 	# Play step SFX
 	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):
 		if $StepSfxCooldown.time_left <= 0:

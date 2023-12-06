@@ -6,7 +6,9 @@ extends CharacterBody2D
 @export var collision_damage: float = 5
 
 signal enemy_melee_attack(enemy_position, target_direction)
+signal item_Dropped(item_Name, enemy_position)
 
+var item_Name:String
 var is_following: bool = false
 var is_patrolling: bool = false
 var is_attacking: bool = false
@@ -57,6 +59,22 @@ func _hit(damage: int):
 	print("Enemy is hit")
 	health -= damage
 	if health <= 0:
+		var drop_random = randi_range(0,100)
+		#No Drop
+		if drop_random >= 0 and drop_random < 50:
+			print("No Drop")
+		#Drop HP
+		if drop_random >= 50 and drop_random < 60:
+			item_Name = "Items_Health"
+			item_Dropped.emit(item_Name,position)
+		#Drop Ammo
+		if drop_random >= 60 and drop_random < 80:
+			item_Name = "Items_Ammo"
+			item_Dropped.emit(item_Name,position)
+		#Drop Dash
+		if drop_random >= 80 and drop_random < 100:
+			item_Name = "Items_Dash"
+			item_Dropped.emit(item_Name,position)
 		queue_free()
 
 func _patrol():

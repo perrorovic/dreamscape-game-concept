@@ -14,6 +14,11 @@ var boss_crystalSpire: PackedScene = preload("res://scene/Boss_Crystal_Spire.tsc
 # Enemy projectile
 var enemy_meleeDayProjectile: PackedScene = preload("res://scene/enemy_melee_projectile.tscn")
 
+# Items
+var Items_Dash:PackedScene = preload("res://scene/Items_Dash.tscn")
+var Items_Ammo:PackedScene = preload("res://scene/Items_Ammo.tscn")
+var Items_Health:PackedScene = preload("res://scene/Items_Health.tscn")
+
 # World initiation
 var sun: Texture2D = preload("res://assets/SunGede.png")
 #var sunModulate: Color = Color("#db9042")
@@ -128,3 +133,20 @@ func _on_enemy_day_melee_enemy_melee_attack(enemy_position, target_direction):
 	enemy_meleeDay.position = enemy_position
 	enemy_meleeDay.set_rotation_degree = rad_to_deg(target_direction.angle()) - 90
 	$EnemyProjectileTemp.add_child(enemy_meleeDay,true)
+
+func _on_enemy_day_melee_item_dropped(item_Name, enemy_position):
+	if item_Name == "Items_Health":
+		var item_dropped = Items_Health.instantiate() as Area2D
+		item_dropped.position = enemy_position
+		$ItemTemp.add_child(item_dropped,true)
+		print("Health Dropped")
+	elif item_Name == "Items_Ammo":
+		var item_dropped = Items_Ammo.instantiate() as Area2D
+		item_dropped.position = enemy_position
+		$ItemTemp.add_child(item_dropped,true)
+		print("Ammo Dropped")
+	elif item_Name == "Items_Dash":
+		var item_dropped = Items_Dash.instantiate() as Area2D
+		item_dropped.position = enemy_position
+		$ItemTemp.add_child(item_dropped,true)
+		print("Dash Dropped")
