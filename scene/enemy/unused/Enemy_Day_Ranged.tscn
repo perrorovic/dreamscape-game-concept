@@ -1,0 +1,82 @@
+[gd_scene load_steps=7 format=3 uid="uid://cyvfkwge6l5tl"]
+
+[ext_resource type="Script" path="res://scene/enemy/unused/Enemy_Day_Ranged.gd" id="1_vsl1k"]
+[ext_resource type="Texture2D" uid="uid://bubqhu0hrg5j3" path="res://charaTBD - Copy.png" id="2_xjqnn"]
+[ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="3_cm0j4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ow03b"]
+radius = 15.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6cdfq"]
+radius = 150.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l55oa"]
+radius = 216.391
+
+[node name="Enemy_Day_Ranged" type="CharacterBody2D"]
+modulate = Color(0.988235, 0, 0.0235294, 0.768627)
+collision_layer = 64
+collision_mask = 7
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_vsl1k")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("2_xjqnn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.7, 0.7)
+shape = SubResource("CircleShape2D_ow03b")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
+debug_path_custom_color = Color(0.772549, 0, 0.27451, 1)
+
+[node name="PathfindingCooldown" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="PatrolCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="CollisionCooldown" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="RangedCooldown" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="AggroCooldown" type="Timer" parent="."]
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+texture = ExtResource("3_cm0j4")
+texture_scale = 0.1
+
+[node name="Health" type="ProgressBar" parent="."]
+offset_left = -25.0
+offset_top = 12.0
+offset_right = 25.0
+offset_bottom = 17.0
+show_percentage = false
+
+[node name="AttackArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("CircleShape2D_6cdfq")
+
+[node name="PathfindingArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathfindingArea"]
+shape = SubResource("CircleShape2D_l55oa")
+debug_color = Color(0.835294, 0, 0.584314, 0.678431)
+
+[connection signal="timeout" from="PathfindingCooldown" to="." method="_on_pathfinding_cooldown_timeout"]
+[connection signal="timeout" from="CollisionCooldown" to="." method="_on_collision_cooldown_timeout"]
+[connection signal="timeout" from="RangedCooldown" to="." method="_on_ranged_cooldown_timeout"]
+[connection signal="timeout" from="AggroCooldown" to="." method="_on_aggro_cooldown_timeout"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_entered" from="PathfindingArea" to="." method="_on_pathfinding_area_body_entered"]
+[connection signal="body_exited" from="PathfindingArea" to="." method="_on_pathfinding_area_body_exited"]

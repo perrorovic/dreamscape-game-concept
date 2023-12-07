@@ -7,8 +7,10 @@ extends Node2D
 #@export_enum("Rebecca", "Mary", "Leah") var character_name: String #return string name. ex: if selection "Rebecca" will return "Rebecca", and so on
 #@export_enum("Rebecca", "Mary", "Leah") var character_name: String = "Rebecca" #same as before but have default value "Rebecca"
 
-@export var rate_item: Dictionary = {"HP": {"Rate": 1, "TotalHpHealed": 2},
-								   "Ammo": {"Rate": null, "TotalAmmoDrop": null}}
+@export var rate_item: Dictionary = {
+	"HP": {"Rate": 1, "TotalHpHealed": 2},
+	"Ammo": {"Rate": null, "TotalAmmoDrop": null}
+}
 
 # Player projectile
 var meleeProjectile: PackedScene = preload("res://scene/character/Melee_Projectile.tscn")
@@ -22,13 +24,13 @@ var boss_slashProjectile: PackedScene = preload("res://scene/boss/Boss_Slash_Pro
 var boss_crystalSpire: PackedScene = preload("res://scene/boss/Boss_Crystal_Spire.tscn")
 
 # Enemy projectile
-var enemy_meleeDayProjectile: PackedScene = preload("res://scene/enemy/enemy_melee_projectile.tscn")
-var enemy_rangedDayProjectile: PackedScene = preload("res://scene/enemy/enemy_ranged_projectile.tscn")
+var enemy_meleeDayProjectile: PackedScene = preload("res://scene/enemy/Enemy_Melee_Projectile.tscn")
+var enemy_rangedDayProjectile: PackedScene = preload("res://scene/enemy/Enemy_Ranged_Projectile.tscn")
 
 # Items
-var Items_Dash:PackedScene = preload("res://scene/entity/Items_Dash.tscn")
-var Items_Ammo:PackedScene = preload("res://scene/entity/Items_Ammo.tscn")
-var Items_Health:PackedScene = preload("res://scene/entity/Items_Health.tscn")
+var items_dash:PackedScene = preload("res://scene/entity/Items_Dash.tscn")
+var items_ammo:PackedScene = preload("res://scene/entity/Items_Ammo.tscn")
+var items_health:PackedScene = preload("res://scene/entity/Items_Health.tscn")
 
 # World initiation
 var sun: Texture2D = preload("res://assets/ui/sun.png")
@@ -41,9 +43,7 @@ func _ready():
 	# Initiate to start the levels in day worldType
 	_init_day()
 
-
 func _process(_delta):
-	
 	# Check world will check the worldType in Global to set everything accordingly
 	_check_world()
 
@@ -141,51 +141,36 @@ func _on_boss_action_bomb(boss_position):
 	#boss_crystal.position = spawn_position
 	#$EnemyStaticObject.add_child(boss_crystal,true)
 
-func _on_enemy_day_melee_enemy_melee_attack(enemy_position, target_direction):
+# enemy signal with inheritance:
+func _on_enemy_melee_attack(enemy_position, target_direction):
 	var enemy_meleeDay = enemy_meleeDayProjectile.instantiate() as Area2D
 	enemy_meleeDay.position = enemy_position
 	enemy_meleeDay.set_rotation_degree = rad_to_deg(target_direction.angle()) - 90
-	$EnemyProjectileTemp.add_child(enemy_meleeDay,true)
+	$EnemyProjectileTemp.call_deferred("add_child",enemy_meleeDay,true)
+	#$EnemyProjectileTemp.add_child(enemy_meleeDay,true)
 
-func _on_enemy_day_melee_item_dropped(item_Name, enemy_position):
-	if item_Name == "Items_Health":
-		var item_dropped = Items_Health.instantiate() as Area2D
-		item_dropped.position = enemy_position
-		$ItemTemp.add_child(item_dropped,true)
-		print("Health Dropped")
-	elif item_Name == "Items_Ammo":
-		var item_dropped = Items_Ammo.instantiate() as Area2D
-		item_dropped.position = enemy_position
-		$ItemTemp.add_child(item_dropped,true)
-		print("Ammo Dropped")
-	elif item_Name == "Items_Dash":
-		var item_dropped = Items_Dash.instantiate() as Area2D
-		item_dropped.position = enemy_position
-		$ItemTemp.add_child(item_dropped,true)
-		print("Dash Dropped")
-
-
-func _on_enemy_day_ranged_enemy_ranged_attack(enemy_position, target_direction):
+func _on_enemy_ranged_attack(enemy_position, target_direction):
 	var enemy_rangedDay = enemy_rangedDayProjectile.instantiate() as Area2D
 	enemy_rangedDay.position = enemy_position
 	enemy_rangedDay.set_rotation_degree = rad_to_deg(target_direction.angle()) - 90
 	enemy_rangedDay.set_direction = target_direction
-	$EnemyProjectileTemp.add_child(enemy_rangedDay,true)
+	$EnemyProjectileTemp.call_deferred("add_child",enemy_rangedDay,true)
+	#$EnemyProjectileTemp.add_child(enemy_rangedDay,true)
 
-
-func _on_enemy_day_ranged_item_dropped(item_Name, enemy_position):
-	if item_Name == "Items_Health":
-		var item_dropped = Items_Health.instantiate() as Area2D
+func _on_enemy_drop(item_name, enemy_position):
+	print("signal of dropped item")
+	if item_name == "health":
+		var item_dropped = items_health.instantiate() as Area2D
 		item_dropped.position = enemy_position
 		$ItemTemp.add_child(item_dropped,true)
 		print("Health Dropped")
-	elif item_Name == "Items_Ammo":
-		var item_dropped = Items_Ammo.instantiate() as Area2D
+	elif item_name == "ammo":
+		var item_dropped = items_ammo.instantiate() as Area2D
 		item_dropped.position = enemy_position
 		$ItemTemp.add_child(item_dropped,true)
 		print("Ammo Dropped")
-	elif item_Name == "Items_Dash":
-		var item_dropped = Items_Dash.instantiate() as Area2D
+	elif item_name == "dash":
+		var item_dropped = items_dash.instantiate() as Area2D
 		item_dropped.position = enemy_position
 		$ItemTemp.add_child(item_dropped,true)
 		print("Dash Dropped")

@@ -1,29 +1,28 @@
-[gd_scene load_steps=7 format=3 uid="uid://cyvfkwge6l5tl"]
+[gd_scene load_steps=7 format=3 uid="uid://bgm28uvfjb2m7"]
 
-[ext_resource type="Script" path="res://scene/enemy/Enemy_Day_Ranged.gd" id="1_vsl1k"]
-[ext_resource type="Texture2D" uid="uid://bubqhu0hrg5j3" path="res://charaTBD - Copy.png" id="2_xjqnn"]
-[ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="3_cm0j4"]
+[ext_resource type="Script" path="res://scene/enemy/unused/Enemy_Day_Melee.gd" id="1_g2a15"]
+[ext_resource type="Texture2D" uid="uid://bubqhu0hrg5j3" path="res://charaTBD - Copy.png" id="2_hnmhs"]
+[ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="3_lv8ah"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ow03b"]
 radius = 15.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6cdfq"]
-radius = 150.0
+radius = 39.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l55oa"]
-radius = 216.391
+radius = 115.039
 
-[node name="Enemy_Day_Ranged" type="CharacterBody2D"]
-modulate = Color(0.988235, 0, 0.0235294, 0.768627)
+[node name="Enemy_Day_Melee" type="CharacterBody2D"]
 collision_layer = 64
 collision_mask = 7
 motion_mode = 1
 wall_min_slide_angle = 0.0
-script = ExtResource("1_vsl1k")
+script = ExtResource("1_g2a15")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.7, 0.7)
-texture = ExtResource("2_xjqnn")
+texture = ExtResource("2_hnmhs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(0.7, 0.7)
@@ -40,18 +39,13 @@ autostart = true
 [node name="PatrolCooldown" type="Timer" parent="."]
 one_shot = true
 
-[node name="CollisionCooldown" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true
-
-[node name="RangedCooldown" type="Timer" parent="."]
-wait_time = 1.5
-one_shot = true
+[node name="MeleeCooldown" type="Timer" parent="."]
 
 [node name="AggroCooldown" type="Timer" parent="."]
+one_shot = true
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-texture = ExtResource("3_cm0j4")
+texture = ExtResource("3_lv8ah")
 texture_scale = 0.1
 
 [node name="Health" type="ProgressBar" parent="."]
@@ -62,6 +56,7 @@ offset_bottom = 17.0
 show_percentage = false
 
 [node name="AttackArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
@@ -74,8 +69,7 @@ shape = SubResource("CircleShape2D_l55oa")
 debug_color = Color(0.835294, 0, 0.584314, 0.678431)
 
 [connection signal="timeout" from="PathfindingCooldown" to="." method="_on_pathfinding_cooldown_timeout"]
-[connection signal="timeout" from="CollisionCooldown" to="." method="_on_collision_cooldown_timeout"]
-[connection signal="timeout" from="RangedCooldown" to="." method="_on_ranged_cooldown_timeout"]
+[connection signal="timeout" from="MeleeCooldown" to="." method="_on_melee_cooldown_timeout"]
 [connection signal="timeout" from="AggroCooldown" to="." method="_on_aggro_cooldown_timeout"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="body_entered" from="PathfindingArea" to="." method="_on_pathfinding_area_body_entered"]

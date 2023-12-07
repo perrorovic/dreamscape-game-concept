@@ -3,7 +3,9 @@ extends CharacterBody2D
 @export var player_moveSpeed: float = 128.0
 const player_moveSpeedDefault: float = 128.0
 
-var player_isReloading:bool = false
+var player_isReloading: bool = false
+var player_isReloadingType: String
+# Empty | Chilling
 signal mouse1_melee(player_position, player_rotation)
 signal mouse1_ranged(player_position, player_rotation, player_direction)
 
@@ -112,6 +114,9 @@ func _dash():
 		$"../UI/PlayerDash/Progress".value = $"../UI/PlayerDash/Progress".max_value * (1 - $DashCooldown.time_left / $DashCooldown.wait_time)
 
 func _ranged():
+	# Reload when 2s of wait time
+	# If player shoot while reload will be canceled
+	# If the bullet is 0 and its reloading the player cannot reload-cancel it (check reload type)
 	if Input.is_action_pressed("mouse1") and Global.player_ableToShoot == true and Global.worldType == "Night" and Global.player_ammo >0:
 		$RangedCooldown.start()
 		Global.player_ableToShoot = false
@@ -120,16 +125,13 @@ func _ranged():
 #		all parameter will be set into ["res://Scene/BulletProjectile.gd"] in there
 		mouse1_ranged.emit($RangedBulletSpawn.global_position, rotation_degrees, player_direction)
 		Global.player_ammo -= 1
-	if Global.player_ammo == 0 and player_isReloading == false:
+	if Global.player_ammo == 0 and player_isReloading == false or Input.is_action_just_pressed("r"):
+		print("Reloading")
 		player_isReloading = true
-		print("reloading")
+		Global.player_ableToShoot = false
 		$ReloadCooldown.start()
 	if player_isReloading == true:
-		Global.player_ableToShoot = false
-		# This should be in UI not directly mutate the value in 'Global.player_ammo' !!!
 		$"../UI/PlayerAmmo/Progress".value = $"../UI/PlayerAmmo/Progress".max_value * (1 - $ReloadCooldown.time_left / $ReloadCooldown.wait_time)
-		#print($"../UI/PlayerAmmo/Progress".value)
-		#Global.player_ammo = Global.player_ammoMax/$ReloadCooldown.wait_time * ($ReloadCooldown.wait_time - $ReloadCooldown.time_left)
 
 func _on_items_pickup(type):
 	print(type)

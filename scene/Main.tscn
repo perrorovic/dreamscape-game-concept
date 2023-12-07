@@ -14,12 +14,11 @@
 [ext_resource type="PackedScene" uid="uid://bio2wxum33qhf" path="res://scene/UI.tscn" id="12_j6qy8"]
 [ext_resource type="PackedScene" uid="uid://dwm6w62b4sx6s" path="res://scene/entity/Items_Health.tscn" id="13_edutm"]
 [ext_resource type="PackedScene" uid="uid://dcdh88e4al28v" path="res://scene/boss/Boss.tscn" id="13_ixunt"]
-[ext_resource type="PackedScene" uid="uid://bgm28uvfjb2m7" path="res://scene/enemy/Enemy_Day_Melee.tscn" id="14_nw2rx"]
-[ext_resource type="PackedScene" uid="uid://cyvfkwge6l5tl" path="res://scene/enemy/Enemy_Day_Ranged.tscn" id="16_5siia"]
+[ext_resource type="PackedScene" uid="uid://brdcc0ktpcj86" path="res://scene/enemy/Enemy_Melee.tscn" id="17_0mkgf"]
+[ext_resource type="PackedScene" uid="uid://csicyeuuaee83" path="res://scene/enemy/Enemy_Ranged.tscn" id="18_e2te0"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_taoo3")
-rate_item = null
 
 [node name="BGM" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_ge8yg")
@@ -176,50 +175,17 @@ position = Vector2(902, 299)
 
 [node name="EnemyTemp" type="Node2D" parent="."]
 
-[node name="Enemy_Day_Melee" parent="EnemyTemp" instance=ExtResource("14_nw2rx")]
-position = Vector2(887, -411)
+[node name="Enemy_Ranged" parent="EnemyTemp" instance=ExtResource("18_e2te0")]
+position = Vector2(930, -418)
 
-[node name="Enemy_Day_Melee2" parent="EnemyTemp" instance=ExtResource("14_nw2rx")]
-position = Vector2(242, -153)
-
-[node name="Enemy_Day_Melee3" parent="EnemyTemp" instance=ExtResource("14_nw2rx")]
-position = Vector2(283, 31)
-
-[node name="Enemy_Day_Melee4" parent="EnemyTemp" instance=ExtResource("14_nw2rx")]
-position = Vector2(277, 219)
-
-[node name="Enemy_Day_Melee5" parent="EnemyTemp" instance=ExtResource("14_nw2rx")]
-position = Vector2(553, 71)
-
-[node name="Enemy_Day_Melee6" parent="EnemyTemp" instance=ExtResource("14_nw2rx")]
-position = Vector2(78, -111)
-
-[node name="Enemy_Day_Melee7" parent="EnemyTemp" instance=ExtResource("14_nw2rx")]
-position = Vector2(397, -86)
-
-[node name="Enemy_Day_Melee8" parent="EnemyTemp" instance=ExtResource("14_nw2rx")]
-position = Vector2(620, 259)
-
-[node name="Enemy_Day_Melee9" parent="EnemyTemp" instance=ExtResource("14_nw2rx")]
-position = Vector2(415, -206)
-
-[node name="Enemy_Day_Melee10" parent="EnemyTemp" instance=ExtResource("14_nw2rx")]
-position = Vector2(76, 82)
-
-[node name="Enemy_Day_Ranged" parent="EnemyTemp" instance=ExtResource("16_5siia")]
-position = Vector2(423, 179)
-
-[node name="Enemy_Day_Ranged2" parent="EnemyTemp" instance=ExtResource("16_5siia")]
-position = Vector2(592, -182)
-
-[node name="Enemy_Day_Ranged3" parent="EnemyTemp" instance=ExtResource("16_5siia")]
-position = Vector2(265, -32)
+[node name="Enemy_Melee" parent="EnemyTemp" instance=ExtResource("17_0mkgf")]
+position = Vector2(882, -115)
 
 [node name="Boss" parent="." instance=ExtResource("13_ixunt")]
 position = Vector2(1918, 121)
 
 [node name="Character" parent="." instance=ExtResource("10_tc7wq")]
-position = Vector2(1146, -83)
+position = Vector2(1188, -293)
 
 [node name="PointLight2D" type="PointLight2D" parent="Character"]
 energy = 2.5
@@ -245,32 +211,10 @@ metadata/_edit_lock_ = true
 [connection signal="body_entered" from="TrapCollisionNight/TrapCol5" to="TrapCollisionNight/TrapCol5" method="_on_body_entered"]
 [connection signal="body_entered" from="TrapCollisionNight/TrapCol6" to="TrapCollisionNight/TrapCol6" method="_on_body_entered"]
 [connection signal="body_entered" from="TrapCollisionNight/TrapCol7" to="TrapCollisionNight/TrapCol7" method="_on_body_entered"]
-[connection signal="enemy_melee_attack" from="EnemyTemp/Enemy_Day_Melee" to="." method="_on_enemy_day_melee_enemy_melee_attack"]
-[connection signal="item_Dropped" from="EnemyTemp/Enemy_Day_Melee" to="." method="_on_enemy_day_melee_item_dropped"]
-[connection signal="enemy_melee_attack" from="EnemyTemp/Enemy_Day_Melee2" to="." method="_on_enemy_day_melee_enemy_melee_attack"]
-[connection signal="item_Dropped" from="EnemyTemp/Enemy_Day_Melee2" to="." method="_on_enemy_day_melee_item_dropped"]
-[connection signal="enemy_melee_attack" from="EnemyTemp/Enemy_Day_Melee3" to="." method="_on_enemy_day_melee_enemy_melee_attack"]
-[connection signal="item_Dropped" from="EnemyTemp/Enemy_Day_Melee3" to="." method="_on_enemy_day_melee_item_dropped"]
-[connection signal="enemy_melee_attack" from="EnemyTemp/Enemy_Day_Melee4" to="." method="_on_enemy_day_melee_enemy_melee_attack"]
-[connection signal="item_Dropped" from="EnemyTemp/Enemy_Day_Melee4" to="." method="_on_enemy_day_melee_item_dropped"]
-[connection signal="enemy_melee_attack" from="EnemyTemp/Enemy_Day_Melee5" to="." method="_on_enemy_day_melee_enemy_melee_attack"]
-[connection signal="item_Dropped" from="EnemyTemp/Enemy_Day_Melee5" to="." method="_on_enemy_day_melee_item_dropped"]
-[connection signal="enemy_melee_attack" from="EnemyTemp/Enemy_Day_Melee6" to="." method="_on_enemy_day_melee_enemy_melee_attack"]
-[connection signal="item_Dropped" from="EnemyTemp/Enemy_Day_Melee6" to="." method="_on_enemy_day_melee_item_dropped"]
-[connection signal="enemy_melee_attack" from="EnemyTemp/Enemy_Day_Melee7" to="." method="_on_enemy_day_melee_enemy_melee_attack"]
-[connection signal="item_Dropped" from="EnemyTemp/Enemy_Day_Melee7" to="." method="_on_enemy_day_melee_item_dropped"]
-[connection signal="enemy_melee_attack" from="EnemyTemp/Enemy_Day_Melee8" to="." method="_on_enemy_day_melee_enemy_melee_attack"]
-[connection signal="item_Dropped" from="EnemyTemp/Enemy_Day_Melee8" to="." method="_on_enemy_day_melee_item_dropped"]
-[connection signal="enemy_melee_attack" from="EnemyTemp/Enemy_Day_Melee9" to="." method="_on_enemy_day_melee_enemy_melee_attack"]
-[connection signal="item_Dropped" from="EnemyTemp/Enemy_Day_Melee9" to="." method="_on_enemy_day_melee_item_dropped"]
-[connection signal="enemy_melee_attack" from="EnemyTemp/Enemy_Day_Melee10" to="." method="_on_enemy_day_melee_enemy_melee_attack"]
-[connection signal="item_Dropped" from="EnemyTemp/Enemy_Day_Melee10" to="." method="_on_enemy_day_melee_item_dropped"]
-[connection signal="enemy_ranged_attack" from="EnemyTemp/Enemy_Day_Ranged" to="." method="_on_enemy_day_ranged_enemy_ranged_attack"]
-[connection signal="item_Dropped" from="EnemyTemp/Enemy_Day_Ranged" to="." method="_on_enemy_day_ranged_item_dropped"]
-[connection signal="enemy_ranged_attack" from="EnemyTemp/Enemy_Day_Ranged2" to="." method="_on_enemy_day_ranged_enemy_ranged_attack"]
-[connection signal="item_Dropped" from="EnemyTemp/Enemy_Day_Ranged2" to="." method="_on_enemy_day_ranged_item_dropped"]
-[connection signal="enemy_ranged_attack" from="EnemyTemp/Enemy_Day_Ranged3" to="." method="_on_enemy_day_ranged_enemy_ranged_attack"]
-[connection signal="item_Dropped" from="EnemyTemp/Enemy_Day_Ranged3" to="." method="_on_enemy_day_ranged_item_dropped"]
+[connection signal="attack" from="EnemyTemp/Enemy_Ranged" to="." method="_on_enemy_ranged_attack"]
+[connection signal="item_dropped" from="EnemyTemp/Enemy_Ranged" to="." method="_on_enemy_drop"]
+[connection signal="attack" from="EnemyTemp/Enemy_Melee" to="." method="_on_enemy_melee_attack"]
+[connection signal="item_dropped" from="EnemyTemp/Enemy_Melee" to="." method="_on_enemy_drop"]
 [connection signal="boss_action_bomb" from="Boss" to="." method="_on_boss_action_bomb"]
 [connection signal="boss_action_shoot" from="Boss" to="." method="_on_boss_action_shoot"]
 [connection signal="boss_action_slash" from="Boss" to="." method="_on_boss_action_slash"]
