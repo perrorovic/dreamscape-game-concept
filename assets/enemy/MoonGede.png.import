@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ce8e75fr45jps"
-path="res://.godot/imported/Fullmoon.png-0066f5f743cc7f54e90426662e3b9b15.ctex"
+uid="uid://w0umxmxokln0"
+path="res://.godot/imported/MoonGede.png-171d43e4015f755785aeaad5c39d8b4c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Fullmoon.png"
-dest_files=["res://.godot/imported/Fullmoon.png-0066f5f743cc7f54e90426662e3b9b15.ctex"]
+source_file="res://assets/enemy/MoonGede.png"
+dest_files=["res://.godot/imported/MoonGede.png-171d43e4015f755785aeaad5c39d8b4c.ctex"]
 
 [params]
 

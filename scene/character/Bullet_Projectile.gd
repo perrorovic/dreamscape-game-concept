@@ -10,7 +10,7 @@ func _ready():
 	# Set the rotation so it face toward the mouse
 	rotation_degrees = set_rotation_degree
 	# Set timer for timeout if bullet escape collision
-	$Timeout.start()
+	#$Timeout.start()
 
 func _process(delta):
 	position += set_direction * speed * delta

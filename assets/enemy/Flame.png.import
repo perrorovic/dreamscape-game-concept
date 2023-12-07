@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://080n4l13skn6"
-path="res://.godot/imported/Flame.png-a50c341e055bb6eeeefa20bbca9d2855.ctex"
+path="res://.godot/imported/Flame.png-403ab0a9afc000f19eafd9dd2d8b6b6a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Flame.png"
-dest_files=["res://.godot/imported/Flame.png-a50c341e055bb6eeeefa20bbca9d2855.ctex"]
+source_file="res://assets/enemy/Flame.png"
+dest_files=["res://.godot/imported/Flame.png-403ab0a9afc000f19eafd9dd2d8b6b6a.ctex"]
 
 [params]
 

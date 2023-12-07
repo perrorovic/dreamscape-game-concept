@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://bio2wxum33qhf"]
 
-[ext_resource type="Texture2D" uid="uid://dmjgpd6ykxqao" path="res://assets/SunGede.png" id="1_ineav"]
 [ext_resource type="Script" path="res://scene/UI.gd" id="1_o72nb"]
 [ext_resource type="Texture2D" uid="uid://bv6dhqfhvo4iw" path="res://assets/ui/ammo.png" id="2_0wt5f"]
+[ext_resource type="Texture2D" uid="uid://dmjgpd6ykxqao" path="res://assets/ui/sun.png" id="2_wk60b"]
 [ext_resource type="Texture2D" uid="uid://br5hquqxbuat6" path="res://assets/ui/dash.png" id="3_x81ot"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
@@ -29,8 +29,8 @@ size_flags_vertical = 3
 value = 35.0
 rounded = true
 fill_mode = 4
-texture_under = ExtResource("1_ineav")
-texture_progress = ExtResource("1_ineav")
+texture_under = ExtResource("2_wk60b")
+texture_progress = ExtResource("2_wk60b")
 tint_under = Color(0.152941, 0.152941, 0.152941, 1)
 metadata/_edit_lock_ = true
 

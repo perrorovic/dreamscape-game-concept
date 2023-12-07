@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dcdh88e4al28v"]
 
-[ext_resource type="Texture2D" uid="uid://ce8e75fr45jps" path="res://assets/Fullmoon.png" id="1_nf1k8"]
-[ext_resource type="Script" path="res://scene/Boss.gd" id="1_pysr0"]
+[ext_resource type="Texture2D" uid="uid://ce8e75fr45jps" path="res://assets/ui/fullmoon.png" id="1_nf1k8"]
+[ext_resource type="Script" path="res://scene/boss/Boss.gd" id="1_pysr0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xur4y"]
 radius = 228.178

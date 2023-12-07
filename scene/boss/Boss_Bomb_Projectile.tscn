@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://m5biwludvv4v"]
 
-[ext_resource type="Script" path="res://scene/Boss_Bomb_Projectile.gd" id="1_evamf"]
-[ext_resource type="Texture2D" uid="uid://dmjgpd6ykxqao" path="res://assets/SunGede.png" id="2_wk1hv"]
-[ext_resource type="Texture2D" uid="uid://080n4l13skn6" path="res://assets/Flame.png" id="3_gutxv"]
-[ext_resource type="PackedScene" uid="uid://sxhxfnlt2wej" path="res://scene/Boss_Crystal_Spire.tscn" id="3_ssplu"]
+[ext_resource type="Script" path="res://scene/boss/Boss_Bomb_Projectile.gd" id="1_evamf"]
+[ext_resource type="Texture2D" uid="uid://dmjgpd6ykxqao" path="res://assets/ui/sun.png" id="2_wk1hv"]
+[ext_resource type="Texture2D" uid="uid://080n4l13skn6" path="res://assets/enemy/Flame.png" id="3_gutxv"]
+[ext_resource type="PackedScene" uid="uid://sxhxfnlt2wej" path="res://scene/boss/Boss_Crystal_Spire.tscn" id="3_ssplu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wefn3"]
 radius = 18.0278

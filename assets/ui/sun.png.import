@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2nhrgevu5b04"
-path="res://.godot/imported/FlameDonut.png-89caee72fadfb93d2cf795b49f7e64f9.ctex"
+uid="uid://dmjgpd6ykxqao"
+path="res://.godot/imported/sun.png-efe2380bd6ae94418a82cab808c60d70.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/FlameDonut.png"
-dest_files=["res://.godot/imported/FlameDonut.png-89caee72fadfb93d2cf795b49f7e64f9.ctex"]
+source_file="res://assets/ui/sun.png"
+dest_files=["res://.godot/imported/sun.png-efe2380bd6ae94418a82cab808c60d70.ctex"]
 
 [params]
 

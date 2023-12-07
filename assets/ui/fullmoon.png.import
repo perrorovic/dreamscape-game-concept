@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://budxw56crqdrs"
-path="res://.godot/imported/crystalspire.png-0fec6d59c684a2823c598665e01efb8e.ctex"
+uid="uid://ce8e75fr45jps"
+path="res://.godot/imported/fullmoon.png-3341a4b05fd760a84061ae737e1e4280.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/crystalspire.png"
-dest_files=["res://.godot/imported/crystalspire.png-0fec6d59c684a2823c598665e01efb8e.ctex"]
+source_file="res://assets/ui/fullmoon.png"
+dest_files=["res://.godot/imported/fullmoon.png-3341a4b05fd760a84061ae737e1e4280.ctex"]
 
 [params]
 

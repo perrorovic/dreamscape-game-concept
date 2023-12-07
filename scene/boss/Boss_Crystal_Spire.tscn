@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://sxhxfnlt2wej"]
 
-[ext_resource type="Script" path="res://scene/Boss_Crystal_Spire.gd" id="1_xyu41"]
+[ext_resource type="Script" path="res://scene/boss/Boss_Crystal_Spire.gd" id="1_xyu41"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_gnitf"]
 polygon = PackedVector2Array(-1, -46, 1, -46, 14, -12, 17, -2, 16, 7, 4, 42, 1, 44, -2, 42, -5, 36, -14, 2, -14, -1, -13, -15)

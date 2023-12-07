@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmjgpd6ykxqao"
-path="res://.godot/imported/SunGede.png-7835d595cc25565779686039c78eec5f.ctex"
+uid="uid://budxw56crqdrs"
+path="res://.godot/imported/crystalspire.png-185b392d1f97125b27fddee8920d490a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/SunGede.png"
-dest_files=["res://.godot/imported/SunGede.png-7835d595cc25565779686039c78eec5f.ctex"]
+source_file="res://assets/enemy/crystalspire.png"
+dest_files=["res://.godot/imported/crystalspire.png-185b392d1f97125b27fddee8920d490a.ctex"]
 
 [params]
 

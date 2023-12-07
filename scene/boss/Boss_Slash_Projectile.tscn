@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dpougqpvggirn"]
 
-[ext_resource type="Texture2D" uid="uid://w0umxmxokln0" path="res://assets/MoonGede.png" id="1_5l7ui"]
-[ext_resource type="Script" path="res://scene/Boss_Slash_Projectile.gd" id="1_mxban"]
+[ext_resource type="Texture2D" uid="uid://w0umxmxokln0" path="res://assets/enemy/MoonGede.png" id="1_5l7ui"]
+[ext_resource type="Script" path="res://scene/boss/Boss_Slash_Projectile.gd" id="1_mxban"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3ibfd"]
 radius = 42.0

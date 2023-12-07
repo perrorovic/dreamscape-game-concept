@@ -1,19 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://1d3pu2vomno0"]
+[gd_scene load_steps=4 format=3 uid="uid://d2dn53lxeuwh6"]
 
-[ext_resource type="Script" path="res://scene/BulletProjectile.gd" id="1_ciecs"]
-[ext_resource type="Texture2D" uid="uid://5ihw6opnlfma" path="res://assets/character/RangedProjectile/3.png" id="2_dyv42"]
-[ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="3_x1wbm"]
+[ext_resource type="Script" path="res://scene/enemy/Enemy_Ranged_Projectile.gd" id="1_5gf4s"]
+[ext_resource type="Texture2D" uid="uid://5ihw6opnlfma" path="res://assets/character/RangedProjectile/3.png" id="2_81jor"]
+[ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="3_6uqct"]
 
 [node name="BulletProjectile" type="Area2D"]
+modulate = Color(0.976471, 0.12549, 1, 1)
+scale = Vector2(0.5, 0.5)
 collision_layer = 32
 collision_mask = 70
-script = ExtResource("1_ciecs")
+script = ExtResource("1_5gf4s")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-2.56, 1.44)
 rotation = -1.5708
 scale = Vector2(0.155, 0.155)
-texture = ExtResource("2_dyv42")
+texture = ExtResource("2_81jor")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2(-2.56, 1.44)
@@ -27,7 +29,7 @@ one_shot = true
 [node name="PointLight2D" type="PointLight2D" parent="."]
 color = Color(0.309804, 1, 0.435294, 1)
 shadow_enabled = true
-texture = ExtResource("3_x1wbm")
+texture = ExtResource("3_6uqct")
 texture_scale = 0.25
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

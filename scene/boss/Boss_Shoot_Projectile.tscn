@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://daetetsi7dtb7"]
 
-[ext_resource type="Script" path="res://scene/Boss_Shoot_Projectile.gd" id="1_vywf8"]
+[ext_resource type="Script" path="res://scene/boss/Boss_Shoot_Projectile.gd" id="1_vywf8"]
 [ext_resource type="Texture2D" uid="uid://dv62ae3ebe0na" path="res://assets/character/RangedProjectile/4.png" id="1_xek0f"]
 
 [node name="Boss_Shoot_Projectile" type="Area2D"]
@@ -20,6 +20,9 @@ offset = Vector2(0, 2)
 polygon = PackedVector2Array(0, -12, -2, -6, 0, -3, 2, -6)
 
 [node name="Timeout" type="Timer" parent="."]
+wait_time = 3.0
 one_shot = true
+autostart = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timeout" to="." method="_on_timeout_timeout"]

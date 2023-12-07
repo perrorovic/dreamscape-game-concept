@@ -18,7 +18,7 @@ run/name="Dreamscape-Game"
 
 [autoload]
 
-Global="*res://Global.gd"
+Global="*res://scene/Global.gd"
 
 [display]
 

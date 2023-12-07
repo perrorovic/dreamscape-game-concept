@@ -1,28 +1,39 @@
 extends Node2D
 
+#https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_exports.html#examples #export documentation, goodshit
+#How to create dropdown selection in inspector
+#@export_enum("selection 1", "selection 2", "selection 3") var selection_name: int #return array number. ex: if "selection 1" will return 0, and so on
+#@export_enum("Slow:30", "Average:60", "Very Fast:200") var character_speed: int #return explicit value. ex: if selection "slow" will return 30, and so on
+#@export_enum("Rebecca", "Mary", "Leah") var character_name: String #return string name. ex: if selection "Rebecca" will return "Rebecca", and so on
+#@export_enum("Rebecca", "Mary", "Leah") var character_name: String = "Rebecca" #same as before but have default value "Rebecca"
+
+@export var rate_item: Dictionary = {"HP": {"Rate": 1, "TotalHpHealed": 2},
+								   "Ammo": {"Rate": null, "TotalAmmoDrop": null}}
+
 # Player projectile
-var meleeProjectile: PackedScene = preload("res://scene/MeleeProjectile.tscn")
-var rangedProjectile: PackedScene = preload("res://scene/BulletProjectile.tscn")
+var meleeProjectile: PackedScene = preload("res://scene/character/Melee_Projectile.tscn")
+var rangedProjectile: PackedScene = preload("res://scene/character/Bullet_Projectile.tscn")
 
 # Boss projectile
-var boss_shootProjectile: PackedScene = preload("res://scene/Boss_Shoot_Projectile.tscn")
-var boss_bombProjectileDay: PackedScene = preload("res://scene/Boss_Bomb_Projectile_Day.tscn")
-var boss_bombProjectileNight: PackedScene = preload("res://scene/Boss_Bomb_Projectile_Night.tscn")
-var boss_slashProjectile: PackedScene = preload("res://scene/Boss_Slash_Projectile.tscn")
-var boss_crystalSpire: PackedScene = preload("res://scene/Boss_Crystal_Spire.tscn")
+var boss_shootProjectile: PackedScene = preload("res://scene/boss/Boss_Shoot_Projectile.tscn")
+var boss_bombProjectileDay: PackedScene = preload("res://scene/boss/Boss_Bomb_Projectile_Day.tscn")
+var boss_bombProjectileNight: PackedScene = preload("res://scene/boss/Boss_Bomb_Projectile_Night.tscn")
+var boss_slashProjectile: PackedScene = preload("res://scene/boss/Boss_Slash_Projectile.tscn")
+var boss_crystalSpire: PackedScene = preload("res://scene/boss/Boss_Crystal_Spire.tscn")
 
 # Enemy projectile
-var enemy_meleeDayProjectile: PackedScene = preload("res://scene/enemy_melee_projectile.tscn")
+var enemy_meleeDayProjectile: PackedScene = preload("res://scene/enemy/enemy_melee_projectile.tscn")
+var enemy_rangedDayProjectile: PackedScene = preload("res://scene/enemy/enemy_ranged_projectile.tscn")
 
 # Items
-var Items_Dash:PackedScene = preload("res://scene/Items_Dash.tscn")
-var Items_Ammo:PackedScene = preload("res://scene/Items_Ammo.tscn")
-var Items_Health:PackedScene = preload("res://scene/Items_Health.tscn")
+var Items_Dash:PackedScene = preload("res://scene/entity/Items_Dash.tscn")
+var Items_Ammo:PackedScene = preload("res://scene/entity/Items_Ammo.tscn")
+var Items_Health:PackedScene = preload("res://scene/entity/Items_Health.tscn")
 
 # World initiation
-var sun: Texture2D = preload("res://assets/SunGede.png")
+var sun: Texture2D = preload("res://assets/ui/sun.png")
 #var sunModulate: Color = Color("#db9042")
-var moon: Texture2D = preload("res://assets/Fullmoon.png")
+var moon: Texture2D = preload("res://assets/ui/fullmoon.png")
 #var moonModulate: Color = Color("#17a995")
 
 func _ready():
@@ -30,7 +41,9 @@ func _ready():
 	# Initiate to start the levels in day worldType
 	_init_day()
 
+
 func _process(_delta):
+	
 	# Check world will check the worldType in Global to set everything accordingly
 	_check_world()
 
@@ -135,6 +148,32 @@ func _on_enemy_day_melee_enemy_melee_attack(enemy_position, target_direction):
 	$EnemyProjectileTemp.add_child(enemy_meleeDay,true)
 
 func _on_enemy_day_melee_item_dropped(item_Name, enemy_position):
+	if item_Name == "Items_Health":
+		var item_dropped = Items_Health.instantiate() as Area2D
+		item_dropped.position = enemy_position
+		$ItemTemp.add_child(item_dropped,true)
+		print("Health Dropped")
+	elif item_Name == "Items_Ammo":
+		var item_dropped = Items_Ammo.instantiate() as Area2D
+		item_dropped.position = enemy_position
+		$ItemTemp.add_child(item_dropped,true)
+		print("Ammo Dropped")
+	elif item_Name == "Items_Dash":
+		var item_dropped = Items_Dash.instantiate() as Area2D
+		item_dropped.position = enemy_position
+		$ItemTemp.add_child(item_dropped,true)
+		print("Dash Dropped")
+
+
+func _on_enemy_day_ranged_enemy_ranged_attack(enemy_position, target_direction):
+	var enemy_rangedDay = enemy_rangedDayProjectile.instantiate() as Area2D
+	enemy_rangedDay.position = enemy_position
+	enemy_rangedDay.set_rotation_degree = rad_to_deg(target_direction.angle()) - 90
+	enemy_rangedDay.set_direction = target_direction
+	$EnemyProjectileTemp.add_child(enemy_rangedDay,true)
+
+
+func _on_enemy_day_ranged_item_dropped(item_Name, enemy_position):
 	if item_Name == "Items_Health":
 		var item_dropped = Items_Health.instantiate() as Area2D
 		item_dropped.position = enemy_position

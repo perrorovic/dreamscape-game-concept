@@ -3,15 +3,15 @@ extends CharacterBody2D
 @export var health: float = 125
 @export var speed_day: float = 75
 @export var speed_night: float = 30
-@export var collision_damage: float = 5
 
-signal enemy_melee_attack(enemy_position, target_direction)
+signal enemy_ranged_attack(enemy_position, target_direction)
 signal item_Dropped(item_Name, enemy_position)
 
 var item_Name:String
 var is_following: bool = false
 var is_patrolling: bool = false
 var is_attacking: bool = false
+var able_toAttack: bool = true
 var speed: float
 var path_direction = 0
 
@@ -57,22 +57,25 @@ func _on_pathfinding_area_body_exited(_body):
 			
 func _hit(damage: int):
 	print("Enemy is hit")
+	is_following = true
+	is_patrolling = false
+	$AggroCooldown.start(5)
 	health -= damage
 	if health <= 0:
 		var drop_random = randi_range(0,100)
-		#No Drop
+		#No Drop 50%
 		if drop_random >= 0 and drop_random < 50:
 			print("No Drop")
-		#Drop HP
-		if drop_random >= 50 and drop_random < 60:
+		#Drop HP 15%
+		if drop_random >= 50 and drop_random < 65:
 			item_Name = "Items_Health"
 			item_Dropped.emit(item_Name,position)
-		#Drop Ammo
-		if drop_random >= 60 and drop_random < 80:
+		#Drop Ammo 25%
+		if drop_random >= 65 and drop_random < 90:
 			item_Name = "Items_Ammo"
 			item_Dropped.emit(item_Name,position)
-		#Drop Dash
-		if drop_random >= 80 and drop_random < 100:
+		#Drop Dash 10%
+		if drop_random >= 90 and drop_random < 100:
 			item_Name = "Items_Dash"
 			item_Dropped.emit(item_Name,position)
 		queue_free()
@@ -84,15 +87,22 @@ func _patrol():
 		is_patrolling = true
 		
 func _on_attack_area_body_entered(body):
-	if body.name == "Character":
+	if body.name == "Character" and able_toAttack == true:
 		var direction: Vector2 = (Global.player_position - position).normalized()
-		enemy_melee_attack.emit(position, direction)
+		enemy_ranged_attack.emit(position, direction)
 		$AttackArea.set_collision_mask_value(1, false)
 		is_attacking = true
-		$MeleeCooldown.start()
+		able_toAttack = false
+		$CollisionCooldown.start()
+		$RangedCooldown.start()
 		
-func _on_melee_cooldown_timeout():
-	#print(is_attacking)
+func _on_ranged_cooldown_timeout():
 	$AttackArea.set_collision_mask_value(1, true)
 	is_attacking = false
-	
+
+func _on_collision_cooldown_timeout():
+	able_toAttack = true
+
+func _on_aggro_cooldown_timeout():
+	is_following = false
+	$PatrolCooldown.start(5)
