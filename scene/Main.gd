@@ -160,7 +160,6 @@ func _on_enemy_ranged_attack(enemy_position, target_direction):
 	#$EnemyProjectileTemp.add_child(enemy_rangedDay,true)
 
 func _on_enemy_drop(item_name, enemy_position):
-	print("signal of dropped item")
 	if item_name == "health":
 		var item_dropped = items_health.instantiate() as Area2D
 		item_dropped.position = enemy_position

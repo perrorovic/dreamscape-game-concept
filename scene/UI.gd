@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 func _ready():
-	pass
+	$PlayerDeath/Foreground.hide()
 
 func _process(_delta):
 	pass
