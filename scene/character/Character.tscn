@@ -1,6 +1,5 @@
-[gd_scene load_steps=16 format=3 uid="uid://caxjcyt48xmp0"]
+[gd_scene load_steps=18 format=3 uid="uid://caxjcyt48xmp0"]
 
-[ext_resource type="Texture2D" uid="uid://dn4belqy0k0hw" path="res://charaTBD.png" id="1_m28o7"]
 [ext_resource type="Script" path="res://scene/character/Character.gd" id="1_pch7d"]
 [ext_resource type="AudioStream" uid="uid://cp6q4ybnwntmk" path="res://sound/Step/step1.mp3" id="3_pbu7b"]
 [ext_resource type="Texture2D" uid="uid://bbwv2bpjioe6o" path="res://assets/character/StaffMelee.png" id="3_wn5fh"]
@@ -11,6 +10,9 @@
 [ext_resource type="AudioStream" uid="uid://bv74f6y4hx1x7" path="res://sound/Step/step6.mp3" id="7_rlqsk"]
 [ext_resource type="AudioStream" uid="uid://cy1e7xeyl38ar" path="res://sound/Step/step8.mp3" id="8_52yx0"]
 [ext_resource type="Texture2D" uid="uid://dinak8w45fe5i" path="res://assets/character/SwordMelee.png" id="9_ymd6k"]
+[ext_resource type="Texture2D" uid="uid://blesyk1m5ciu2" path="res://assets/character/body/hands.png" id="11_81uel"]
+[ext_resource type="Texture2D" uid="uid://byyqbsdg2vp6g" path="res://assets/character/body/body.png" id="11_ooxyq"]
+[ext_resource type="Texture2D" uid="uid://cg515qs46dm88" path="res://assets/character/body/head.png" id="12_hqshi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e8tdo"]
 radius = 14.0357
@@ -105,7 +107,6 @@ one_shot = true
 wait_time = 5.0
 
 [node name="Weapon" type="Node2D" parent="."]
-z_index = 1
 scale = Vector2(0.125, 0.125)
 
 [node name="Unused" type="Node" parent="Weapon"]
@@ -134,12 +135,29 @@ visible = false
 position = Vector2(74, 90)
 texture = ExtResource("4_6ht37")
 
+[node name="Hand" type="Sprite2D" parent="Weapon"]
+position = Vector2(-24, 24)
+rotation = 1.78024
+scale = Vector2(0.399964, 0.399964)
+texture = ExtResource("11_81uel")
+offset = Vector2(-75, -195)
+flip_h = true
+
+[node name="Sprite" type="Node2D" parent="."]
+
+[node name="Body" type="Sprite2D" parent="Sprite"]
+position = Vector2(0, -1)
+scale = Vector2(0.0499955, 0.0499955)
+texture = ExtResource("11_ooxyq")
+flip_h = true
+
+[node name="Head" type="Sprite2D" parent="Sprite"]
+scale = Vector2(0.0499955, 0.0499955)
+texture = ExtResource("12_hqshi")
+flip_h = true
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_e8tdo")
-
-[node name="BodySprite" type="Sprite2D" parent="."]
-rotation = 1.5708
-texture = ExtResource("1_m28o7")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
@@ -152,7 +170,7 @@ libraries = {
 }
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.295164, 0.636601, 0.497517, 1)
+color = Color(0.0901961, 0.662745, 0.584314, 1)
 
 [connection signal="timeout" from="Timer/RangedCooldown" to="." method="_on_ranged_cooldown_timeout"]
 [connection signal="timeout" from="Timer/DashDuration" to="." method="_on_dash_duration_timeout"]

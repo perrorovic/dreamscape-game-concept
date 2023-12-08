@@ -121,10 +121,13 @@ func _knockback(set_direction, knockback_power):
 
 func _loot_at():
 	$Weapon.look_at(get_global_mouse_position())
-	print($Weapon/MeleeWeapon.position)
+	#print($Weapon/MeleeWeapon.position)
 	if get_global_mouse_position().x > position.x:
 		# character body
-		$BodySprite.flip_v = false
+		$Sprite/Body.flip_h = true # default 
+		$Sprite/Head.flip_h = true # default 
+		$Weapon/Hand.flip_h = true # default 
+		$Weapon/Hand.rotation_degrees = 102
 		# melee and ranged weapon asset
 		$Weapon/MeleeWeapon.flip_v = false
 		$Weapon/MeleeWeapon.position = Vector2(82,90) # default pos
@@ -135,7 +138,10 @@ func _loot_at():
 		$Weapon/RangedBulletSpawn.position = Vector2(152,96) # default pos
 	elif get_global_mouse_position().x < position.x:
 		# character body
-		$BodySprite.flip_v = true
+		$Sprite/Body.flip_h = false
+		$Sprite/Head.flip_h = false
+		$Weapon/Hand.flip_h = false
+		$Weapon/Hand.rotation_degrees = 80
 		# melee and ranged weapon asset
 		$Weapon/MeleeWeapon.flip_v = true
 		$Weapon/MeleeWeapon.position = Vector2(82,-90)
