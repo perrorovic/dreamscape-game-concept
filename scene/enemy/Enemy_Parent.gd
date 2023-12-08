@@ -75,7 +75,7 @@ func _process(_delta):
 	$Sprite2D.look_at($NavigationAgent2D.get_next_path_position())
 	path_direction = to_local($NavigationAgent2D.get_next_path_position()).normalized()
 	velocity = path_direction * movement_speed
-	
+
 	if !$NavigationAgent2D.is_navigation_finished():
 		move_and_slide()
 	
@@ -132,3 +132,8 @@ func _patrol():
 func _on_aggro_cooldown_timeout():
 	is_following = false
 	$PatrolCooldown.start(5)
+
+func _knockback(set_direction, knockback_power):
+	var knockback = set_direction * knockback_power
+	global_position += knockback
+

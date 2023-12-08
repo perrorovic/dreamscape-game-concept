@@ -3,10 +3,15 @@ extends CharacterBody2D
 @export var player_moveSpeed: float = 128.0
 const player_moveSpeedDefault: float = 128.0
 
-var player_isReloading: bool = false
-var player_isReloadingType: String
+var player_isEmptyReloading: bool = false
+#var player_isReloadingType: String
+var player_isAddingAmmo: bool = false
 # Empty | Chilling
-signal mouse1_melee(player_position, player_rotation)
+
+var knockback_tween
+var knockback_tweenValue: Vector2 = Vector2(0,0)
+
+signal mouse1_melee(player_position, player_rotation, player_direction)
 signal mouse1_ranged(player_position, player_rotation, player_direction)
 
 func _ready():
@@ -33,7 +38,7 @@ func _physics_process(_delta):
 
 func _movement():
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	velocity = direction * player_moveSpeed
+	velocity = direction * player_moveSpeed + knockback_tweenValue
 
 	# Play step SFX
 	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):
@@ -97,10 +102,20 @@ func _dead():
 	Global.player_health = 200
 	# Play animation death and reset to middle
 
+func _knockback(set_direction, knockback_power):
+	var knockback = set_direction * knockback_power
+	knockback_tweenValue = knockback
+	
+	knockback_tween = get_tree().create_tween()
+	knockback_tween.parallel().tween_property(self, "knockback_tweenValue", Vector2(0,0), 0.25)
+
+	#global_position += knockback
+
 func _melee():
 	if Input.is_action_pressed("mouse1") and Global.player_ableToMelee == true and Global.worldType == "Day":
 		Global.player_ableToMelee = false
-		mouse1_melee.emit($MeleeSlashSpawn.global_position, rotation_degrees)
+		var player_direction = (get_global_mouse_position() - position).normalized()
+		mouse1_melee.emit($MeleeSlashSpawn.global_position, rotation_degrees, player_direction)
 
 func _dash():
 	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):
@@ -114,24 +129,55 @@ func _dash():
 		$"../UI/PlayerDash/Progress".value = $"../UI/PlayerDash/Progress".max_value * (1 - $DashCooldown.time_left / $DashCooldown.wait_time)
 
 func _ranged():
-	# Reload when 2s of wait time
-	# If player shoot while reload will be canceled
-	# If the bullet is 0 and its reloading the player cannot reload-cancel it (check reload type)
-	if Input.is_action_pressed("mouse1") and Global.player_ableToShoot == true and Global.worldType == "Night" and Global.player_ammo >0:
-		$RangedCooldown.start()
+	$"../UI/PlayerAmmo/Progress".value = Global.player_ammo
+	
+	#if shooting on any ammo except last ammo (1 ammo or more {2,3,4,5,...} left), auto reload timer will be started
+	if Global.player_ammo > 1 and Input.is_action_pressed("mouse1") and Global.player_ableToShoot == true and Global.worldType == "Night":
 		Global.player_ableToShoot = false
 		var player_direction = (get_global_mouse_position() - position).normalized()
 #		send signal into ["res://Main.gd"] script to spawn ranged bullet based on these parameter
 #		all parameter will be set into ["res://Scene/BulletProjectile.gd"] in there
 		mouse1_ranged.emit($RangedBulletSpawn.global_position, rotation_degrees, player_direction)
 		Global.player_ammo -= 1
-	if Global.player_ammo == 0 and player_isReloading == false or Input.is_action_just_pressed("r"):
-		print("Reloading")
-		player_isReloading = true
+		player_isAddingAmmo = false
+		$ReloadAutoCooldown.start(2.5)
+		#RangedCooldown timer is used on time out to change Global.player_ableToShoot to true 
+		#RangedCooldown is basically used to add delay time between spawning each bullet
+		$RangedCooldown.start()
+		$ReloadTickCooldown.stop()
+	
+	#if shooting on last ammo (1 ammo left)
+	elif Global.player_ammo == 1 and Input.is_action_pressed("mouse1") and Global.player_ableToShoot == true:
 		Global.player_ableToShoot = false
-		$ReloadCooldown.start()
-	if player_isReloading == true:
-		$"../UI/PlayerAmmo/Progress".value = $"../UI/PlayerAmmo/Progress".max_value * (1 - $ReloadCooldown.time_left / $ReloadCooldown.wait_time)
+		var player_direction = (get_global_mouse_position() - position).normalized()
+#		send signal into ["res://Main.gd"] script to spawn ranged bullet based on these parameter
+#		all parameter will be set into ["res://Scene/BulletProjectile.gd"] in there
+		mouse1_ranged.emit($RangedBulletSpawn.global_position, rotation_degrees, player_direction)
+		Global.player_ammo -= 1
+		player_isEmptyReloading = true
+		$ReloadTickCooldown.start(1)
+
+	if player_isEmptyReloading == true and player_isAddingAmmo == false and $ReloadTickCooldown.time_left <= 0:
+		print("Empty Reload")
+		player_isAddingAmmo = true
+		if $ReloadTickCooldown.time_left <= 0 and Global.player_ammo < Global.player_ammoMax:
+			Global.player_ammo += 1
+			print("Adding Ammo")
+			player_isAddingAmmo = false
+		if Global.player_ammo == Global.player_ammoMax:
+			Global.player_ableToShoot = true
+			player_isEmptyReloading = false
+		$ReloadTickCooldown.start(0.2)
+	#dont touch this shiet
+	#After idling for 3 second after shooting
+	elif $ReloadAutoCooldown.time_left <= 0 and Global.player_ammo < Global.player_ammoMax and player_isAddingAmmo == false and $ReloadTickCooldown.time_left <= 0 :
+		print("Auto Reload")
+		player_isAddingAmmo = true
+		if $ReloadTickCooldown.time_left <= 0 and Global.player_ammo < Global.player_ammoMax:
+			Global.player_ammo += 1
+			print("Adding Ammo")
+			player_isAddingAmmo = false
+		$ReloadTickCooldown.start(0.2)
 
 func _on_items_pickup(type):
 	print(type)
@@ -142,12 +188,11 @@ func _on_items_pickup(type):
 		Global.player_ableToDash = true
 		$"../UI/PlayerDash/Progress".value = $"../UI/PlayerDash/Progress".max_value
 	elif type == "ammo":
-		$ReloadCooldown.stop()
+		$ReloadTickCooldown.stop()
 		Global.player_ammo = Global.player_ammoMax
 		$"../UI/PlayerAmmo/Progress".value = Global.player_ammoMax
 		Global.player_ableToShoot = true
-		player_isReloading = false
-
+	
 func _on_able_to_swap_world_timer_timeout():
 	Global.player_ableToSwapWorld = true
 
@@ -161,7 +206,3 @@ func _on_dash_duration_timeout():
 func _on_dash_cooldown_timeout():
 	Global.player_ableToDash = true
 
-func _on_reload_cooldown_timeout():
-	Global.player_ammo = Global.player_ammoMax
-	Global.player_ableToShoot = true
-	player_isReloading = false

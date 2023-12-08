@@ -1,14 +1,15 @@
 extends Area2D
 @export var damage: int = 10
-
+@export var knockback_power:int = 200
 var ableToHit:bool = true
 var set_rotation_degree
+var set_direction
 
 func _ready():
 	$meleeCooldown.start()
 	$AnimationPlayer.play("melee_slash")
 	rotation_degrees = set_rotation_degree
-	
+
 	
 func _check():
 	if Global.worldType == "Night":
@@ -25,4 +26,6 @@ func _on_body_entered(body):
 		if body.has_method("_player_hit"):
 			body._player_hit(damage)
 			ableToHit = false
+			if body.has_method("_knockback"):
+				body._knockback(set_direction, knockback_power)
 	#		print("Slash Hit")

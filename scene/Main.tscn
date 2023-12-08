@@ -185,7 +185,7 @@ position = Vector2(882, -115)
 position = Vector2(1918, 121)
 
 [node name="Character" parent="." instance=ExtResource("10_tc7wq")]
-position = Vector2(1188, -293)
+position = Vector2(971, 216)
 
 [node name="PointLight2D" type="PointLight2D" parent="Character"]
 energy = 2.5

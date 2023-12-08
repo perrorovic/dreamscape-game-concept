@@ -3,6 +3,7 @@ extends Area2D
 @export var damage: float = 7.5
 @export var speed_day = 200
 @export var speed_night = 125
+@export var knockback_power:int = 100
 var speed
 # Variables from signals
 var set_rotation_degree
@@ -27,7 +28,11 @@ func _on_timeout():
 	queue_free()
 
 func _on_body_entered(body):
+	print("Bullet Collision")
 	if body.has_method("_player_hit") and body.get_collision_mask_value(1) == true:
 		print("Player is hit by Shoot!")
 		body._player_hit(damage)
+		if body.has_method("_knockback"):
+			body._knockback(set_direction, knockback_power)
 		queue_free()
+	queue_free()

@@ -1,7 +1,9 @@
 extends Area2D
 
 @export var damage: int = 50
+@export var knockback_power:int = 20
 
+var set_direction
 var ableToHit:bool = true
 
 func _ready():
@@ -31,4 +33,6 @@ func _on_body_entered(body):
 		if body.has_method("_hit"):
 			body._hit(damage)
 			ableToHit = false
+			if body.has_method("_knockback"):
+				body._knockback(set_direction, knockback_power)
 	#		print("Slash Hit")

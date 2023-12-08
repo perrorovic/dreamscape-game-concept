@@ -98,8 +98,9 @@ func _check_world():
 		$"UI/WorldType/Progress".texture_under = sun
 		$"UI/WorldType/Progress".texture_progress = sun
 
-func _on_player_mouse1_melee(player_position, player_rotation):
+func _on_player_mouse1_melee(player_position, player_rotation, player_direction):
 	var melee = meleeProjectile.instantiate() as Area2D
+	melee.set_direction = player_direction
 	melee.position = player_position
 	melee.rotation_degrees =  player_rotation - 90
 	$ProjectileTemp.add_child(melee,true)
@@ -145,6 +146,7 @@ func _on_boss_action_bomb(boss_position):
 func _on_enemy_melee_attack(enemy_position, target_direction):
 	var enemy_meleeDay = enemy_meleeDayProjectile.instantiate() as Area2D
 	enemy_meleeDay.position = enemy_position
+	enemy_meleeDay.set_direction = target_direction
 	enemy_meleeDay.set_rotation_degree = rad_to_deg(target_direction.angle()) - 90
 	$EnemyProjectileTemp.call_deferred("add_child",enemy_meleeDay,true)
 	#$EnemyProjectileTemp.add_child(enemy_meleeDay,true)
@@ -162,15 +164,15 @@ func _on_enemy_drop(item_name, enemy_position):
 	if item_name == "health":
 		var item_dropped = items_health.instantiate() as Area2D
 		item_dropped.position = enemy_position
-		$ItemTemp.add_child(item_dropped,true)
+		$ItemTemp.call_deferred("add_child", item_dropped,true)
 		print("Health Dropped")
 	elif item_name == "ammo":
 		var item_dropped = items_ammo.instantiate() as Area2D
 		item_dropped.position = enemy_position
-		$ItemTemp.add_child(item_dropped,true)
+		$ItemTemp.call_deferred("add_child", item_dropped,true)
 		print("Ammo Dropped")
 	elif item_name == "dash":
 		var item_dropped = items_dash.instantiate() as Area2D
 		item_dropped.position = enemy_position
-		$ItemTemp.add_child(item_dropped,true)
+		$ItemTemp.call_deferred("add_child", item_dropped,true)
 		print("Dash Dropped")
