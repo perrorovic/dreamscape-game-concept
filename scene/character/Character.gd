@@ -37,11 +37,13 @@ func _physics_process(_delta):
 	_melee()
 	_dash()
 	_ranged()
+	_update_animation()
 
 func _movement():
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * player_moveSpeed + knockback_tweenValue
 
+	
 	# Play step SFX
 	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):
 		if $Timer/StepSfxCooldown.time_left <= 0:
@@ -51,6 +53,8 @@ func _movement():
 			StepSfxPicker.pitch_scale = randf_range(0.8, 1.2)
 			StepSfxPicker.play()
 			$Timer/StepSfxCooldown.start(0.4)
+			
+		
 	move_and_slide()
 
 func _swap_world_type():
@@ -67,6 +71,15 @@ func _swap_world_type():
 	# (this isnt dynamic and will break when you change the timer. Set for 5s)
 	$"../UI/WorldType/Progress".value = 100 - $"../AbleToSwapWorldTimer".time_left * 20
 
+func _update_animation():
+	if velocity == Vector2.ZERO:
+		$AnimationTree.set("parameters/conditions/IsIdle", true)
+		$AnimationTree.set("parameters/conditions/IsWalking", false)
+	else:
+		$AnimationTree.set("parameters/conditions/IsIdle", false)
+		$AnimationTree.set("parameters/conditions/IsWalking", true)
+		
+		
 func _swap_world_type_to_night():
 	$Weapon/MeleeWeapon.hide()
 	$Weapon/RangedWeapon.show()
