@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://blesyk1m5ciu2" path="res://assets/character/body/hands.png" id="11_81uel"]
 [ext_resource type="Texture2D" uid="uid://byyqbsdg2vp6g" path="res://assets/character/body/body.png" id="11_ooxyq"]
 [ext_resource type="Texture2D" uid="uid://cg515qs46dm88" path="res://assets/character/body/head.png" id="12_hqshi"]
-[ext_resource type="Texture2D" uid="uid://hp80s2nijx6x" path="res://assets/character/Running_Dust_Particles.png" id="14_flgt3"]
+[ext_resource type="Texture2D" uid="uid://hp80s2nijx6x" path="res://assets/character/DustParticles/Running_Dust_Particles.png" id="14_1645f"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e8tdo"]
 radius = 14.0357
@@ -144,7 +144,6 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_njlkp"]
-emission_shape_offset = Vector3(15, -11, 0)
 emission_shape = 1
 emission_sphere_radius = 0.01
 gravity = Vector3(0, 0, 0)
@@ -260,7 +259,7 @@ flip_h = true
 shape = SubResource("CircleShape2D_e8tdo")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
+zoom = Vector2(4, 4)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 rotation_smoothing_enabled = true
@@ -283,14 +282,15 @@ parameters/conditions/IsWalking = false
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 modulate = Color(1, 1, 1, 0.780392)
-show_behind_parent = true
 material = SubResource("CanvasItemMaterial_hyos7")
-position = Vector2(-3, 17)
-scale = Vector2(-1, 1)
+position = Vector2(25, 8)
 amount = 10
 process_material = SubResource("ParticleProcessMaterial_njlkp")
-texture = ExtResource("14_flgt3")
+texture = ExtResource("14_1645f")
+lifetime = 2.0
 speed_scale = 2.0
+trail_lifetime = 5.85
+trail_sections = 7
 
 [connection signal="timeout" from="Timer/RangedCooldown" to="." method="_on_ranged_cooldown_timeout"]
 [connection signal="timeout" from="Timer/DashDuration" to="." method="_on_dash_duration_timeout"]

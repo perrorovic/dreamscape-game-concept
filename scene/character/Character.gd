@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var player_moveSpeed: float = 128.0*1.5
 const player_moveSpeedDefault: float = 128.0*1.5
+var direction: Vector2
 
 var player_isEmptyReloading: bool = false
 #var player_isReloadingType: String
@@ -38,12 +39,12 @@ func _physics_process(_delta):
 	_dash()
 	_ranged()
 	_update_animation()
+	
+	
 
 func _movement():
-	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * player_moveSpeed + knockback_tweenValue
-
-	
 	# Play step SFX
 	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):
 		if $Timer/StepSfxCooldown.time_left <= 0:
@@ -61,11 +62,13 @@ func _swap_world_type():
 	# Animation problem of smooth modulating the color because the tilemaps are two different thing, day and night
 	# Swap world type to night
 	if Input.is_action_just_pressed("swap") and Global.worldType == "Day" and Global.player_ableToSwapWorld == true:
-		$Animation.play("change_world_to_night")
+		#NEED TO CREATE NEW ANIMATION BCS ANIMATION USED FOR CAHRACTER
+		#$Animation.play("change_world_to_night")
 		_swap_world_type_to_night()
 	# Swap world type to day
 	elif Input.is_action_just_pressed("swap") and Global.worldType == "Night" and Global.player_ableToSwapWorld == true:
-		$Animation.play("change_world_to_day")
+		#NEED TO CREATE NEW ANIMATION BCS ANIMATION USED FOR CAHRACTER
+		#$Animation.play("change_world_to_day")
 		_swap_world_type_to_day()
 	# Set the progress value with timer time_left 
 	# (this isnt dynamic and will break when you change the timer. Set for 5s)
@@ -75,10 +78,32 @@ func _update_animation():
 	if velocity == Vector2.ZERO:
 		$AnimationTree.set("parameters/conditions/IsIdle", true)
 		$AnimationTree.set("parameters/conditions/IsWalking", false)
+		$GPUParticles2D.emitting = false
 	else:
 		$AnimationTree.set("parameters/conditions/IsIdle", false)
 		$AnimationTree.set("parameters/conditions/IsWalking", true)
-		
+		$GPUParticles2D.emitting = true
+	
+	#PARTICLES idk where to put this so i put this here anyway
+	#WORKED BUT THE ASSET IS SHIT SO IT LOOK WEIRD IF MOVING VERTICALLY 
+	#Default = (-1,1) aligned with character direction, otherwise it will be flipped because of the asset
+	if direction != Vector2.ZERO:
+		if direction.x > 0:
+			#Moving to right scale y axis to 1
+			$GPUParticles2D.scale.y = 1
+		elif direction.x <0:
+			#Moving to left scale y axis to -1 to flip it
+			$GPUParticles2D.scale.y = -1
+		#This used to make particles always spawn behind player
+		$GPUParticles2D.rotation_degrees = rad_to_deg(direction.angle())
+	
+	#if on cooldown then do feedback animation
+	if Global.player_ableToDash == false and Input.is_action_just_pressed("dash"):
+		$"../UI/UIAnimation".play("unable_dash")
+	if player_isEmptyReloading == true and Input.is_action_just_pressed("mouse1"):
+		$"../UI/UIAnimation".play("unable_shoot")
+	if Global.player_ableToSwapWorld == false and Input.is_action_just_pressed("swap"):
+		$"../UI/UIAnimation".play("unable_change")
 		
 func _swap_world_type_to_night():
 	$Weapon/MeleeWeapon.hide()
@@ -172,7 +197,7 @@ func _melee():
 
 func _dash():
 	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):
-		if Input.is_action_just_pressed("mouse2") and Global.player_ableToDash == true : #and Global.worldType == "Day":
+		if Input.is_action_just_pressed("dash") and Global.player_ableToDash == true : #and Global.worldType == "Day":
 			$Timer/DashDuration.start()
 			$Timer/DashCooldown.start()
 			Global.player_ableToDash = false
