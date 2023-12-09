@@ -1,0 +1,22 @@
+[gd_resource type="AnimationNodeBlendTree" load_steps=4 format=3 uid="uid://c2vmraxfi73lg"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a6gvj"]
+animation = &"Activated"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_q6pxu"]
+filter_enabled = true
+filters = ["CrystalSpire:self_modulate", "PointLight2D:energy"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1hy58"]
+animation = &"Idle"
+
+[resource]
+graph_offset = Vector2(-149.351, -7.3078)
+nodes/Activated/node = SubResource("AnimationNodeAnimation_a6gvj")
+nodes/Activated/position = Vector2(523.834, 244.786)
+nodes/Activating_Checkpoint/node = SubResource("AnimationNodeBlend2_q6pxu")
+nodes/Activating_Checkpoint/position = Vector2(800, 160)
+nodes/Idle/node = SubResource("AnimationNodeAnimation_1hy58")
+nodes/Idle/position = Vector2(520, 120)
+nodes/output/position = Vector2(1160, 140)
+node_connections = [&"Activating_Checkpoint", 0, &"Idle", &"Activating_Checkpoint", 1, &"Activated", &"output", 0, &"Activating_Checkpoint"]

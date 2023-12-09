@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dl1enj0x41grc"]
+[gd_scene load_steps=18 format=3 uid="uid://dl1enj0x41grc"]
 
 [ext_resource type="Script" path="res://scene/Main.gd" id="1_taoo3"]
 [ext_resource type="AudioStream" uid="uid://b4x6eksm6skkq" path="res://sound/BGM/Missing_Persons_-_Jeremy_Blake.mp3" id="2_ge8yg"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://dwm6w62b4sx6s" path="res://scene/entity/Items_Health.tscn" id="13_edutm"]
 [ext_resource type="PackedScene" uid="uid://dcdh88e4al28v" path="res://scene/boss/Boss.tscn" id="13_ixunt"]
 [ext_resource type="PackedScene" uid="uid://brdcc0ktpcj86" path="res://scene/enemy/Enemy_Melee.tscn" id="17_0mkgf"]
+[ext_resource type="PackedScene" uid="uid://deqom7y7q7256" path="res://scene/entity/Checkpoint.tscn" id="17_7s1v6"]
 [ext_resource type="PackedScene" uid="uid://csicyeuuaee83" path="res://scene/enemy/Enemy_Ranged.tscn" id="18_e2te0"]
 
 [node name="Node2D" type="Node2D"]
@@ -22,7 +23,7 @@ script = ExtResource("1_taoo3")
 
 [node name="BGM" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_ge8yg")
-volume_db = -5.0
+volume_db = -25.0
 
 [node name="AbleToSwapWorldTimer" type="Timer" parent="."]
 wait_time = 5.0
@@ -188,6 +189,7 @@ position = Vector2(1918, 121)
 position = Vector2(971, 216)
 
 [node name="PointLight2D" type="PointLight2D" parent="Character"]
+visible = false
 energy = 2.5
 shadow_enabled = true
 texture = ExtResource("11_x8vvf")
@@ -195,6 +197,12 @@ texture_scale = 0.4
 metadata/_edit_lock_ = true
 
 [node name="UI" parent="." instance=ExtResource("12_j6qy8")]
+
+[node name="Checkpoint" parent="." instance=ExtResource("17_7s1v6")]
+position = Vector2(527, 119)
+
+[node name="Checkpoint2" parent="." instance=ExtResource("17_7s1v6")]
+position = Vector2(1142, -102)
 
 [connection signal="timeout" from="AbleToSwapWorldTimer" to="Character" method="_on_able_to_swap_world_timer_timeout"]
 [connection signal="body_entered" from="TrapCollisionDay/TrapCol" to="TrapCollisionDay/TrapCol" method="_on_body_entered"]

@@ -16,6 +16,9 @@ var player_ammo: int = 10
 # Used for damage for player
 var player_health: float = 125.0
 var player_healthMax: float = 200.0
+# Used for player spawn point
+var player_spawnpoint: Vector2
+
 
 func _process(_delta):
 	if Input.is_action_pressed("close"):

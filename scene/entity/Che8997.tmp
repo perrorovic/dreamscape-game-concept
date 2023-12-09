@@ -1,0 +1,146 @@
+[gd_scene load_steps=14 format=3 uid="uid://deqom7y7q7256"]
+
+[ext_resource type="Script" path="res://scene/entity/Checkpoint.gd" id="1_ni04x"]
+[ext_resource type="Texture2D" uid="uid://budxw56crqdrs" path="res://assets/enemy/crystalspire.png" id="1_t1rdc"]
+[ext_resource type="Texture2D" uid="uid://c4al2nk043nfc" path="res://assets/Items.png" id="2_0ej0i"]
+[ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="4_r88u6"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cqofl"]
+radius = 34.0
+height = 168.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n8tig"]
+radius = 412.005
+
+[sub_resource type="Animation" id="Animation_0qnb0"]
+resource_name = "Idle"
+length = 1.4
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CrystalSpire:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.45, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -200), Vector2(0, -220), Vector2(0, -200)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CrystalSpire:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_72s1i"]
+resource_name = "Activated"
+length = 0.75
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CrystalSpire:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.584314, 0.8, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lhec1"]
+_data = {
+"Activated": SubResource("Animation_72s1i"),
+"Idle": SubResource("Animation_0qnb0")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a6gvj"]
+animation = &"Activated"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1hy58"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_q6pxu"]
+filter_enabled = true
+filters = ["CrystalSpire:self_modulate", "PointLight2D:energy"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_r3aat"]
+graph_offset = Vector2(-220.296, 91.1826)
+nodes/Activated/node = SubResource("AnimationNodeAnimation_a6gvj")
+nodes/Activated/position = Vector2(523.834, 244.786)
+nodes/Idle/node = SubResource("AnimationNodeAnimation_1hy58")
+nodes/Idle/position = Vector2(520, 120)
+nodes/activating_Checkpoint/node = SubResource("AnimationNodeBlend2_q6pxu")
+nodes/activating_Checkpoint/position = Vector2(800, 160)
+nodes/output/position = Vector2(1040, 180)
+node_connections = [&"activating_Checkpoint", 0, &"Idle", &"activating_Checkpoint", 1, &"Activated", &"output", 0, &"activating_Checkpoint"]
+
+[node name="Checkpoint" type="StaticBody2D"]
+scale = Vector2(0.25, 0.25)
+script = ExtResource("1_ni04x")
+
+[node name="CrystalSpire" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(0, -202.016)
+texture = ExtResource("1_t1rdc")
+
+[node name="CrystalArea" type="Sprite2D" parent="."]
+self_modulate = Color(0.192157, 0.192157, 0.192157, 1)
+scale = Vector2(1.66438, 0.29067)
+texture = ExtResource("2_0ej0i")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_cqofl")
+
+[node name="Checkpoint_Area" type="Area2D" parent="."]
+rotation = -3.14159
+
+[node name="Checkpoint_Area" type="CollisionShape2D" parent="Checkpoint_Area"]
+visible = false
+shape = SubResource("CircleShape2D_n8tig")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(64, -196)
+scale = Vector2(2.47, 2.47)
+energy = 0.0
+texture = ExtResource("4_r88u6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lhec1")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lhec1")
+}
+tree_root = SubResource("AnimationNodeBlendTree_r3aat")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
+parameters/activating_Checkpoint/blend_amount = 0.0
+
+[connection signal="body_entered" from="Checkpoint_Area" to="." method="_on_checkpoint_area_body_entered"]

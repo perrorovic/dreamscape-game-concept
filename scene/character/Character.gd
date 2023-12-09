@@ -103,7 +103,7 @@ func _player_hit(damage):
 
 func _dead():
 	# Reset position into the middle for now
-	position = Vector2(-17,-16)
+	position = Global.player_spawnpoint
 	# Reset player health
 	Global.player_health = Global.player_healthMax
 	# Play animation death and reset to middle
