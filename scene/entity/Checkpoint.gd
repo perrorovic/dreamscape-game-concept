@@ -9,7 +9,7 @@ func _ready():
 	$PointLight2D.energy = 1
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if Global.player_spawnpoint == position + Vector2(0,25):
 		$AnimationTree["parameters/Activating_Checkpoint/blend_amount"] = 1
 	elif Global.player_spawnpoint != position + Vector2(0,25):

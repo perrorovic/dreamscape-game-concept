@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://bpwau6usqc7lo"]
+
+[ext_resource type="Texture2D" uid="uid://e66vwk527rl0" path="res://assets/Slash.png" id="1_6kjj3"]
+[ext_resource type="Script" path="res://scene/character/Melee_Trust.gd" id="1_jvtk7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vwnfc"]
+radius = 15.0
+
+[node name="MeleeTrust" type="Area2D"]
+modulate = Color(1, 0.694118, 0.623529, 1)
+collision_layer = 32
+collision_mask = 70
+script = ExtResource("1_jvtk7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = -0.314159
+scale = Vector2(0.122465, 0.122465)
+texture = ExtResource("1_6kjj3")
+offset = Vector2(10, -30)
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(16, -1.87755e-06)
+rotation = -0.314159
+scale = Vector2(0.0766715, 0.0766715)
+texture = ExtResource("1_6kjj3")
+offset = Vector2(10, -30)
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(28, -4.76837e-07)
+rotation = -0.314159
+scale = Vector2(0.0566218, 0.0566218)
+texture = ExtResource("1_6kjj3")
+offset = Vector2(10, -30)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_vwnfc")
+
+[node name="Timeout" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timeout" to="." method="_on_timeout"]

@@ -21,7 +21,7 @@ func _ready():
 	# Should move the health into UIs node
 	$"../UI/PlayerHealth/Progress".max_value = Global.player_healthMax
 	$"../UI/PlayerAmmo/Progress".max_value = Global.player_ammoMax
-	$CanvasModulate.color = Color("#db9042")
+	$Filter.color = Color("#db9042")
 
 func _physics_process(_delta):
 	$"../UI/PlayerHealth/Progress".value = Global.player_health
@@ -39,8 +39,6 @@ func _physics_process(_delta):
 	_dash()
 	_ranged()
 	_update_animation()
-	
-	
 
 func _movement():
 	direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -62,13 +60,15 @@ func _swap_world_type():
 	# Animation problem of smooth modulating the color because the tilemaps are two different thing, day and night
 	# Swap world type to night
 	if Input.is_action_just_pressed("swap") and Global.worldType == "Day" and Global.player_ableToSwapWorld == true:
-		#NEED TO CREATE NEW ANIMATION BCS ANIMATION USED FOR CAHRACTER
-		#$Animation.play("change_world_to_night")
+		# Animation world type filter with tween
+		var filterTween = get_tree().create_tween()
+		filterTween.tween_property($Filter, "color", Color("#17a995"), 1)
 		_swap_world_type_to_night()
 	# Swap world type to day
 	elif Input.is_action_just_pressed("swap") and Global.worldType == "Night" and Global.player_ableToSwapWorld == true:
-		#NEED TO CREATE NEW ANIMATION BCS ANIMATION USED FOR CAHRACTER
-		#$Animation.play("change_world_to_day")
+		# Animation world type filter with tween
+		var filterTween = get_tree().create_tween()
+		filterTween.tween_property($Filter, "color", Color("#db9042"), 1)
 		_swap_world_type_to_day()
 	# Set the progress value with timer time_left 
 	# (this isnt dynamic and will break when you change the timer. Set for 5s)
@@ -99,11 +99,14 @@ func _update_animation():
 	
 	#if on cooldown then do feedback animation
 	if Global.player_ableToDash == false and Input.is_action_just_pressed("dash"):
-		$"../UI/UIAnimation".play("unable_dash")
+		$"../UI/UIAnimation2".play("unable_dash")
+
 	if player_isEmptyReloading == true and Input.is_action_just_pressed("mouse1"):
-		$"../UI/UIAnimation".play("unable_shoot")
+		$"../UI/UIAnimation3".play("unable_shoot")
+
 	if Global.player_ableToSwapWorld == false and Input.is_action_just_pressed("swap"):
-		$"../UI/UIAnimation".play("unable_change")
+		$"../UI/UIAnimation4".play("unable_change")
+
 		
 func _swap_world_type_to_night():
 	$Weapon/MeleeWeapon.hide()
@@ -151,14 +154,13 @@ func _dead():
 func _knockback(set_direction, knockback_power):
 	var knockback = set_direction * knockback_power
 	knockback_tweenValue = knockback
-	
 	knockback_tween = get_tree().create_tween()
 	knockback_tween.parallel().tween_property(self, "knockback_tweenValue", Vector2(0,0), 0.25)
-
 	#global_position += knockback
 
 func _loot_at():
 	$Weapon.look_at(get_global_mouse_position())
+	#print(get_global_mouse_position())
 	#print($Weapon/MeleeWeapon.position)
 	if get_global_mouse_position().x > position.x:
 		# character body
@@ -189,11 +191,21 @@ func _loot_at():
 		$Weapon/MeleeSlashSpawn.position = Vector2(152,-96)
 		$Weapon/RangedBulletSpawn.position = Vector2(152,-96)
 
+func _weapon_stroke(player_direction: Vector2, stroke_power: int):
+	var weaponTrustTween = get_tree().create_tween()
+	var weaponTrustPower = player_direction * stroke_power
+	# Time are set manually for each move
+	weaponTrustTween.tween_property($Weapon, "position", weaponTrustPower, 0.2)
+	weaponTrustTween.tween_property($Weapon, "position", Vector2(0,0), 0.2)
+
 func _melee():
 	if Input.is_action_pressed("mouse1") and Global.player_ableToMelee == true and Global.worldType == "Day":
 		Global.player_ableToMelee = false
 		var player_direction = (get_global_mouse_position() - position).normalized()
+		# Create animation with tween to weapon move while still maintaining look_at() func
+		_weapon_stroke(player_direction, 10)
 		mouse1_melee.emit($Weapon/MeleeSlashSpawn.global_position, $Weapon.rotation_degrees, player_direction)
+		$Timer/MeleeCooldown.start()
 
 func _dash():
 	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):
@@ -215,6 +227,8 @@ func _ranged():
 		var player_direction = (get_global_mouse_position() - position).normalized()
 #		send signal into ["res://Main.gd"] script to spawn ranged bullet based on these parameter
 #		all parameter will be set into ["res://Scene/BulletProjectile.gd"] in there
+		# Create animation with tween to weapon move while still maintaining look_at() func
+		_weapon_stroke(player_direction, -3)
 		mouse1_ranged.emit($Weapon/RangedBulletSpawn.global_position, $Weapon.rotation_degrees, player_direction)
 		Global.player_ammo -= 1
 		player_isAddingAmmo = false
@@ -230,6 +244,8 @@ func _ranged():
 		var player_direction = (get_global_mouse_position() - position).normalized()
 #		send signal into ["res://Main.gd"] script to spawn ranged bullet based on these parameter
 #		all parameter will be set into ["res://Scene/BulletProjectile.gd"] in there
+		# Create animation with tween to weapon move while still maintaining look_at() func
+		_weapon_stroke(player_direction, -3)
 		mouse1_ranged.emit($Weapon/RangedBulletSpawn.global_position, $Weapon.rotation_degrees, player_direction)
 		Global.player_ammo -= 1
 		player_isEmptyReloading = true
@@ -284,3 +300,5 @@ func _on_dash_duration_timeout():
 func _on_dash_cooldown_timeout():
 	Global.player_ableToDash = true
 
+func _on_melee_cooldown_timeout():
+	Global.player_ableToMelee = true

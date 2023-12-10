@@ -14,6 +14,7 @@ extends Node2D
 
 # Player projectile
 var meleeProjectile: PackedScene = preload("res://scene/character/Melee_Projectile.tscn")
+var meleeNew: PackedScene = preload("res://scene/character/Melee_Trust.tscn")
 var rangedProjectile: PackedScene = preload("res://scene/character/Bullet_Projectile.tscn")
 
 # Boss projectile
@@ -99,11 +100,16 @@ func _check_world():
 		$"UI/WorldType/Progress".texture_progress = sun
 
 func _on_player_mouse1_melee(player_position, player_rotation, player_direction):
-	var melee = meleeProjectile.instantiate() as Area2D
+	var melee = meleeNew.instantiate() as Area2D
 	melee.set_direction = player_direction
 	melee.position = player_position
-	melee.rotation_degrees =  player_rotation - 90
+	melee.set_rotation_degree = player_rotation
 	$ProjectileTemp.add_child(melee,true)
+	#var melee = meleeProjectile.instantiate() as Area2D
+	#melee.set_direction = player_direction
+	#melee.position = player_position
+	#melee.rotation_degrees = player_rotation - 90
+	#$ProjectileTemp.add_child(melee,true)
 
 func _on_player_mouse1_ranged(player_position, player_rotation, player_direction):
 	var bullet = rangedProjectile.instantiate() as Area2D
