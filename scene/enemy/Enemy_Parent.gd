@@ -102,6 +102,12 @@ func _hit(damage: int):
 	is_patrolling = false
 	$AggroCooldown.start(5)
 	health -= damage
+	
+	var hit_feedback_tween
+	hit_feedback_tween = get_tree().create_tween()
+	hit_feedback_tween.tween_property($Sprite2D, "self_modulate", Color("#ff113f"), 0.1)
+	hit_feedback_tween.tween_property($Sprite2D, "self_modulate", Color("#ffffff"), 0.1)
+	
 	# drop chance for each type of the enemies make a function for it and call it with the enemy_type param
 	if health <= 0:
 		# There's gonna be something more nicer than this right

@@ -84,18 +84,25 @@ func _update_animation():
 		$AnimationTree.set("parameters/conditions/IsWalking", true)
 		$GPUParticles2D.emitting = true
 	
+	
+	#To modify the dash afterimage particle need to change the dash property (dashdurationtimer and dash power on _dash())
+	if $Timer/DashDuration.time_left > 0:
+		$Dash_Afterimage.emitting = true
+	else:
+		$Dash_Afterimage.emitting = false
+	
 	#PARTICLES idk where to put this so i put this here anyway
 	#WORKED BUT THE ASSET IS SHIT SO IT LOOK WEIRD IF MOVING VERTICALLY 
 	#Default = (-1,1) aligned with character direction, otherwise it will be flipped because of the asset
-	if direction != Vector2.ZERO:
-		if direction.x > 0:
-			#Moving to right scale y axis to 1
-			$GPUParticles2D.scale.y = 1
-		elif direction.x <0:
-			#Moving to left scale y axis to -1 to flip it
-			$GPUParticles2D.scale.y = -1
-		#This used to make particles always spawn behind player
-		$GPUParticles2D.rotation_degrees = rad_to_deg(direction.angle())
+	#if direction != Vector2.ZERO:
+		#if direction.x > 0:
+			##Moving to right scale y axis to 1
+			#$GPUParticles2D.scale.y = 1
+		#elif direction.x <0:
+			##Moving to left scale y axis to -1 to flip it
+			#$GPUParticles2D.scale.y = -1
+		##This used to make particles always spawn behind player
+		#$GPUParticles2D.rotation_degrees = rad_to_deg(direction.angle())
 	
 	#if on cooldown then do feedback animation
 	if Global.player_ableToDash == false and Input.is_action_just_pressed("dash"):
@@ -106,6 +113,8 @@ func _update_animation():
 
 	if Global.player_ableToSwapWorld == false and Input.is_action_just_pressed("swap"):
 		$"../UI/UIAnimation4".play("unable_change")
+		
+	
 
 		
 func _swap_world_type_to_night():
@@ -137,7 +146,13 @@ func _swap_world_type_to_day():
 	$"../AbleToSwapWorldTimer".start()
 
 func _player_hit(damage):
+	
+	var hit_feedback_tween
+	hit_feedback_tween = get_tree().create_tween()
+	hit_feedback_tween.tween_property($Sprite, "modulate", Color("#ff113f"), 0.1)
+	hit_feedback_tween.tween_property($Sprite, "modulate", Color("#ffffff"), 0.1)
 #	print("Player is hit!")
+
 	Global.player_health -= damage
 	if Global.player_health <= 0:
 		_dead()
@@ -213,7 +228,8 @@ func _dash():
 			$Timer/DashDuration.start()
 			$Timer/DashCooldown.start()
 			Global.player_ableToDash = false
-			player_moveSpeed += 1500
+			#default Timer = 0.05, Mvspd = 1500
+			player_moveSpeed += 500
 			set_collision_mask_value(1, false)
 	if Global.player_ableToDash == false:
 		$"../UI/PlayerDash/Progress".value = $"../UI/PlayerDash/Progress".max_value * (1 - $Timer/DashCooldown.time_left / $Timer/DashCooldown.wait_time)

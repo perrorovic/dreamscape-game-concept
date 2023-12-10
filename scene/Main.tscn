@@ -187,10 +187,8 @@ position = Vector2(1918, 121)
 
 [node name="Character" parent="." instance=ExtResource("10_tc7wq")]
 position = Vector2(971, 216)
-player_moveSpeed = null
 
 [node name="PointLight2D" type="PointLight2D" parent="Character"]
-visible = false
 energy = 2.5
 shadow_enabled = true
 texture = ExtResource("11_x8vvf")
