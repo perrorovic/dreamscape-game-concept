@@ -134,11 +134,11 @@ func _on_boss_action_bomb(boss_position):
 		$EnemyProjectileTemp.add_child(boss_bomb,true)
 
 # --------------------------------------------------------------------------
-# This dont have node connect signals shown but still work as intended because it connected from spawned scene
+# This dont have node connect signals shown but still work as intended because it connected manually
 # Enemy signal with inheritance all listed below:
 # --------------------------------------------------------------------------
 
-# Signal from "res://scene/enemy/Enemy_Melee.gd"
+# Signal from $EnemyTemp ["res://scene/enemy/Enemy_Melee.gd"]
 func _on_enemy_melee_attack(enemy_position, target_direction):
 	var enemy_meleeDay = enemy_meleeDayProjectile.instantiate() as Area2D
 	enemy_meleeDay.position = enemy_position
@@ -148,7 +148,7 @@ func _on_enemy_melee_attack(enemy_position, target_direction):
 	$EnemyProjectileTemp.call_deferred("add_child",enemy_meleeDay,true)
 	#$EnemyProjectileTemp.add_child(enemy_meleeDay,true)
 
-# Signal from "res://scene/enemy/Enemy_Ranged.gd"
+# Signal from $EnemyTemp ["res://scene/enemy/Enemy_Ranged.gd"]
 func _on_enemy_ranged_attack(enemy_position, target_direction):
 	var enemy_rangedDay = enemy_rangedDayProjectile.instantiate() as Area2D
 	enemy_rangedDay.position = enemy_position
@@ -158,7 +158,7 @@ func _on_enemy_ranged_attack(enemy_position, target_direction):
 	$EnemyProjectileTemp.call_deferred("add_child",enemy_rangedDay,true)
 	#$EnemyProjectileTemp.add_child(enemy_rangedDay,true)
 
-# Signal from "res://scene/enemy/Enemy_Parent.gd"
+# Signal from $EnemyTemp ["res://scene/enemy/Enemy_Parent.gd"]
 func _on_enemy_drop(item_name, enemy_position):
 	if item_name == "health":
 		var item_dropped = items_health.instantiate() as Area2D

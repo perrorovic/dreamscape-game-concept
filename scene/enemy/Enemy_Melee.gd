@@ -1,4 +1,9 @@
-extends EnemyParent
+# --------------------------------------------------------------------------
+# This script are extended from 'Enemy_Parent'
+# Please check "res://scene/enemy/Enemy_Parent.gd" for more information
+# --------------------------------------------------------------------------
+
+extends Enemy_Parent
 
 signal attack(enemy_position, target_direction)
 
