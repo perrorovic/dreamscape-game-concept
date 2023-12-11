@@ -144,6 +144,7 @@ shape = SubResource("RectangleShape2D_hbtwu")
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="WHOLEMEME"]
 modulate = Color(0.803922, 0.886275, 0, 1)
+layout_mode = 0
 offset_left = 2720.0
 offset_top = 885.0
 offset_right = 2864.0
@@ -156,6 +157,7 @@ scroll_active = false
 tab_size = 1
 
 [node name="VideoStreamPlayer2" type="VideoStreamPlayer" parent="WHOLEMEME"]
+layout_mode = 0
 offset_left = 2564.0
 offset_top = 1284.0
 offset_right = 2814.0

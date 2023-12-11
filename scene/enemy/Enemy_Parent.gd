@@ -1,8 +1,9 @@
 extends CharacterBody2D
 class_name EnemyParent
 
-#
 signal item_dropped(item_name, enemy_position)
+# Get world node ready to be used in signal
+@onready var world = get_node("/root/Node2D/")
 
 @export_category("Enemies Property")
 # Enemies type and health
@@ -153,6 +154,7 @@ func _hit(damage: int, iframe_type: String):
 			item_name = "dash"
 		# Emit the signal into the level and queue_free the enemies
 		print("item dropped")
+		connect("item_dropped", Callable(world, "_on_enemy_drop"), 4)
 		item_dropped.emit(item_name,position)
 		queue_free()
 
