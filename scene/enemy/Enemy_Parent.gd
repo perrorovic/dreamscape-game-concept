@@ -52,13 +52,13 @@ func _process(_delta):
 	if enemy_type == "Day":
 		modulate = Color("fc6e00")
 		$NavigationAgent2D.set_navigation_layer_value(1, true)
-		$NavigationAgent2D.set_navigation_layer_value(2, false)
+		$NavigationAgent2D.set_navigation_layer_value(2, true)
 		#set_collision_mask_value(2,true)
 		#set_collision_mask_value(3,false)
 	elif enemy_type == "Night":
 		modulate = Color("0bb2cc")
-		$NavigationAgent2D.set_navigation_layer_value(1, false)
-		$NavigationAgent2D.set_navigation_layer_value(2, true)
+		$NavigationAgent2D.set_navigation_layer_value(1, true)
+		$NavigationAgent2D.set_navigation_layer_value(3, true)
 		#set_collision_mask_value(2,false)
 		#set_collision_mask_value(3,true)
 	# Health updater
@@ -77,16 +77,15 @@ func _process(_delta):
 	#elif Global.worldType == "Night" and is_patrolling == true:
 		#move_speed = speed_night * patrol_speed
 		
-	
-		
-		
-	
+
 		
 	if Global.worldType ==  enemy_type:
 		move_speed = speed
+		$PointLight2D.show()
 	elif Global.worldType != enemy_type:
 		move_speed = speed * 0.75
-	
+		$PointLight2D.hide()
+		
 	if is_patrolling:
 		movement_speed = 50
 	elif is_patrolling == false and is_attacking == true:

@@ -54,17 +54,16 @@ func _init_day():
 	Global.player_ableToMelee = true
 	Global.player_ableToShoot = false
 	# Init for world
-	$DayNode.visible = true
-	$NightNode.visible = false
-	$DayNode/TrapCollisionDay.visible = true
-	$NightNode/TrapCollisionNight.visible = false
-	for n in $DayNode/TrapCollisionDay.get_children():
-		n.set_collision_mask_value(1, true)
-	for n in $NightNode/TrapCollisionNight.get_children():
-		n.set_collision_mask_value(1, false)
+	#$DayNode.visible = true
+	#$NightNode.visible = false
+	#$DayNode/TrapCollisionDay.visible = true
+	#$NightNode/TrapCollisionNight.visible = false
+
 		
 func _check_world():
 	if Global.worldType == "Night":
+		$Node2D/TileMap.set_layer_enabled(1,false)
+		$Node2D/TileMap.set_layer_enabled(2,true)
 		# Change filter and lightning for night worldType
 #		$CanvasModulate.color = moonModulate
 		$Character/PointLight2D.shadow_enabled = true
@@ -72,23 +71,20 @@ func _check_world():
 		# In night world sound are speed-up a little bit
 		$BGM.pitch_scale = 1.12
 		# Show the maps for night worldType
-		$NightNode.show()
-		$DayNode.hide()
+		#$NightNode.show()
+		#$DayNode.hide()
 		#$DayNode/Day.tile_set.set_physics_layer_collision_mask(2,false)
 		#$DayNode/Day.tile_set.set_physics_layer_collision_layer(2,false)
 		#$NightNode/Night.tile_set.set_physics_layer_collision_mask(3,true)
 		#$NightNode/Night.tile_set.set_physics_layer_collision_layer(3,true)
 		# Set the traps accordingly to the worldType
-		for n in $DayNode/TrapCollisionDay.get_children():
-			n.set_collision_mask_value(1, false)
-		for n in $NightNode/TrapCollisionNight.get_children():
-			n.set_collision_mask_value(1, true)
-		$DayNode/TrapCollisionDay.visible = false
-		$NightNode/TrapCollisionNight.visible = true
+		
 		# Set the UI accordingly to the night worldType
 		$"UI/WorldType/Progress".texture_under = moon
 		$"UI/WorldType/Progress".texture_progress = moon
 	if Global.worldType == "Day":
+		$Node2D/TileMap.set_layer_enabled(1,true)
+		$Node2D/TileMap.set_layer_enabled(2,false)
 		# Change filter and lightning for day worldType
 #		$CanvasModulate.color = sunModulate
 		$Character/PointLight2D.shadow_enabled = false
@@ -96,19 +92,13 @@ func _check_world():
 		# In day world sound are normal
 		$"BGM".pitch_scale = 1
 		# Hide the maps for night worldType
-		$DayNode.show()
-		$NightNode.hide()
+		#$DayNode.show()
+		#$NightNode.hide()
 		#$DayNode/Day.tile_set.set_physics_layer_collision_mask(2,true)
 		#$DayNode/Day.tile_set.set_physics_layer_collision_layer(2,true)
 		#$NightNode/Night.tile_set.set_physics_layer_collision_mask(3,false)
 		#$NightNode/Night.tile_set.set_physics_layer_collision_layer(3,false)
-		# Set the traps accordingly to the worldType
-		for n in $DayNode/TrapCollisionDay.get_children():
-			n.set_collision_mask_value(1, true)
-		for n in $NightNode/TrapCollisionNight.get_children():
-			n.set_collision_mask_value(1, false)
-		$DayNode/TrapCollisionDay.visible = true
-		$NightNode/TrapCollisionNight.visible = false
+
 		# Set the UI accordingly to the day worldType
 		$"UI/WorldType/Progress".texture_under = sun
 		$"UI/WorldType/Progress".texture_progress = sun

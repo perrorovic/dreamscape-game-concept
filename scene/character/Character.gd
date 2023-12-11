@@ -313,5 +313,12 @@ func _on_melee_cooldown_timeout():
 #TO BE DELETED LATER
 #DONT FORGET TO DELETE THIS SHEET AND DISCONNECT THE SIGNAL ON WHOLEMEME/MEME
 func _on_meme_body_entered(body):
-	$"../NightNode/WHOLEMEME/VideoStreamPlayer".play()
-	$"../NightNode/WHOLEMEME/Meme".set_collision_mask_value(1, false)
+	$"../WHOLEMEME/VideoStreamPlayer".play()
+	$"../WHOLEMEME/Meme".set_collision_mask_value(1, false)
+	pass
+
+
+func _on_meme_2_body_entered(body):
+	$"../WHOLEMEME/VideoStreamPlayer2".play()
+	$"../WHOLEMEME/Meme2".set_collision_mask_value(1, false)
+	pass # Replace with function body.

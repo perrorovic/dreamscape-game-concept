@@ -32,14 +32,8 @@ scale = Vector2(1.42857, 1.42857)
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource("CircleShape2D_2hx6e")
 
-[node name="PathfindingArea" parent="." index="10"]
-visible = false
-
 [node name="CollisionShape2D" parent="PathfindingArea" index="0"]
 shape = SubResource("CircleShape2D_x01wv")
-
-[node name="AttackArea" parent="." index="11"]
-visible = false
 
 [node name="CollisionShape2D" parent="AttackArea" index="0"]
 shape = SubResource("CircleShape2D_i7i42")

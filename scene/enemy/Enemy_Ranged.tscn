@@ -29,14 +29,8 @@ shape = SubResource("CircleShape2D_0ethq")
 [node name="AttackCooldown" parent="." index="5"]
 wait_time = 1.5
 
-[node name="PathfindingArea" parent="." index="10"]
-visible = false
-
 [node name="CollisionShape2D" parent="PathfindingArea" index="0"]
 shape = SubResource("CircleShape2D_bmrw2")
-
-[node name="AttackArea" parent="." index="11"]
-visible = false
 
 [node name="CollisionShape2D" parent="AttackArea" index="0"]
 shape = SubResource("CircleShape2D_kmc3f")

@@ -17,7 +17,7 @@ scale = Vector2(0.7, 0.7)
 scale = Vector2(0.7, 0.7)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-navigation_layers = 3
+navigation_layers = 0
 debug_enabled = true
 debug_path_custom_color = Color(0.772549, 0, 0.27451, 1)
 
