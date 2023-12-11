@@ -1,0 +1,65 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqsj2yytmrvb0"]
+
+[ext_resource type="Script" path="res://scene/enemy/Enemy_Parent.gd" id="1_mjhv5"]
+[ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="3_a1pcv"]
+
+[node name="Enemy_Parent" type="CharacterBody2D"]
+collision_layer = 64
+collision_mask = 71
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_mjhv5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.7, 0.7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.7, 0.7)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
+debug_path_custom_color = Color(0.772549, 0, 0.27451, 1)
+
+[node name="PathfindingCooldown" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="PatrolCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="AttackCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="AggroCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="IframeDuration" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+texture = ExtResource("3_a1pcv")
+texture_scale = 0.1
+
+[node name="Health" type="ProgressBar" parent="."]
+offset_left = -25.0
+offset_top = 12.0
+offset_right = 25.0
+offset_bottom = 17.0
+show_percentage = false
+
+[node name="PathfindingArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathfindingArea"]
+debug_color = Color(0.482353, 0.478431, 0.462745, 0.678431)
+
+[node name="AttackArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+debug_color = Color(0.980392, 0, 0.372549, 0.419608)
+
+[connection signal="timeout" from="PathfindingCooldown" to="." method="_on_pathfinding_cooldown_timeout"]
+[connection signal="timeout" from="AggroCooldown" to="." method="_on_aggro_cooldown_timeout"]
+[connection signal="timeout" from="IframeDuration" to="." method="_on_iframe_duration_timeout"]
+[connection signal="body_entered" from="PathfindingArea" to="." method="_on_pathfinding_area_body_entered"]
+[connection signal="body_exited" from="PathfindingArea" to="." method="_on_pathfinding_area_body_exited"]

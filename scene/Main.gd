@@ -56,11 +56,11 @@ func _init_day():
 	# Init for world
 	$DayNode.visible = true
 	$NightNode.visible = false
-	$TrapCollisionDay.visible = false
-	$TrapCollisionNight.visible = false
-	for n in $TrapCollisionDay.get_children():
+	$DayNode/TrapCollisionDay.visible = true
+	$NightNode/TrapCollisionNight.visible = false
+	for n in $DayNode/TrapCollisionDay.get_children():
 		n.set_collision_mask_value(1, true)
-	for n in $TrapCollisionNight.get_children():
+	for n in $NightNode/TrapCollisionNight.get_children():
 		n.set_collision_mask_value(1, false)
 		
 func _check_world():
@@ -73,11 +73,18 @@ func _check_world():
 		$BGM.pitch_scale = 1.12
 		# Show the maps for night worldType
 		$NightNode.show()
+		$DayNode.hide()
+		#$DayNode/Day.tile_set.set_physics_layer_collision_mask(2,false)
+		#$DayNode/Day.tile_set.set_physics_layer_collision_layer(2,false)
+		#$NightNode/Night.tile_set.set_physics_layer_collision_mask(3,true)
+		#$NightNode/Night.tile_set.set_physics_layer_collision_layer(3,true)
 		# Set the traps accordingly to the worldType
-		for n in $TrapCollisionDay.get_children():
+		for n in $DayNode/TrapCollisionDay.get_children():
 			n.set_collision_mask_value(1, false)
-		for n in $TrapCollisionNight.get_children():
+		for n in $NightNode/TrapCollisionNight.get_children():
 			n.set_collision_mask_value(1, true)
+		$DayNode/TrapCollisionDay.visible = false
+		$NightNode/TrapCollisionNight.visible = true
 		# Set the UI accordingly to the night worldType
 		$"UI/WorldType/Progress".texture_under = moon
 		$"UI/WorldType/Progress".texture_progress = moon
@@ -89,12 +96,19 @@ func _check_world():
 		# In day world sound are normal
 		$"BGM".pitch_scale = 1
 		# Hide the maps for night worldType
-		$"NightNode".hide()
+		$DayNode.show()
+		$NightNode.hide()
+		#$DayNode/Day.tile_set.set_physics_layer_collision_mask(2,true)
+		#$DayNode/Day.tile_set.set_physics_layer_collision_layer(2,true)
+		#$NightNode/Night.tile_set.set_physics_layer_collision_mask(3,false)
+		#$NightNode/Night.tile_set.set_physics_layer_collision_layer(3,false)
 		# Set the traps accordingly to the worldType
-		for n in $"TrapCollisionDay".get_children():
+		for n in $DayNode/TrapCollisionDay.get_children():
 			n.set_collision_mask_value(1, true)
-		for n in $"TrapCollisionNight".get_children():
+		for n in $NightNode/TrapCollisionNight.get_children():
 			n.set_collision_mask_value(1, false)
+		$DayNode/TrapCollisionDay.visible = true
+		$NightNode/TrapCollisionNight.visible = false
 		# Set the UI accordingly to the day worldType
 		$"UI/WorldType/Progress".texture_under = sun
 		$"UI/WorldType/Progress".texture_progress = sun

@@ -75,6 +75,9 @@ func _swap_world_type():
 	$"../UI/WorldType/Progress".value = 100 - $"../AbleToSwapWorldTimer".time_left * 20
 
 func _update_animation():
+	
+	#Set animation to walking or idling
+	#Set Dust Particles to spawn if player is moving
 	if velocity == Vector2.ZERO:
 		$AnimationTree.set("parameters/conditions/IsIdle", true)
 		$AnimationTree.set("parameters/conditions/IsWalking", false)
@@ -84,27 +87,18 @@ func _update_animation():
 		$AnimationTree.set("parameters/conditions/IsWalking", true)
 		$GPUParticles2D.emitting = true
 	
-	
 	#To modify the dash afterimage particle need to change the dash property (dashdurationtimer and dash power on _dash())
 	if $Timer/DashDuration.time_left > 0:
 		$Dash_Afterimage.emitting = true
 	else:
 		$Dash_Afterimage.emitting = false
+	#To flip afterimage particles to match the character
+	if get_global_mouse_position().x > position.x:
+		$Dash_Afterimage.scale.x = -1
+	if get_global_mouse_position().x < position.x:
+		$Dash_Afterimage.scale.x = 1
 	
-	#PARTICLES idk where to put this so i put this here anyway
-	#WORKED BUT THE ASSET IS SHIT SO IT LOOK WEIRD IF MOVING VERTICALLY 
-	#Default = (-1,1) aligned with character direction, otherwise it will be flipped because of the asset
-	#if direction != Vector2.ZERO:
-		#if direction.x > 0:
-			##Moving to right scale y axis to 1
-			#$GPUParticles2D.scale.y = 1
-		#elif direction.x <0:
-			##Moving to left scale y axis to -1 to flip it
-			#$GPUParticles2D.scale.y = -1
-		##This used to make particles always spawn behind player
-		#$GPUParticles2D.rotation_degrees = rad_to_deg(direction.angle())
-	
-	#if on cooldown then do feedback animation
+	#if UI on cooldown and get pressed then do feedback animation
 	if Global.player_ableToDash == false and Input.is_action_just_pressed("dash"):
 		$"../UI/UIAnimation2".play("unable_dash")
 
@@ -113,10 +107,7 @@ func _update_animation():
 
 	if Global.player_ableToSwapWorld == false and Input.is_action_just_pressed("swap"):
 		$"../UI/UIAnimation4".play("unable_change")
-		
-	
 
-		
 func _swap_world_type_to_night():
 	$Weapon/MeleeWeapon.hide()
 	$Weapon/RangedWeapon.show()
@@ -146,7 +137,6 @@ func _swap_world_type_to_day():
 	$"../AbleToSwapWorldTimer".start()
 
 func _player_hit(damage):
-	
 	var hit_feedback_tween
 	hit_feedback_tween = get_tree().create_tween()
 	hit_feedback_tween.tween_property($Sprite, "modulate", Color("#ff113f"), 0.1)
@@ -228,8 +218,9 @@ func _dash():
 			$Timer/DashDuration.start()
 			$Timer/DashCooldown.start()
 			Global.player_ableToDash = false
-			#default Timer = 0.05, Mvspd = 1500
-			player_moveSpeed += 500
+			#default Timer = 0.05, Mvspd = 1500, fixed FPS 30
+			#default2 Timer = 0.3, Mvspd = 500, fixed FPS 30
+			player_moveSpeed += 750 #Timer 0.1, fixed FPS 120 much better because afterimage running at 120 fps 
 			set_collision_mask_value(1, false)
 	if Global.player_ableToDash == false:
 		$"../UI/PlayerDash/Progress".value = $"../UI/PlayerDash/Progress".max_value * (1 - $Timer/DashCooldown.time_left / $Timer/DashCooldown.wait_time)
@@ -318,3 +309,9 @@ func _on_dash_cooldown_timeout():
 
 func _on_melee_cooldown_timeout():
 	Global.player_ableToMelee = true
+
+#TO BE DELETED LATER
+#DONT FORGET TO DELETE THIS SHEET AND DISCONNECT THE SIGNAL ON WHOLEMEME/MEME
+func _on_meme_body_entered(body):
+	$"../NightNode/WHOLEMEME/VideoStreamPlayer".play()
+	$"../NightNode/WHOLEMEME/Meme".set_collision_mask_value(1, false)

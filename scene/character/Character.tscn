@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://caxjcyt48xmp0"]
+[gd_scene load_steps=32 format=3 uid="uid://caxjcyt48xmp0"]
 
 [ext_resource type="Script" path="res://scene/character/Character.gd" id="1_pch7d"]
 [ext_resource type="AudioStream" uid="uid://cp6q4ybnwntmk" path="res://sound/Step/step1.mp3" id="3_pbu7b"]
@@ -16,8 +16,9 @@
 [ext_resource type="Texture2D" uid="uid://dmgupducypuew" path="res://assets/character/body/complete.png" id="15_1inr2"]
 [ext_resource type="Texture2D" uid="uid://cay5earnqa3a0" path="res://assets/character/Running_Dust_Particles4.png" id="15_lso1j"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_e8tdo"]
-radius = 14.0357
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m5ns1"]
+radius = 7.0
+height = 36.0
 
 [sub_resource type="Animation" id="Animation_4e480"]
 length = 0.001
@@ -144,16 +145,27 @@ states/walking/position = Vector2(457.889, 186)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_m7kps"), "idle", "walking", SubResource("AnimationNodeStateMachineTransition_3q654"), "walking", "idle", SubResource("AnimationNodeStateMachineTransition_bmdac")]
 graph_offset = Vector2(135, -16)
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hyos7"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_r7l2n"]
 particles_animation = true
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_njlkp"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pqcuy"]
 gravity = Vector3(0, 0, 0)
 scale_min = 0.05
 scale_max = 0.05
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hyos7"]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_njlkp"]
+gravity = Vector3(0, 0, 0)
+scale_min = 0.2
+scale_max = 0.2
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
@@ -208,7 +220,7 @@ one_shot = true
 one_shot = true
 
 [node name="DashDuration" type="Timer" parent="Timer"]
-wait_time = 0.3
+wait_time = 0.1
 one_shot = true
 
 [node name="DashCooldown" type="Timer" parent="Timer"]
@@ -266,7 +278,8 @@ texture = ExtResource("12_hqshi")
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_e8tdo")
+position = Vector2(-2, 3)
+shape = SubResource("CapsuleShape2D_m5ns1")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
@@ -289,26 +302,29 @@ anim_player = NodePath("../AnimationCharacter")
 parameters/conditions/IsIdle = false
 parameters/conditions/IsWalking = false
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-show_behind_parent = true
-material = SubResource("CanvasItemMaterial_hyos7")
-position = Vector2(-1, 19)
-scale = Vector2(-1, 1)
-amount = 7
-process_material = SubResource("ParticleProcessMaterial_njlkp")
-texture = ExtResource("15_lso1j")
-lifetime = 2.0
-speed_scale = 2.0
-
 [node name="Dash_Afterimage" type="GPUParticles2D" parent="."]
 modulate = Color(1, 1, 1, 0.32549)
 show_behind_parent = true
-material = SubResource("CanvasItemMaterial_hyos7")
+material = SubResource("CanvasItemMaterial_r7l2n")
 scale = Vector2(-1, 1)
-amount = 5
-process_material = SubResource("ParticleProcessMaterial_njlkp")
+emitting = false
+amount = 10
+process_material = SubResource("ParticleProcessMaterial_pqcuy")
 texture = ExtResource("15_1inr2")
-lifetime = 0.2
+lifetime = 0.1
+fixed_fps = 120
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+show_behind_parent = true
+material = SubResource("CanvasItemMaterial_hyos7")
+position = Vector2(-1, 18)
+scale = Vector2(-1, 1)
+emitting = false
+amount = 7
+process_material = SubResource("ParticleProcessMaterial_njlkp")
+texture = ExtResource("15_lso1j")
+lifetime = 1.5
+speed_scale = 2.0
 
 [connection signal="timeout" from="Timer/RangedCooldown" to="." method="_on_ranged_cooldown_timeout"]
 [connection signal="timeout" from="Timer/MeleeCooldown" to="." method="_on_melee_cooldown_timeout"]

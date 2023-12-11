@@ -17,6 +17,7 @@ scale = Vector2(0.7, 0.7)
 scale = Vector2(0.7, 0.7)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+navigation_layers = 3
 debug_enabled = true
 debug_path_custom_color = Color(0.772549, 0, 0.27451, 1)
 
@@ -32,6 +33,9 @@ one_shot = true
 
 [node name="AggroCooldown" type="Timer" parent="."]
 one_shot = true
+
+[node name="IframeDuration" type="Timer" parent="."]
+wait_time = 0.1
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 texture = ExtResource("3_a1pcv")
@@ -57,5 +61,6 @@ debug_color = Color(0.980392, 0, 0.372549, 0.419608)
 
 [connection signal="timeout" from="PathfindingCooldown" to="." method="_on_pathfinding_cooldown_timeout"]
 [connection signal="timeout" from="AggroCooldown" to="." method="_on_aggro_cooldown_timeout"]
+[connection signal="timeout" from="IframeDuration" to="." method="_on_iframe_duration_timeout"]
 [connection signal="body_entered" from="PathfindingArea" to="." method="_on_pathfinding_area_body_entered"]
 [connection signal="body_exited" from="PathfindingArea" to="." method="_on_pathfinding_area_body_exited"]

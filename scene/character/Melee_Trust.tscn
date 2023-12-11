@@ -3,8 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://e66vwk527rl0" path="res://assets/Slash.png" id="1_6kjj3"]
 [ext_resource type="Script" path="res://scene/character/Melee_Trust.gd" id="1_jvtk7"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_vwnfc"]
-radius = 15.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3mhbg"]
+height = 38.0
 
 [node name="MeleeTrust" type="Area2D"]
 modulate = Color(1, 0.694118, 0.623529, 1)
@@ -33,7 +33,9 @@ texture = ExtResource("1_6kjj3")
 offset = Vector2(10, -30)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_vwnfc")
+position = Vector2(17, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_3mhbg")
 
 [node name="Timeout" type="Timer" parent="."]
 wait_time = 0.3

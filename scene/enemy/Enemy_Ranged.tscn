@@ -8,10 +8,10 @@
 radius = 15.7143
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bmrw2"]
-radius = 251.018
+radius = 282.064
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kmc3f"]
-radius = 200.022
+radius = 136.004
 
 [node name="Enemy_Ranged" instance=ExtResource("1_jsb24")]
 script = ExtResource("2_b3hhx")
@@ -29,8 +29,14 @@ shape = SubResource("CircleShape2D_0ethq")
 [node name="AttackCooldown" parent="." index="5"]
 wait_time = 1.5
 
+[node name="PathfindingArea" parent="." index="10"]
+visible = false
+
 [node name="CollisionShape2D" parent="PathfindingArea" index="0"]
 shape = SubResource("CircleShape2D_bmrw2")
+
+[node name="AttackArea" parent="." index="11"]
+visible = false
 
 [node name="CollisionShape2D" parent="AttackArea" index="0"]
 shape = SubResource("CircleShape2D_kmc3f")

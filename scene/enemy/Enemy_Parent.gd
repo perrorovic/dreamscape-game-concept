@@ -34,12 +34,33 @@ var move_speed: float
 # This variable for item drops
 var item_name: String
 
+var iframe: bool
+
 func _ready():
 	# Health setter (please call this in the childern scene)
 	# $Health.max_value = health
+	#if enemy_type == "Day":
+		#modulate = Color("fc6e00")
+		#$NavigationAgent2D.set_navigation_layer_value(1, true)
+		#$NavigationAgent2D.set_navigation_layer_value(2, false)
+	#elif enemy_type == "Night":
+		#modulate = Color("0bb2cc")
+		#$NavigationAgent2D.set_navigation_layer_value(1, false)
+		#$NavigationAgent2D.set_navigation_layer_value(2, true)
 	pass
-
 func _process(_delta):
+	if enemy_type == "Day":
+		modulate = Color("fc6e00")
+		$NavigationAgent2D.set_navigation_layer_value(1, true)
+		$NavigationAgent2D.set_navigation_layer_value(2, false)
+		#set_collision_mask_value(2,true)
+		#set_collision_mask_value(3,false)
+	elif enemy_type == "Night":
+		modulate = Color("0bb2cc")
+		$NavigationAgent2D.set_navigation_layer_value(1, false)
+		$NavigationAgent2D.set_navigation_layer_value(2, true)
+		#set_collision_mask_value(2,false)
+		#set_collision_mask_value(3,true)
 	# Health updater
 	$Health.value = health
 	# Is this required for melee enemies but not so much on ranged ones
@@ -56,13 +77,14 @@ func _process(_delta):
 	#elif Global.worldType == "Night" and is_patrolling == true:
 		#move_speed = speed_night * patrol_speed
 		
-	if Global.worldType == "Day" and enemy_type == "Day":
+	
+		
+		
+	
+		
+	if Global.worldType ==  enemy_type:
 		move_speed = speed
-	elif Global.worldType == "Night" and enemy_type == "Day":
-		move_speed = speed * 0.75
-	elif Global.worldType == "Night" and enemy_type == "Night":
-		move_speed = speed
-	elif Global.worldType == "Day" and enemy_type == "Night":
+	elif Global.worldType != enemy_type:
 		move_speed = speed * 0.75
 	
 	if is_patrolling:
@@ -96,17 +118,23 @@ func _on_pathfinding_area_body_exited(_body):
 	is_following = false
 	$PatrolCooldown.start(5)
 			
-func _hit(damage: int):
-	print("Enemy is hit")
-	is_following = true
-	is_patrolling = false
-	$AggroCooldown.start(5)
-	health -= damage
-	
-	var hit_feedback_tween
-	hit_feedback_tween = get_tree().create_tween()
-	hit_feedback_tween.tween_property($Sprite2D, "self_modulate", Color("#ff113f"), 0.1)
-	hit_feedback_tween.tween_property($Sprite2D, "self_modulate", Color("#ffffff"), 0.1)
+func _hit(damage: int, iframe_type: String):
+	if iframe == false:
+		iframe = true
+		print("Enemy is hit")
+		is_following = true
+		is_patrolling = false
+		$AggroCooldown.start(5)
+		health -= damage
+		
+		var hit_feedback_tween
+		hit_feedback_tween = get_tree().create_tween()
+		hit_feedback_tween.tween_property($Sprite2D, "self_modulate", Color("#ff113f"), 0.1)
+		hit_feedback_tween.tween_property($Sprite2D, "self_modulate", Color("#ffffff"), 0.1)
+		if iframe_type == "melee":
+			$IframeDuration.start(0.4)
+		elif iframe_type =="ranged":
+			$IframeDuration.start(0.1)
 	
 	# drop chance for each type of the enemies make a function for it and call it with the enemy_type param
 	if health <= 0:
@@ -143,3 +171,5 @@ func _knockback(set_direction, knockback_power):
 	var knockback = set_direction * knockback_power
 	global_position += knockback
 
+func _on_iframe_duration_timeout():
+	iframe = false

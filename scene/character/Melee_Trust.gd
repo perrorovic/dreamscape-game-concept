@@ -6,6 +6,7 @@ extends Area2D
 # Variables from signals
 var set_rotation_degree
 var set_direction
+var iframe_type: String = "melee"
 
 func _ready():
 	# Set the rotation so it face toward the mouse
@@ -22,11 +23,11 @@ func _process(delta):
 func _on_body_entered(body):
 	print("Bullet Collision")
 	if body.has_method("_hit"):
-		body._hit(damage)
+		body._hit(damage, iframe_type)
 		if body.has_method("_knockback"):
 			body._knockback( set_direction, knockback_power)
 #		print("Bullet Hit")
-	queue_free()
+	#queue_free()
 
 func _on_timeout():
 	queue_free()
