@@ -1,38 +1,51 @@
 extends CharacterBody2D
 
-@export var player_moveSpeed: float = 128.0*1.5
-const player_moveSpeedDefault: float = 128.0*1.5
-var direction: Vector2
-
-var player_isEmptyReloading: bool = false
-#var player_isReloadingType: String
-var player_isAddingAmmo: bool = false
-# Empty | Chilling
-
-var knockback_tween
-var knockback_tweenValue: Vector2 = Vector2(0,0)
+# --------------------------------------------------------------------------
+# Signal that player character emit. This signal are being used in the level scene
+# --------------------------------------------------------------------------
 
 signal mouse1_melee(player_position, player_rotation, player_direction)
 signal mouse1_ranged(player_position, player_rotation, player_direction)
 
+# --------------------------------------------------------------------------
+# Player character property are listed and set with type and value here
+# --------------------------------------------------------------------------
+
+# Player movement speed are listed here
+const speed_modifier: float = 1.5
+@export var player_moveSpeed: float = 128.0 * speed_modifier
+const player_moveSpeedDefault: float = 128.0 * speed_modifier
+# This being used in _movement() for user input
+var direction: Vector2
+# This being used in _ranged() for reloading and auto-reload feature
+var player_isEmptyReloading: bool = false
+var player_isAddingAmmo: bool = false
+# This is for knockback and go together with _movement() to check for any knockbacks
+var knockback_tweenValue: Vector2 = Vector2(0,0)
+
+# --------------------------------------------------------------------------
+# Function of _ready() and _physics_process() are listed below:
+# --------------------------------------------------------------------------
+
 func _ready():
+	# Set color for filter and visibility for the weapon according to the world type
+	$Filter.color = Color("#db9042")
 	$Weapon/MeleeWeapon.show()
 	$Weapon/RangedWeapon.hide()
-	# Should move the health into UIs node
+	# Set the values of the player health (Should move the health into UIs node)
 	$"../UI/PlayerHealth/Progress".max_value = Global.player_healthMax
 	$"../UI/PlayerAmmo/Progress".max_value = Global.player_ammoMax
-	$Filter.color = Color("#db9042")
 
 func _physics_process(_delta):
+	# Update the player health value all the time
 	$"../UI/PlayerHealth/Progress".value = Global.player_health
 	$"../UI/PlayerAmmo/Progress".value = Global.player_ammo
-	# Set location for melee slash to spawn
+	# Set the location for melee projectile to spawn by using hit marker
 	Global.player_position = global_position
 	Global.player_meleeSlashSpawn = $Weapon/MeleeSlashSpawn.global_position
 	Global.player_rotation = rotation_degrees
-	# Player directional aim to mouse position
-	_loot_at()
 	# Below are function for process
+	_loot_at()
 	_movement()
 	_swap_world_type()
 	_melee()
@@ -40,10 +53,15 @@ func _physics_process(_delta):
 	_ranged()
 	_update_animation()
 
+# --------------------------------------------------------------------------
+# Function of _movement() (This function move the player around based on user-input)
+# --------------------------------------------------------------------------
+
 func _movement():
+	# Get the user input and move the player character accordingly
 	direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * player_moveSpeed + knockback_tweenValue
-	# Play step SFX
+	# Play step sfx when the player is moving
 	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):
 		if $Timer/StepSfxCooldown.time_left <= 0:
 			var StepSfx = $StepSfx.get_children()
@@ -52,77 +70,34 @@ func _movement():
 			StepSfxPicker.pitch_scale = randf_range(0.8, 1.2)
 			StepSfxPicker.play()
 			$Timer/StepSfxCooldown.start(0.4)
-			
-		
+	# This is the main function that move the player around with _physic_process()
 	move_and_slide()
+
+# --------------------------------------------------------------------------
+# Function of _swap_world_type() (This function change world property by user input)
+# Also being use here: _swap_world_type_to_day() and _swap_world_type_to_night()
+# --------------------------------------------------------------------------
 
 func _swap_world_type():
 	# Animation problem of smooth modulating the color because the tilemaps are two different thing, day and night
 	# Swap world type to night
 	if Input.is_action_just_pressed("swap") and Global.worldType == "Day" and Global.player_ableToSwapWorld == true:
-		# Animation world type filter with tween
+		# Animation world filter with tween
 		var filterTween = get_tree().create_tween()
 		filterTween.tween_property($Filter, "color", Color("#17a995"), 1)
 		_swap_world_type_to_night()
 	# Swap world type to day
 	elif Input.is_action_just_pressed("swap") and Global.worldType == "Night" and Global.player_ableToSwapWorld == true:
-		# Animation world type filter with tween
+		# Animation world filter with tween
 		var filterTween = get_tree().create_tween()
 		filterTween.tween_property($Filter, "color", Color("#db9042"), 1)
 		_swap_world_type_to_day()
-	# Set the progress value with timer time_left 
-	# (this isnt dynamic and will break when you change the timer. Set for 5s)
+	# Set the progress value with timer time_left (this isnt dynamic and will break when you change the timer. Set for 5s)
 	$"../UI/WorldType/Progress".value = 100 - $"../AbleToSwapWorldTimer".time_left * 20
 
-func _update_animation():
-	
-	#Set animation to walking or idling
-	#Set Dust Particles to spawn if player is moving
-	if velocity == Vector2.ZERO:
-		$AnimationTree.set("parameters/conditions/IsIdle", true)
-		$AnimationTree.set("parameters/conditions/IsWalking", false)
-		$GPUParticles2D.emitting = false
-	else:
-		$AnimationTree.set("parameters/conditions/IsIdle", false)
-		$AnimationTree.set("parameters/conditions/IsWalking", true)
-		$GPUParticles2D.emitting = true
-	
-	#To modify the dash afterimage particle need to change the dash property (dashdurationtimer and dash power on _dash())
-	if $Timer/DashDuration.time_left > 0:
-		$Dash_Afterimage.emitting = true
-	else:
-		$Dash_Afterimage.emitting = false
-	#To flip afterimage particles to match the character
-	if get_global_mouse_position().x > position.x:
-		$Dash_Afterimage.scale.x = -1
-	if get_global_mouse_position().x < position.x:
-		$Dash_Afterimage.scale.x = 1
-	
-	#if UI on cooldown and get pressed then do feedback animation
-	if Global.player_ableToDash == false and Input.is_action_just_pressed("dash"):
-		$"../UI/UIAnimation2".play("unable_dash")
-
-	if player_isEmptyReloading == true and Input.is_action_just_pressed("mouse1"):
-		$"../UI/UIAnimation3".play("unable_shoot")
-
-	if Global.player_ableToSwapWorld == false and Input.is_action_just_pressed("swap"):
-		$"../UI/UIAnimation4".play("unable_change")
-
-func _swap_world_type_to_night():
-	$Weapon/MeleeWeapon.hide()
-	$Weapon/RangedWeapon.show()
-	# Change the world type and change the value in globals
-	Global.worldType = "Night"
-	Global.player_ableToSwapWorld = false
-	Global.player_ableToMelee = false
-	Global.player_ableToShoot = true
-	# Change the collision mask of the player suitable for night worldType
-	set_collision_mask_value(2, false)
-	set_collision_mask_value(3, true)
-	# Start the timer for world swap
-	$"../AbleToSwapWorldTimer".start()
-
+# THERE IS SOME QUESTION IN HERE THAT NEEDED TO BE ANSWERED AND FIXED
 func _swap_world_type_to_day():
+	# Show melee weapon in day
 	$Weapon/MeleeWeapon.show()
 	$Weapon/RangedWeapon.hide()
 	# Change the world type and change the value in globals
@@ -130,43 +105,39 @@ func _swap_world_type_to_day():
 	Global.player_ableToSwapWorld = false
 	Global.player_ableToMelee = true
 	Global.player_ableToShoot = false
+	# IS THIS EVEN NEEDED ANYMORE? WE ONLY USING 1 TILEMAP FOR NOW
 	# Change the collision mask of the player suitable for day worldType
 	set_collision_mask_value(2, true)
 	set_collision_mask_value(3, false)
-	# Start the timer for world swap
+	# Start the timer for world swap (why this timer is located in level/world scene?)
 	$"../AbleToSwapWorldTimer".start()
 
-func _player_hit(damage):
-	var hit_feedback_tween
-	hit_feedback_tween = get_tree().create_tween()
-	hit_feedback_tween.tween_property($Sprite, "modulate", Color("#ff113f"), 0.1)
-	hit_feedback_tween.tween_property($Sprite, "modulate", Color("#ffffff"), 0.1)
-#	print("Player is hit!")
+# THERE IS SOME QUESTION IN HERE THAT NEEDED TO BE ANSWERED AND FIXED
+func _swap_world_type_to_night():
+	# Show ranged weapon in day
+	$Weapon/MeleeWeapon.hide()
+	$Weapon/RangedWeapon.show()
+	# Change the world type and change the value in globals
+	Global.worldType = "Night"
+	Global.player_ableToSwapWorld = false
+	Global.player_ableToMelee = false
+	Global.player_ableToShoot = true
+	# IS THIS EVEN NEEDED ANYMORE? WE ONLY USING 1 TILEMAP FOR NOW
+	# Change the collision mask of the player suitable for night worldType
+	set_collision_mask_value(2, false)
+	set_collision_mask_value(3, true)
+	# Start the timer for world swap (why this timer is located in level/world scene?)
+	$"../AbleToSwapWorldTimer".start()
 
-	Global.player_health -= damage
-	if Global.player_health <= 0:
-		_dead()
-
-func _dead():
-	# Reset position into the middle for now
-	position = Global.player_spawnpoint
-	# Reset player health
-	Global.player_health = Global.player_healthMax
-	# Play animation death and reset to middle
-	# Animation death is simple foreground color that dim to black
-	# Show key to respawn
-
-func _knockback(set_direction, knockback_power):
-	var knockback = set_direction * knockback_power
-	knockback_tweenValue = knockback
-	knockback_tween = get_tree().create_tween()
-	knockback_tween.parallel().tween_property(self, "knockback_tweenValue", Vector2(0,0), 0.25)
-	#global_position += knockback
+# --------------------------------------------------------------------------
+# Function of _look_at() (This function make the player character aim at the mouse position)
+# @perrorovic responsible for this
+# --------------------------------------------------------------------------
 
 func _loot_at():
+	# Weapon will look at the mouse position
 	$Weapon.look_at(get_global_mouse_position())
-	#print(get_global_mouse_position())
-	#print($Weapon/MeleeWeapon.position)
+	# Change the location of: character sprite, weapon (with their hit marker as well) based on the position of the mouse
 	if get_global_mouse_position().x > position.x:
 		# character body
 		$Sprite/Body.flip_h = true # default 
@@ -196,6 +167,12 @@ func _loot_at():
 		$Weapon/MeleeSlashSpawn.position = Vector2(152,-96)
 		$Weapon/RangedBulletSpawn.position = Vector2(152,-96)
 
+# --------------------------------------------------------------------------
+# Player action function are listed below:
+# --------------------------------------------------------------------------
+
+# This function make player weapon move as in stabbing and recoil motion 
+# being used in _melee() and _ranged() function
 func _weapon_stroke(player_direction: Vector2, stroke_power: int):
 	var weaponTrustTween = get_tree().create_tween()
 	var weaponTrustPower = player_direction * stroke_power
@@ -203,6 +180,7 @@ func _weapon_stroke(player_direction: Vector2, stroke_power: int):
 	weaponTrustTween.tween_property($Weapon, "position", weaponTrustPower, 0.2)
 	weaponTrustTween.tween_property($Weapon, "position", Vector2(0,0), 0.2)
 
+# This function make the melee projectile for the player character action
 func _melee():
 	if Input.is_action_pressed("mouse1") and Global.player_ableToMelee == true and Global.worldType == "Day":
 		Global.player_ableToMelee = false
@@ -212,22 +190,10 @@ func _melee():
 		mouse1_melee.emit($Weapon/MeleeSlashSpawn.global_position, $Weapon.rotation_degrees, player_direction)
 		$Timer/MeleeCooldown.start()
 
-func _dash():
-	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):
-		if Input.is_action_just_pressed("dash") and Global.player_ableToDash == true : #and Global.worldType == "Day":
-			$Timer/DashDuration.start()
-			$Timer/DashCooldown.start()
-			Global.player_ableToDash = false
-			#default Timer = 0.05, Mvspd = 1500, fixed FPS 30
-			#default2 Timer = 0.3, Mvspd = 500, fixed FPS 30
-			player_moveSpeed += 750 #Timer 0.1, fixed FPS 120 much better because afterimage running at 120 fps 
-			set_collision_mask_value(1, false)
-	if Global.player_ableToDash == false:
-		$"../UI/PlayerDash/Progress".value = $"../UI/PlayerDash/Progress".max_value * (1 - $Timer/DashCooldown.time_left / $Timer/DashCooldown.wait_time)
-
+# This function make the ranged projectile for the player character action
+# @kepponn are responsible for this one
 func _ranged():
 	$"../UI/PlayerAmmo/Progress".value = Global.player_ammo
-	
 	#if shooting on any ammo except last ammo (1 ammo or more {2,3,4,5,...} left), auto reload timer will be started
 	if Global.player_ammo > 1 and Input.is_action_pressed("mouse1") and Global.player_ableToShoot == true and Global.worldType == "Night":
 		Global.player_ableToShoot = false
@@ -280,6 +246,55 @@ func _ranged():
 			player_isAddingAmmo = false
 		$Timer/ReloadTickCooldown.start(0.2)
 
+# This function make the player dash with immunity frame
+func _dash():
+	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):
+		if Input.is_action_just_pressed("dash") and Global.player_ableToDash == true : #and Global.worldType == "Day":
+			$Timer/DashDuration.start()
+			$Timer/DashCooldown.start()
+			Global.player_ableToDash = false
+			#default Timer = 0.05, Mvspd = 1500, fixed FPS 30
+			#default2 Timer = 0.3, Mvspd = 500, fixed FPS 30
+			player_moveSpeed += 750 #Timer 0.1, fixed FPS 120 much better because afterimage running at 120 fps 
+			set_collision_mask_value(1, false)
+	if Global.player_ableToDash == false:
+		$"../UI/PlayerDash/Progress".value = $"../UI/PlayerDash/Progress".max_value * (1 - $Timer/DashCooldown.time_left / $Timer/DashCooldown.wait_time)
+
+# --------------------------------------------------------------------------
+# Function of player that being called by other entities such as: enemies and items pickups
+# List of the function: _player_hit(), _knockback(), _on_items_pickup()
+# --------------------------------------------------------------------------
+
+# This function are being called by enemy projectile into the player
+func _player_hit(damage):
+	# This tween give the feedback of being hit
+	var hit_feedback_tween
+	hit_feedback_tween = get_tree().create_tween()
+	hit_feedback_tween.tween_property($Sprite, "modulate", Color("#ff113f"), 0.1)
+	hit_feedback_tween.tween_property($Sprite, "modulate", Color("#ffffff"), 0.1)
+	# This decrease the player health by the damage received
+	Global.player_health -= damage
+	if Global.player_health <= 0:
+		_dead()
+
+# This function are being called by enemy projectile into the player
+func _knockback(set_direction, knockback_power):
+	var knockback = set_direction * knockback_power
+	knockback_tweenValue = knockback
+	var knockback_tween = get_tree().create_tween()
+	knockback_tween.parallel().tween_property(self, "knockback_tweenValue", Vector2(0,0), 0.25)
+
+# This one is being called by _player_hit() if health reaches 0
+func _dead():
+	# Reset position of the player into the latest spawn point
+	position = Global.player_spawnpoint
+	# Reset player health to full
+	Global.player_health = Global.player_healthMax
+	# Play animation death and reset to middle
+	# Animation death is simple foreground color that dim to black
+	# Show key to respawn
+
+# This function being called by the items to the player character to refill resources
 func _on_items_pickup(type):
 	print(type)
 	if type == "health":
@@ -293,9 +308,54 @@ func _on_items_pickup(type):
 		Global.player_ammo = Global.player_ammoMax
 		$"../UI/PlayerAmmo/Progress".value = Global.player_ammoMax
 		Global.player_ableToShoot = true
+		
+# --------------------------------------------------------------------------
+# Function of _update_animation() (Animation of the character are being add and modify here)
+# @kepponn are responsible for this
+# --------------------------------------------------------------------------
+
+func _update_animation():
+	#Set animation to walking or idling
+	#Set Dust Particles to spawn if player is moving
+	if velocity == Vector2.ZERO:
+		$AnimationTree.set("parameters/conditions/IsIdle", true)
+		$AnimationTree.set("parameters/conditions/IsWalking", false)
+		$GPUParticles2D.emitting = false
+	else:
+		$AnimationTree.set("parameters/conditions/IsIdle", false)
+		$AnimationTree.set("parameters/conditions/IsWalking", true)
+		$GPUParticles2D.emitting = true
 	
+	#To modify the dash afterimage particle need to change the dash property (dashdurationtimer and dash power on _dash())
+	if $Timer/DashDuration.time_left > 0:
+		$Dash_Afterimage.emitting = true
+	else:
+		$Dash_Afterimage.emitting = false
+	#To flip afterimage particles to match the character
+	if get_global_mouse_position().x > position.x:
+		$Dash_Afterimage.scale.x = -1
+	if get_global_mouse_position().x < position.x:
+		$Dash_Afterimage.scale.x = 1
+	
+	#if UI on cooldown and get pressed then do feedback animation
+	if Global.player_ableToDash == false and Input.is_action_just_pressed("dash"):
+		$"../UI/UIAnimation2".play("unable_dash")
+	if player_isEmptyReloading == true and Input.is_action_just_pressed("mouse1"):
+		$"../UI/UIAnimation3".play("unable_shoot")
+	if Global.player_ableToSwapWorld == false and Input.is_action_just_pressed("swap"):
+		$"../UI/UIAnimation4".play("unable_change")
+
+# --------------------------------------------------------------------------
+# Timer with signal feedback that being used by the player character
+# Please note that some timer will be used without the signal feedback!
+# DO NOT DELETE ANY TIMER (ask for permission for it and review what it does)
+# --------------------------------------------------------------------------
+
 func _on_able_to_swap_world_timer_timeout():
 	Global.player_ableToSwapWorld = true
+
+func _on_melee_cooldown_timeout():
+	Global.player_ableToMelee = true
 
 func _on_ranged_cooldown_timeout():
 	Global.player_ableToShoot = true
@@ -307,18 +367,17 @@ func _on_dash_duration_timeout():
 func _on_dash_cooldown_timeout():
 	Global.player_ableToDash = true
 
-func _on_melee_cooldown_timeout():
-	Global.player_ableToMelee = true
+# --------------------------------------------------------------------------
+# TO BE DELETED LATER @kepponn RETARDOING
+# DONT FORGET TO DELETE THIS SHEET AND DISCONNECT THE SIGNAL ON WHOLEMEME/MEME
+# --------------------------------------------------------------------------
 
-#TO BE DELETED LATER
-#DONT FORGET TO DELETE THIS SHEET AND DISCONNECT THE SIGNAL ON WHOLEMEME/MEME
 func _on_meme_body_entered(_body):
 	$"../WHOLEMEME/VideoStreamPlayer".play()
 	$"../WHOLEMEME/Meme".set_collision_mask_value(1, false)
 	pass
 
-
 func _on_meme_2_body_entered(_body):
 	$"../WHOLEMEME/VideoStreamPlayer2".play()
 	$"../WHOLEMEME/Meme2".set_collision_mask_value(1, false)
-	pass # Replace with function body.
+	pass
