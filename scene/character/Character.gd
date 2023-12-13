@@ -7,6 +7,9 @@ extends CharacterBody2D
 signal mouse1_melee(player_position, player_rotation, player_direction)
 signal mouse1_ranged(player_position, player_rotation, player_direction)
 
+@onready var scene = get_node("/root/Node2D/")
+signal scene_change_world_type()
+
 # --------------------------------------------------------------------------
 # Player character property are listed and set with type and value here
 # --------------------------------------------------------------------------
@@ -76,6 +79,7 @@ func _movement():
 # --------------------------------------------------------------------------
 # Function of _swap_world_type() (This function change world property by user input)
 # Also being use here: _swap_world_type_to_day() and _swap_world_type_to_night()
+# This also send out a signal into the scene to run _change_world_type() function
 # --------------------------------------------------------------------------
 
 func _swap_world_type():
@@ -86,16 +90,21 @@ func _swap_world_type():
 		var filterTween = get_tree().create_tween()
 		filterTween.tween_property($Filter, "color", Color("#17a995"), 1)
 		_swap_world_type_to_night()
+		# Signal to scene to change the world type
+		connect("scene_change_world_type", Callable(scene, "_change_world_type"), 4)
+		scene_change_world_type.emit()
 	# Swap world type to day
 	elif Input.is_action_just_pressed("swap") and Global.worldType == "Night" and Global.player_ableToSwapWorld == true:
 		# Animation world filter with tween
 		var filterTween = get_tree().create_tween()
 		filterTween.tween_property($Filter, "color", Color("#db9042"), 1)
 		_swap_world_type_to_day()
+		# Signal to scene to change the world type
+		connect("scene_change_world_type", Callable(scene, "_change_world_type"), 4)
+		scene_change_world_type.emit()
 	# Set the progress value with timer time_left (this isnt dynamic and will break when you change the timer. Set for 5s)
-	$"../UI/WorldType/Progress".value = 100 - $"../AbleToSwapWorldTimer".time_left * 20
+	$"../UI/WorldType/Progress".value = 100 - $Timer/SwapWorldCooldown.time_left * 20
 
-# THERE IS SOME QUESTION IN HERE THAT NEEDED TO BE ANSWERED AND FIXED
 func _swap_world_type_to_day():
 	# Show melee weapon in day
 	$Weapon/MeleeWeapon.show()
@@ -107,12 +116,11 @@ func _swap_world_type_to_day():
 	Global.player_ableToShoot = false
 	# IS THIS EVEN NEEDED ANYMORE? WE ONLY USING 1 TILEMAP FOR NOW
 	# Change the collision mask of the player suitable for day worldType
-	set_collision_mask_value(2, true)
-	set_collision_mask_value(3, false)
-	# Start the timer for world swap (why this timer is located in level/world scene?)
-	$"../AbleToSwapWorldTimer".start()
+	#set_collision_mask_value(2, true)
+	#set_collision_mask_value(3, false)
+	# Start the timer for world swap
+	$Timer/SwapWorldCooldown.start()
 
-# THERE IS SOME QUESTION IN HERE THAT NEEDED TO BE ANSWERED AND FIXED
 func _swap_world_type_to_night():
 	# Show ranged weapon in day
 	$Weapon/MeleeWeapon.hide()
@@ -124,10 +132,10 @@ func _swap_world_type_to_night():
 	Global.player_ableToShoot = true
 	# IS THIS EVEN NEEDED ANYMORE? WE ONLY USING 1 TILEMAP FOR NOW
 	# Change the collision mask of the player suitable for night worldType
-	set_collision_mask_value(2, false)
-	set_collision_mask_value(3, true)
-	# Start the timer for world swap (why this timer is located in level/world scene?)
-	$"../AbleToSwapWorldTimer".start()
+	#set_collision_mask_value(2, false)
+	#set_collision_mask_value(3, true)
+	# Start the timer for world swap
+	$Timer/SwapWorldCooldown.start()
 
 # --------------------------------------------------------------------------
 # Function of _look_at() (This function make the player character aim at the mouse position)
@@ -150,7 +158,7 @@ func _loot_at():
 		$Weapon/RangedWeapon.flip_v = false
 		$Weapon/RangedWeapon.position = Vector2(74,90) # default pos
 		# hitbox relocation
-		$Weapon/MeleeSlashSpawn.position = Vector2(152,96) # default pos
+		$Weapon/MeleeSlashSpawn.position = Vector2(200,88) # default pos
 		$Weapon/RangedBulletSpawn.position = Vector2(152,96) # default pos
 	elif get_global_mouse_position().x < position.x:
 		# character body
@@ -164,7 +172,7 @@ func _loot_at():
 		$Weapon/RangedWeapon.flip_v = false
 		$Weapon/RangedWeapon.position = Vector2(74,-90)
 		# hitbox relocation
-		$Weapon/MeleeSlashSpawn.position = Vector2(152,-96)
+		$Weapon/MeleeSlashSpawn.position = Vector2(200,-88)
 		$Weapon/RangedBulletSpawn.position = Vector2(152,-96)
 
 # --------------------------------------------------------------------------
@@ -351,7 +359,7 @@ func _update_animation():
 # DO NOT DELETE ANY TIMER (ask for permission for it and review what it does)
 # --------------------------------------------------------------------------
 
-func _on_able_to_swap_world_timer_timeout():
+func _on_swap_world_cooldown_timeout():
 	Global.player_ableToSwapWorld = true
 
 func _on_melee_cooldown_timeout():

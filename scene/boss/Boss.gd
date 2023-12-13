@@ -113,7 +113,7 @@ func _action_slash():
 # Function of boss that being called by other entities
 # --------------------------------------------------------------------------
 
-func _hit(damage: int):
+func _hit(damage, _iframe_type, _set_direction, _knockback_power):
 	#print("Boss is hit")
 	health -= damage
 	if health <= 0:

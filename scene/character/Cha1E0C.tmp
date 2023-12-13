@@ -237,16 +237,16 @@ position = Vector2(152, 96)
 scale = Vector2(8, 8)
 
 [node name="MeleeSlashSpawn" type="Marker2D" parent="Weapon"]
-position = Vector2(200, 88)
+position = Vector2(152, 96)
 scale = Vector2(8, 8)
 
 [node name="MeleeWeapon" type="Sprite2D" parent="Weapon"]
-visible = false
 position = Vector2(82, 90)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("9_ymd6k")
 
 [node name="RangedWeapon" type="Sprite2D" parent="Weapon"]
+visible = false
 position = Vector2(74, 90)
 texture = ExtResource("4_6ht37")
 
@@ -261,7 +261,6 @@ flip_h = true
 metadata/_edit_lock_ = true
 
 [node name="Sprite" type="Node2D" parent="."]
-metadata/_edit_lock_ = true
 
 [node name="Body" type="Sprite2D" parent="Sprite"]
 position = Vector2(0, -1)
@@ -275,10 +274,8 @@ texture = ExtResource("12_hqshi")
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(-2, 3)
 shape = SubResource("CapsuleShape2D_m5ns1")
-metadata/_edit_lock_ = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(1.3, 1.3)
@@ -313,7 +310,6 @@ process_material = SubResource("ParticleProcessMaterial_pqcuy")
 texture = ExtResource("15_1inr2")
 lifetime = 0.1
 fixed_fps = 120
-metadata/_edit_lock_ = true
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 show_behind_parent = true
@@ -326,7 +322,6 @@ process_material = SubResource("ParticleProcessMaterial_njlkp")
 texture = ExtResource("15_lso1j")
 lifetime = 1.5
 speed_scale = 2.0
-metadata/_edit_lock_ = true
 
 [connection signal="timeout" from="Timer/RangedCooldown" to="." method="_on_ranged_cooldown_timeout"]
 [connection signal="timeout" from="Timer/MeleeCooldown" to="." method="_on_melee_cooldown_timeout"]

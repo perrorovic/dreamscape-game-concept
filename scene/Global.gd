@@ -19,15 +19,15 @@ var player_healthMax: float = 200.0
 # Used for player spawn point
 var player_spawnpoint: Vector2
 
-var player_lookat
-
+func _ready():
+	# This hide the mouse and confine it to the window size
+	# Bad idea...
+	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
 
 func _process(_delta):
 	if Input.is_action_pressed("close"):
 		get_tree().quit()
 	_check_player_health()
-	
-	
 
 # This function make the health cannot exceed above the 'player_healthMax'
 func _check_player_health():

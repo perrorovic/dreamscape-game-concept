@@ -12,7 +12,7 @@ func _ready():
 func _process(_delta):
 	pass
 
-func _hit(damage: int):
+func _hit(damage, _iframe_type, _set_direction, _knockback_power):
 	if ableToBeHit:
 		print("Crystal is hit")
 		health -= damage

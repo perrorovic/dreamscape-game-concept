@@ -41,8 +41,7 @@ func _ready():
 	_init_day()
 
 func _process(_delta):
-	# Check world will check the worldType in Global to set everything accordingly
-	_check_world()
+	pass
 
 func _init_day():
 	# Initation of the world scene, set needed property to the world settings
@@ -52,12 +51,11 @@ func _init_day():
 	Global.player_ableToShoot = false
 
 # --------------------------------------------------------------------------
-# This function are check the world type and assign the needed property accordingly
-# This function are run in the _process() which may defect the perfomance
-# This function could be triggered by signal from the player! (future fix)
+# Check the world type and assign the needed property accordingly
+# This function are triggered by signal sent by player character! ("res://scene/character/Character.gd")
 # --------------------------------------------------------------------------
 
-func _check_world():
+func _change_world_type():
 	if Global.worldType == "Day":
 		# This enable the tilemap 'Day_Env' layer
 		$Node2D/TileMap.set_layer_enabled(1,true)

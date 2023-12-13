@@ -26,10 +26,6 @@ script = ExtResource("1_taoo3")
 stream = ExtResource("2_ge8yg")
 volume_db = -25.0
 
-[node name="AbleToSwapWorldTimer" type="Timer" parent="."]
-wait_time = 5.0
-one_shot = true
-
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="TileMap" type="TileMap" parent="Node2D"]
@@ -207,7 +203,6 @@ metadata/_edit_lock_ = true
 
 [node name="UI" parent="." instance=ExtResource("12_j6qy8")]
 
-[connection signal="timeout" from="AbleToSwapWorldTimer" to="Character" method="_on_able_to_swap_world_timer_timeout"]
 [connection signal="body_entered" from="WHOLEMEME/Meme" to="Character" method="_on_meme_body_entered"]
 [connection signal="body_entered" from="WHOLEMEME/Meme2" to="Character" method="_on_meme_2_body_entered"]
 [connection signal="boss_action_bomb" from="Boss" to="." method="_on_boss_action_bomb"]

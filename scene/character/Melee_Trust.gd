@@ -28,7 +28,7 @@ func _on_body_entered(body):
 		#if body.has_method("_knockback"):
 			#body._knockback( set_direction, knockback_power)
 #		print("Bullet Hit")
-	queue_free()
+	#queue_free()
 
 func _on_timeout():
 	queue_free()
