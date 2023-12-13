@@ -42,6 +42,9 @@ var move_speed: float
 var item_name: String
 # This variable for iframe in _hit() function
 var iframe: bool
+# This variable for knockback used in movement
+var knockback_tween: Tween
+var knockback_tweenValue: Vector2 = Vector2(0,0)
 
 # --------------------------------------------------------------------------
 # Function of _ready() and _process() are listed below:
@@ -95,7 +98,16 @@ func _process(_delta):
 	# Navigation essentials
 	$Sprite2D.look_at($NavigationAgent2D.get_next_path_position())
 	path_direction = to_local($NavigationAgent2D.get_next_path_position()).normalized()
-	velocity = path_direction * movement_speed
+	
+	#UNDER CONSTRUCTION
+	#velocity = path_direction * movement_speed
+	var total_movement = path_direction * movement_speed
+	velocity = total_movement + knockback_tweenValue
+	
+	#print("total_movement",total_movement)
+	#print("velocity",velocity)
+	#print("=======================================")
+	
 	if !$NavigationAgent2D.is_navigation_finished():
 		move_and_slide()
 	
@@ -116,23 +128,34 @@ func _patrol():
 # Function of Enemy_Parent that being called by other entities
 # --------------------------------------------------------------------------
 
-func _hit(damage: int, iframe_type: String):
+func _hit(damage: int, iframe_type: String, set_direction, knockback_power):
+	# Can only do this if enemy is not on iframe
 	if iframe == false:
+		# Change iframe to true so enemy can't be hit more than once
 		iframe = true
 		print("Enemy is hit")
+		# To make enemy aggro to player if hit enemy while enemy is patrolling
 		is_following = true
 		is_patrolling = false
 		$AggroCooldown.start(5)
+		# Enemy take damage
 		health -= damage
 		# Add hit feedback tween to the entity
 		var hit_feedback_tween
 		hit_feedback_tween = get_tree().create_tween()
+		# Color feedback tween 
 		hit_feedback_tween.tween_property($Sprite2D, "self_modulate", Color("#ff113f"), 0.1)
 		hit_feedback_tween.tween_property($Sprite2D, "self_modulate", Color("#ffffff"), 0.1)
+		# Knockback feedback tween
+		var knockback = set_direction * knockback_power
+		knockback_tweenValue = knockback
+		hit_feedback_tween.parallel().tween_property(self, "knockback_tweenValue", Vector2(0,0), 0.25)
+		
+		# Set how long the iframe is for each type of attack, either set all of them same as the lowest one or a little bit higher than the lowest one, or each type of attack have its own time
 		if iframe_type == "melee":
-			$IframeDuration.start(0.4)
+			$IframeDuration.start(0.5)
 		elif iframe_type =="ranged":
-			$IframeDuration.start(0.1)
+			$IframeDuration.start(0.15)
 	
 	# drop chance for each type of the enemies make a function for it and call it with the enemy_type param
 	if health <= 0:
@@ -156,12 +179,29 @@ func _hit(damage: int, iframe_type: String):
 		item_dropped.emit(item_name,position)
 		queue_free()
 
+
+##NOW MERGED INTO FUNCTION _Hit() 
 # This knockback still using global_position to knocked back the entity
 # Which could knock the entity into walls!
-func _knockback(set_direction, knockback_power):
-	var knockback = set_direction * knockback_power
-	global_position += knockback
-
+#func _knockback(set_direction, knockback_power):
+	##UNDER CONSTRUCTION
+	##var knockback = set_direction * knockback_power
+	##global_position += knockback
+	#var knockback_tween: Tween
+	#
+	#if knockback_tween != null:
+		#print("there is knockback tween")
+		#if knockback_tween.is_valid() == true:
+			#knockback_tween.kill()
+			#print("knockbacktween killed")
+	#
+	#
+	#var knockback = set_direction * knockback_power
+	#knockback_tweenValue = knockback
+	#knockback_tween = get_tree().create_tween()
+	#
+	#knockback_tween.parallel().tween_property(self, "knockback_tweenValue", Vector2(0,0), 0.25)
+	
 # --------------------------------------------------------------------------
 # Timer with signal feedback that being used by Enemy_Parent
 # --------------------------------------------------------------------------

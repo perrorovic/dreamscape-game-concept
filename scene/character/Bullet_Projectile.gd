@@ -2,7 +2,7 @@ extends Area2D
 
 @export var speed: int = 500
 @export var damage: int = 20
-@export var knockback_power: int = 10
+@export var knockback_power: int = 100
 # Variables from signals
 var set_rotation_degree
 var set_direction
@@ -35,11 +35,11 @@ func _check():
 func _on_body_entered(body):
 	print("Bullet Collision")
 	if body.has_method("_hit"):
-		body._hit(damage, iframe_type)
-		if body.has_method("_knockback"):
-			body._knockback( set_direction, knockback_power)
-#		print("Bullet Hit")
-		queue_free()
+		body._hit(damage, iframe_type, set_direction, knockback_power)
+		#UNDER CONSTRUCTION
+		#if body.has_method("_knockback"):
+			#body._knockback( set_direction, knockback_power)
+		#queue_free()
 	queue_free()
 
 func _on_bullet_timeout():

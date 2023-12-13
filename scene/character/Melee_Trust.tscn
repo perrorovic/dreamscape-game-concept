@@ -4,7 +4,8 @@
 [ext_resource type="Script" path="res://scene/character/Melee_Trust.gd" id="1_jvtk7"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3mhbg"]
-height = 38.0
+radius = 16.0
+height = 48.0
 
 [node name="MeleeTrust" type="Area2D"]
 modulate = Color(1, 0.694118, 0.623529, 1)

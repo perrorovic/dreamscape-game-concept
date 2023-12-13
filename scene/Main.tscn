@@ -216,14 +216,14 @@ position = Vector2(2796, 1033)
 [node name="EnemyTemp" type="Node2D" parent="."]
 
 [node name="Enemy_Melee" parent="EnemyTemp" instance=ExtResource("17_0mkgf")]
-position = Vector2(880, 681)
+position = Vector2(357, -14)
 
 [node name="Enemy_Melee2" parent="EnemyTemp" instance=ExtResource("17_0mkgf")]
 position = Vector2(772, 834)
 enemy_type = "Night"
 
 [node name="Enemy_Ranged" parent="EnemyTemp" instance=ExtResource("18_e2te0")]
-position = Vector2(801, 673)
+position = Vector2(1277, 796)
 enemy_type = "Day"
 
 [node name="Enemy_Ranged2" parent="EnemyTemp" instance=ExtResource("18_e2te0")]
