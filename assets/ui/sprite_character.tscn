@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://13f0wxuarn6x"]
+
+[ext_resource type="Texture2D" uid="uid://celbc3dn2filc" path="res://CharacterMinimap.png" id="1_ewqph"]
+
+[node name="sprite_Character" type="Sprite2D"]
+texture = ExtResource("1_ewqph")

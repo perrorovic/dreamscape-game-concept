@@ -13,6 +13,35 @@ height = 168.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_n8tig"]
 radius = 412.005
 
+[sub_resource type="Animation" id="Animation_72s1i"]
+resource_name = "Activated"
+length = 0.75
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.3, 2.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CrystalSpire:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.584314, 0.8, 0, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_0qnb0"]
 resource_name = "Idle"
 length = 1.4
@@ -55,35 +84,6 @@ tracks/2/keys = {
 "values": [0.3]
 }
 
-[sub_resource type="Animation" id="Animation_72s1i"]
-resource_name = "Activated"
-length = 0.75
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PointLight2D:energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.75),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.3, 2.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CrystalSpire:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.75),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(0.584314, 0.8, 0, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lhec1"]
 _data = {
 "Activated": SubResource("Animation_72s1i"),
@@ -96,7 +96,7 @@ script = ExtResource("1_ni04x")
 
 [node name="CrystalSpire" type="Sprite2D" parent="."]
 z_index = 1
-position = Vector2(0, -205.813)
+position = Vector2(0, -219.015)
 texture = ExtResource("1_t1rdc")
 
 [node name="CrystalArea" type="Sprite2D" parent="."]

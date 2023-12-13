@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2wgf2aqba1n4"]
+
+[ext_resource type="Texture2D" uid="uid://budxw56crqdrs" path="res://assets/enemy/crystalspire.png" id="1_rk7bk"]
+[ext_resource type="Texture2D" uid="uid://c4al2nk043nfc" path="res://assets/Items.png" id="2_5c8mr"]
+
+[node name="sprite_Checkpoint" type="Node2D"]
+
+[node name="CrystalSpire" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(0, -48)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_rk7bk")
+
+[node name="CrystalArea" type="Sprite2D" parent="."]
+self_modulate = Color(0.192157, 0.192157, 0.192157, 1)
+scale = Vector2(0.416095, 0.0726675)
+texture = ExtResource("2_5c8mr")

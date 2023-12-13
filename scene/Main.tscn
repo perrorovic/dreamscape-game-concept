@@ -1,10 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://dl1enj0x41grc"]
+[gd_scene load_steps=17 format=3 uid="uid://dl1enj0x41grc"]
 
 [ext_resource type="Script" path="res://scene/Main.gd" id="1_taoo3"]
 [ext_resource type="AudioStream" uid="uid://b4x6eksm6skkq" path="res://sound/BGM/Missing_Persons_-_Jeremy_Blake.mp3" id="2_ge8yg"]
+[ext_resource type="TileSet" uid="uid://esvtc00mqhdh" path="res://assets/tilesets/MainTileset.tres" id="3_aqio4"]
 [ext_resource type="VideoStream" path="res://ZZZZZ.ogv" id="5_claex"]
 [ext_resource type="VideoStream" path="res://ZZZZZZ.ogv" id="7_oyo0p"]
-[ext_resource type="Texture2D" uid="uid://ck4cqnxc4tr4k" path="res://TileSet.png" id="8_td2qe"]
 [ext_resource type="PackedScene" uid="uid://dcvyp41e6a18i" path="res://scene/entity/Items_Dash.tscn" id="8_wr18p"]
 [ext_resource type="PackedScene" uid="uid://b1welbqokla26" path="res://scene/entity/Items_Ammo.tscn" id="9_kg4bj"]
 [ext_resource type="PackedScene" uid="uid://caxjcyt48xmp0" path="res://scene/character/Character.tscn" id="10_tc7wq"]
@@ -15,56 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://brdcc0ktpcj86" path="res://scene/enemy/Enemy_Melee.tscn" id="17_0mkgf"]
 [ext_resource type="PackedScene" uid="uid://deqom7y7q7256" path="res://scene/entity/Checkpoint.tscn" id="17_7s1v6"]
 [ext_resource type="PackedScene" uid="uid://csicyeuuaee83" path="res://scene/enemy/Enemy_Ranged.tscn" id="18_e2te0"]
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_h3rcd"]
-vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)])
-source_geometry_group_name = &"navigation_polygon_source_group"
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_k8yik"]
-vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)])
-source_geometry_group_name = &"navigation_polygon_source_group"
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_repkx"]
-vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)])
-source_geometry_group_name = &"navigation_polygon_source_group"
-agent_radius = 0.0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hne2a"]
-texture = ExtResource("8_td2qe")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-0:0/0/physics_layer_0/angular_velocity = 0.0
-0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h3rcd")
-1:0/0 = 0
-1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-1:0/0/physics_layer_0/angular_velocity = 0.0
-1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
-2:0/0 = 0
-2:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-2:0/0/physics_layer_0/angular_velocity = 0.0
-2:0/0/navigation_layer_1/polygon = SubResource("NavigationPolygon_k8yik")
-3:0/0 = 0
-3:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
-3:0/0/physics_layer_0/angular_velocity = 0.0
-3:0/0/navigation_layer_2/polygon = SubResource("NavigationPolygon_repkx")
-
-[sub_resource type="TileSet" id="TileSet_jfi5m"]
-tile_size = Vector2i(32, 32)
-physics_layer_0/collision_layer = 6
-physics_layer_0/collision_mask = 6
-navigation_layer_0/layers = 1
-navigation_layer_1/layers = 2
-navigation_layer_2/layers = 4
-sources/14 = SubResource("TileSetAtlasSource_hne2a")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hbtwu"]
 size = Vector2(157, 20)
@@ -83,7 +33,7 @@ one_shot = true
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="TileMap" type="TileMap" parent="Node2D"]
-tile_set = SubResource("TileSet_jfi5m")
+tile_set = ExtResource("3_aqio4")
 rendering_quadrant_size = 1
 format = 2
 layer_0/name = "Navigation"
@@ -169,6 +119,18 @@ expand = true
 energy = 0.25
 blend_mode = 1
 
+[node name="Checkpoints" type="Node2D" parent="."]
+
+[node name="Checkpoint" parent="Checkpoints" instance=ExtResource("17_7s1v6")]
+position = Vector2(33, -65)
+metadata/_edit_lock_ = true
+
+[node name="Checkpoint2" parent="Checkpoints" instance=ExtResource("17_7s1v6")]
+position = Vector2(2193, 887)
+
+[node name="Checkpoint3" parent="Checkpoints" instance=ExtResource("17_7s1v6")]
+position = Vector2(531, -133)
+
 [node name="ItemTemp" type="Node2D" parent="."]
 
 [node name="Items_Dash" parent="ItemTemp" instance=ExtResource("8_wr18p")]
@@ -233,7 +195,7 @@ position = Vector2(822, 881)
 position = Vector2(1918, 121)
 
 [node name="Character" parent="." instance=ExtResource("10_tc7wq")]
-position = Vector2(29, 3)
+position = Vector2(193, -10)
 scale = Vector2(1.5, 1.5)
 
 [node name="PointLight2D" type="PointLight2D" parent="Character"]
@@ -244,13 +206,6 @@ texture_scale = 0.4
 metadata/_edit_lock_ = true
 
 [node name="UI" parent="." instance=ExtResource("12_j6qy8")]
-
-[node name="Checkpoint" parent="." instance=ExtResource("17_7s1v6")]
-position = Vector2(33, -65)
-metadata/_edit_lock_ = true
-
-[node name="Checkpoint2" parent="." instance=ExtResource("17_7s1v6")]
-position = Vector2(2193, 887)
 
 [connection signal="timeout" from="AbleToSwapWorldTimer" to="Character" method="_on_able_to_swap_world_timer_timeout"]
 [connection signal="body_entered" from="WHOLEMEME/Meme" to="Character" method="_on_meme_body_entered"]
