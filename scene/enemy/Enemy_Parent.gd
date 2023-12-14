@@ -14,6 +14,7 @@ class_name Enemy_Parent
 signal item_dropped(item_name, enemy_position)
 # Get world node ready to be used in signal
 @onready var world = get_node("/root/Node2D/")
+@onready var UI = get_node("/root/Node2D/UI")
 
 # --------------------------------------------------------------------------
 # Enemy_Parent property are listed and set with type and value here
@@ -176,32 +177,10 @@ func _hit(damage: int, iframe_type: String, set_direction, knockback_power):
 		# Emit the signal into the level and queue_free the enemies
 		print("item dropped")
 		connect("item_dropped", Callable(world, "_on_enemy_drop"), 4)
-		item_dropped.emit(item_name,position)
+		connect("item_dropped", Callable(UI, "_update_Items"), 4)
+		item_dropped.emit(item_name, position)
 		queue_free()
 
-
-##NOW MERGED INTO FUNCTION _Hit() 
-# This knockback still using global_position to knocked back the entity
-# Which could knock the entity into walls!
-#func _knockback(set_direction, knockback_power):
-	##UNDER CONSTRUCTION
-	##var knockback = set_direction * knockback_power
-	##global_position += knockback
-	#var knockback_tween: Tween
-	#
-	#if knockback_tween != null:
-		#print("there is knockback tween")
-		#if knockback_tween.is_valid() == true:
-			#knockback_tween.kill()
-			#print("knockbacktween killed")
-	#
-	#
-	#var knockback = set_direction * knockback_power
-	#knockback_tweenValue = knockback
-	#knockback_tween = get_tree().create_tween()
-	#
-	#knockback_tween.parallel().tween_property(self, "knockback_tweenValue", Vector2(0,0), 0.25)
-	
 # --------------------------------------------------------------------------
 # Timer with signal feedback that being used by Enemy_Parent
 # --------------------------------------------------------------------------
@@ -211,13 +190,15 @@ func _on_pathfinding_cooldown_timeout():
 		$NavigationAgent2D.target_position = Global.player_position
 		$PathfindingCooldown.start()
 
-func _on_pathfinding_area_body_entered(_body):
-	is_following = true
-	is_patrolling = false
+func _on_pathfinding_area_body_entered(body):
+	if body.name == "Character":
+		is_following = true
+		is_patrolling = false
 
-func _on_pathfinding_area_body_exited(_body):
-	is_following = false
-	$PatrolCooldown.start(5)
+func _on_pathfinding_area_body_exited(body):
+	if body.name == "Character":
+		is_following = false
+		$PatrolCooldown.start(5)
 
 func _on_aggro_cooldown_timeout():
 	is_following = false

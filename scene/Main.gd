@@ -15,6 +15,7 @@ class_name Scene_Parent
 # Player projectile
 var meleeProjectile: PackedScene = preload("res://scene/character/Melee_Projectile.tscn")
 var meleeNew: PackedScene = preload("res://scene/character/Melee_Trust.tscn")
+var throw: PackedScene = preload("res://scene/character/Melee_Throw.tscn")
 var rangedProjectile: PackedScene = preload("res://scene/character/Bullet_Projectile.tscn")
 # Boss projectile
 var boss_shootProjectile: PackedScene = preload("res://scene/boss/Boss_Shoot_Projectile.tscn")
@@ -49,7 +50,9 @@ func _init_day():
 	Global.worldType = "Day"
 	Global.player_ableToMelee = true
 	Global.player_ableToShoot = false
-
+	$Node2D/TileMap.set_layer_enabled(1,true)
+	$Node2D/TileMap.set_layer_enabled(2,false)
+	
 # --------------------------------------------------------------------------
 # Check the world type and assign the needed property accordingly
 # This function are triggered by signal sent by player character! ("res://scene/character/Character.gd")
@@ -95,6 +98,13 @@ func _on_player_mouse1_melee(player_position, player_rotation, player_direction)
 	melee.position = player_position
 	melee.set_rotation_degree = player_rotation
 	$ProjectileTemp.add_child(melee,true)
+
+func _on_character_mouse_2_melee(player_position, player_rotation, player_direction):
+	var throw = throw.instantiate() as Area2D
+	throw.set_direction = player_direction
+	throw.position = player_position
+	throw.set_rotation_degree = player_rotation
+	$ProjectileTemp.add_child(throw,true)
 
 func _on_player_mouse1_ranged(player_position, player_rotation, player_direction):
 	var bullet = rangedProjectile.instantiate() as Area2D
@@ -158,6 +168,7 @@ func _on_enemy_ranged_attack(enemy_position, target_direction):
 
 # Signal from $EnemyTemp ["res://scene/enemy/Enemy_Parent.gd"]
 func _on_enemy_drop(item_name, enemy_position):
+	
 	if item_name == "health":
 		var item_dropped = items_health.instantiate() as Area2D
 		item_dropped.position = enemy_position
@@ -173,3 +184,5 @@ func _on_enemy_drop(item_name, enemy_position):
 		item_dropped.position = enemy_position
 		$ItemTemp.call_deferred("add_child", item_dropped,true)
 		print("Dash Dropped")
+		
+	

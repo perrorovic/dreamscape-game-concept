@@ -520,10 +520,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 450.0
-offset_top = 442.0
-offset_right = 1050.0
-offset_bottom = 1042.0
+offset_left = -30.0
+offset_top = -98.0
+offset_right = 570.0
+offset_bottom = 502.0
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(0.1, 0.1)
@@ -579,10 +579,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 527.0
-offset_top = 463.0
-offset_right = 750.0
-offset_bottom = 536.0
+offset_left = 47.0
+offset_top = -77.0
+offset_right = 270.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(0.3, 0.3)
@@ -602,10 +602,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 371.0
-offset_top = 455.0
-offset_right = 804.0
-offset_bottom = 730.001
+offset_left = -109.0
+offset_top = -85.0
+offset_right = 324.0
+offset_bottom = 190.001
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(0.15, 0.15)
@@ -631,14 +631,19 @@ color = Color(0, 0, 0, 1)
 [node name="Minimap" type="Node" parent="."]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Minimap"]
-offset_left = 847.0
-offset_top = 14.0
-offset_right = 947.0
-offset_bottom = 114.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -113.0
+offset_top = 12.0
+offset_right = -13.0
+offset_bottom = 112.0
+grow_horizontal = 0
 
 [node name="Sprite2D" type="Sprite2D" parent="Minimap/SubViewportContainer"]
-position = Vector2(366, -298)
-scale = Vector2(0.334608, 0.334608)
+visible = false
+position = Vector2(-199, -196)
+scale = Vector2(0.471712, 0.471712)
 texture = ExtResource("5_yk2xj")
 
 [node name="SubViewport" type="SubViewport" parent="Minimap/SubViewportContainer"]
@@ -667,3 +672,5 @@ zoom = Vector2(0.3, 0.3)
 scale = Vector2(0.2, 0.2)
 
 [node name="Checkpoints" type="Node2D" parent="Minimap/SubViewportContainer/SubViewport"]
+
+[node name="Items" type="Node2D" parent="Minimap/SubViewportContainer/SubViewport"]

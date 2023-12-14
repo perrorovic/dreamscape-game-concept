@@ -96,7 +96,7 @@ script = ExtResource("1_ni04x")
 
 [node name="CrystalSpire" type="Sprite2D" parent="."]
 z_index = 1
-position = Vector2(0, -219.015)
+position = Vector2(0, -207.931)
 texture = ExtResource("1_t1rdc")
 
 [node name="CrystalArea" type="Sprite2D" parent="."]

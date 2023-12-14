@@ -5,6 +5,7 @@ extends CharacterBody2D
 # --------------------------------------------------------------------------
 
 signal mouse1_melee(player_position, player_rotation, player_direction)
+signal mouse2_melee(player_position, player_rotation, player_direction)
 signal mouse1_ranged(player_position, player_rotation, player_direction)
 
 @onready var scene = get_node("/root/Node2D/")
@@ -190,13 +191,26 @@ func _weapon_stroke(player_direction: Vector2, stroke_power: int):
 
 # This function make the melee projectile for the player character action
 func _melee():
+	#Basic Attack (Thrust)
 	if Input.is_action_pressed("mouse1") and Global.player_ableToMelee == true and Global.worldType == "Day":
 		Global.player_ableToMelee = false
 		var player_direction = (get_global_mouse_position() - position).normalized()
 		# Create animation with tween to weapon move while still maintaining look_at() func
 		_weapon_stroke(player_direction, 10)
 		mouse1_melee.emit($Weapon/MeleeSlashSpawn.global_position, $Weapon.rotation_degrees, player_direction)
-		$Timer/MeleeCooldown.start()
+		$Timer/MeleeCooldown.start(0.4)
+	#Special Attack (Throw) then cannot attack for certain duration until weapon spawn back
+	#UNDER CONSTRUCTION FOR MAKING THROWABLE WEAPON
+	elif Input.is_action_pressed("mouse2") and Global.player_ableToMelee == true and Global.worldType == "Day":
+		Global.player_ableToMelee = false
+		$Weapon/MeleeWeapon.hide()
+		var player_direction = (get_global_mouse_position() - position).normalized()
+		# Create animation with tween to weapon move while still maintaining look_at() func
+		_weapon_stroke(player_direction, 10)
+		mouse2_melee.emit($Weapon/MeleeSlashSpawn.global_position, $Weapon.rotation_degrees, player_direction)
+		#$Timer/MeleeCooldown.start(2)
+		
+	
 
 # This function make the ranged projectile for the player character action
 # @kepponn are responsible for this one
@@ -364,6 +378,9 @@ func _on_swap_world_cooldown_timeout():
 
 func _on_melee_cooldown_timeout():
 	Global.player_ableToMelee = true
+	#UNDER CONSTRUCTION OF MAKING THROWABLE WEAPON
+	if $Weapon/MeleeWeapon.visible == false:
+		$Weapon/MeleeWeapon.visible = true
 
 func _on_ranged_cooldown_timeout():
 	Global.player_ableToShoot = true

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dt3uldjvyd71r"]
+
+[ext_resource type="Texture2D" uid="uid://c4al2nk043nfc" path="res://assets/Items.png" id="1_2tkuf"]
+
+[node name="sprite_Items" type="Sprite2D"]
+modulate = Color(1, 1, 0.352941, 1)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_2tkuf")

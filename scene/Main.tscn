@@ -115,37 +115,40 @@ expand = true
 energy = 0.25
 blend_mode = 1
 
-[node name="Checkpoints" type="Node2D" parent="."]
+[node name="CheckpointsTemp" type="Node2D" parent="."]
 
-[node name="Checkpoint" parent="Checkpoints" instance=ExtResource("17_7s1v6")]
+[node name="Checkpoint" parent="CheckpointsTemp" instance=ExtResource("17_7s1v6")]
 position = Vector2(33, -65)
 metadata/_edit_lock_ = true
 
-[node name="Checkpoint2" parent="Checkpoints" instance=ExtResource("17_7s1v6")]
+[node name="Checkpoint2" parent="CheckpointsTemp" instance=ExtResource("17_7s1v6")]
 position = Vector2(2193, 887)
 
-[node name="Checkpoint3" parent="Checkpoints" instance=ExtResource("17_7s1v6")]
+[node name="Checkpoint3" parent="CheckpointsTemp" instance=ExtResource("17_7s1v6")]
 position = Vector2(531, -133)
+
+[node name="Checkpoint4" parent="CheckpointsTemp" instance=ExtResource("17_7s1v6")]
+position = Vector2(700, 229)
 
 [node name="ItemTemp" type="Node2D" parent="."]
 
 [node name="Items_Dash" parent="ItemTemp" instance=ExtResource("8_wr18p")]
-position = Vector2(75, 984)
+position = Vector2(291, -183)
 
 [node name="Items_Ammo" parent="ItemTemp" instance=ExtResource("9_kg4bj")]
-position = Vector2(69, 1042)
+position = Vector2(90, 683)
 
 [node name="Items_Health" parent="ItemTemp" instance=ExtResource("13_edutm")]
-position = Vector2(59, 1153)
+position = Vector2(94, 780)
 
 [node name="Items_Dash2" parent="ItemTemp" instance=ExtResource("8_wr18p")]
-position = Vector2(172, 1047)
+position = Vector2(410, -179)
 
 [node name="Items_Ammo2" parent="ItemTemp" instance=ExtResource("9_kg4bj")]
-position = Vector2(74, 786)
+position = Vector2(53, 571)
 
 [node name="Items_Health2" parent="ItemTemp" instance=ExtResource("13_edutm")]
-position = Vector2(75, 921)
+position = Vector2(398, 190)
 
 [node name="Items_Dash3" parent="ItemTemp" instance=ExtResource("8_wr18p")]
 position = Vector2(2756, 1120)
@@ -174,24 +177,24 @@ position = Vector2(2796, 1033)
 [node name="EnemyTemp" type="Node2D" parent="."]
 
 [node name="Enemy_Melee" parent="EnemyTemp" instance=ExtResource("17_0mkgf")]
-position = Vector2(357, -14)
+position = Vector2(881, 493)
 
 [node name="Enemy_Melee2" parent="EnemyTemp" instance=ExtResource("17_0mkgf")]
 position = Vector2(772, 834)
 enemy_type = "Night"
 
 [node name="Enemy_Ranged" parent="EnemyTemp" instance=ExtResource("18_e2te0")]
-position = Vector2(1277, 796)
+position = Vector2(559, 48)
 enemy_type = "Day"
 
 [node name="Enemy_Ranged2" parent="EnemyTemp" instance=ExtResource("18_e2te0")]
-position = Vector2(822, 881)
+position = Vector2(1017, -200)
 
 [node name="Boss" parent="." instance=ExtResource("13_ixunt")]
 position = Vector2(1918, 121)
 
 [node name="Character" parent="." instance=ExtResource("10_tc7wq")]
-position = Vector2(193, -10)
+position = Vector2(2102, 897)
 scale = Vector2(1.5, 1.5)
 
 [node name="PointLight2D" type="PointLight2D" parent="Character"]
@@ -210,3 +213,4 @@ metadata/_edit_lock_ = true
 [connection signal="boss_action_slash" from="Boss" to="." method="_on_boss_action_slash"]
 [connection signal="mouse1_melee" from="Character" to="." method="_on_player_mouse1_melee"]
 [connection signal="mouse1_ranged" from="Character" to="." method="_on_player_mouse1_ranged"]
+[connection signal="mouse2_melee" from="Character" to="." method="_on_character_mouse_2_melee"]

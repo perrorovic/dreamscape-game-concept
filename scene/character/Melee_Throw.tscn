@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctcd3l3d31i7b"]
+
+[ext_resource type="Script" path="res://scene/character/Melee_Throw.gd" id="1_4k1mh"]
+[ext_resource type="Texture2D" uid="uid://dinak8w45fe5i" path="res://assets/character/SwordMelee.png" id="2_qt15t"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3mhbg"]
+radius = 12.0
+height = 70.0
+
+[node name="MeleeThrow" type="Area2D"]
+modulate = Color(1, 0.694118, 0.623529, 1)
+collision_layer = 32
+collision_mask = 70
+script = ExtResource("1_4k1mh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-3.8147e-06, 0)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_qt15t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(13, -1)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_3mhbg")
+
+[node name="Timeout" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timeout" to="." method="_on_timeout_timeout"]
