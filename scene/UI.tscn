@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bio2wxum33qhf"]
+[gd_scene load_steps=20 format=3 uid="uid://bio2wxum33qhf"]
 
 [ext_resource type="Script" path="res://scene/UI.gd" id="1_o72nb"]
 [ext_resource type="Texture2D" uid="uid://bv6dhqfhvo4iw" path="res://assets/ui/ammo.png" id="2_0wt5f"]
@@ -7,6 +7,7 @@
 [ext_resource type="TileSet" uid="uid://esvtc00mqhdh" path="res://assets/tilesets/MainTileset.tres" id="5_te0qn"]
 [ext_resource type="Texture2D" uid="uid://b726cv0udrp3s" path="res://FrameMinimap.png" id="5_yk2xj"]
 [ext_resource type="PackedScene" uid="uid://13f0wxuarn6x" path="res://assets/ui/sprite_character.tscn" id="6_32iow"]
+[ext_resource type="Texture2D" uid="uid://dinak8w45fe5i" path="res://assets/character/SwordMelee.png" id="8_tip0q"]
 
 [sub_resource type="Animation" id="Animation_g2uf2"]
 length = 0.001
@@ -484,28 +485,120 @@ _data = {
 "unable_shoot_default": SubResource("Animation_63vpy")
 }
 
+[sub_resource type="Animation" id="Animation_cav3l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpecialAttack:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.603, 0.228)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpecialAttack:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpecialAttack:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(348, 387)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SpecialAttack:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_g27kj"]
+resource_name = "Unable_toThrow"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpecialAttack:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(348, 387), Vector2(347, 387), Vector2(348, 386), Vector2(348, 387)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpecialAttack:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0174533, 0.0, -0.0174533]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpecialAttack:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.603, 0.228), Vector2(0.629, 0.238), Vector2(0.603, 0.228)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SpecialAttack:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.0666667, 0.247059, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vobtf"]
+_data = {
+"RESET": SubResource("Animation_cav3l"),
+"unable_throw": SubResource("Animation_g27kj")
+}
+
 [node name="UI" type="CanvasLayer"]
 script = ExtResource("1_o72nb")
 
 [node name="UIAnimation" type="AnimationPlayer" parent="."]
-root_node = NodePath("../WorldType/Progress")
-libraries = {
-"": SubResource("AnimationLibrary_peaj0")
-}
-
-[node name="UIAnimation2" type="AnimationPlayer" parent="."]
-root_node = NodePath("../WorldType/Progress")
-libraries = {
-"": SubResource("AnimationLibrary_peaj0")
-}
-
-[node name="UIAnimation3" type="AnimationPlayer" parent="."]
-root_node = NodePath("../WorldType/Progress")
-libraries = {
-"": SubResource("AnimationLibrary_peaj0")
-}
-
-[node name="UIAnimation4" type="AnimationPlayer" parent="."]
 root_node = NodePath("../WorldType/Progress")
 libraries = {
 "": SubResource("AnimationLibrary_peaj0")
@@ -536,6 +629,12 @@ texture_under = ExtResource("2_wk60b")
 texture_progress = ExtResource("2_wk60b")
 tint_under = Color(0.152941, 0.152941, 0.152941, 1)
 metadata/_edit_lock_ = true
+
+[node name="UIWorldAnimation" type="AnimationPlayer" parent="WorldType"]
+root_node = NodePath("../Progress")
+libraries = {
+"": SubResource("AnimationLibrary_peaj0")
+}
 
 [node name="BossHealth" type="Node" parent="."]
 
@@ -571,18 +670,22 @@ grow_vertical = 0
 show_percentage = false
 metadata/_edit_lock_ = true
 
-[node name="PlayerAmmo" type="Node" parent="."]
+[node name="PlayerAmmo" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
 
 [node name="Progress" type="TextureProgressBar" parent="PlayerAmmo"]
+layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 47.0
-offset_top = -77.0
-offset_right = 270.0
-offset_bottom = -4.0
+offset_left = 527.0
+offset_top = 463.0
+offset_right = 750.0
+offset_bottom = 536.0
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(0.3, 0.3)
@@ -593,6 +696,12 @@ texture_under = ExtResource("2_0wt5f")
 texture_progress = ExtResource("2_0wt5f")
 tint_under = Color(0.290196, 0.290196, 0.290196, 1)
 metadata/_edit_lock_ = true
+
+[node name="UIAmmoAnimation" type="AnimationPlayer" parent="PlayerAmmo"]
+root_node = NodePath("../../WorldType/Progress")
+libraries = {
+"": SubResource("AnimationLibrary_peaj0")
+}
 
 [node name="PlayerDash" type="Node" parent="."]
 
@@ -616,6 +725,12 @@ texture_under = ExtResource("3_x81ot")
 texture_progress = ExtResource("3_x81ot")
 tint_under = Color(0.290196, 0.290196, 0.290196, 1)
 metadata/_edit_lock_ = true
+
+[node name="UIDashAnimation" type="AnimationPlayer" parent="PlayerDash"]
+root_node = NodePath("../../WorldType/Progress")
+libraries = {
+"": SubResource("AnimationLibrary_peaj0")
+}
 
 [node name="PlayerDeath" type="Node" parent="."]
 
@@ -674,3 +789,38 @@ scale = Vector2(0.2, 0.2)
 [node name="Checkpoints" type="Node2D" parent="Minimap/SubViewportContainer/SubViewport"]
 
 [node name="Items" type="Node2D" parent="Minimap/SubViewportContainer/SubViewport"]
+
+[node name="PlayerMelee" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+metadata/_edit_lock_ = true
+
+[node name="MeleeOnHand" type="TextureRect" parent="PlayerMelee"]
+layout_mode = 0
+offset_left = 528.0
+offset_top = 464.0
+offset_right = 592.0
+offset_bottom = 488.0
+texture = ExtResource("8_tip0q")
+expand_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="SpecialAttack" type="TextureProgressBar" parent="PlayerMelee"]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 0
+offset_left = 348.0
+offset_top = 387.0
+offset_right = 613.002
+offset_bottom = 470.0
+scale = Vector2(0.603, 0.228)
+pivot_offset = Vector2(132, 44)
+max_value = 10.0
+step = 0.1
+texture_under = ExtResource("8_tip0q")
+texture_progress = ExtResource("8_tip0q")
+tint_under = Color(0.290196, 0.290196, 0.290196, 1)
+
+[node name="UISpecialAttackAnimation" type="AnimationPlayer" parent="PlayerMelee"]
+libraries = {
+"": SubResource("AnimationLibrary_vobtf")
+}

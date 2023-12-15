@@ -4,6 +4,7 @@ var worldType: String
 var player_ableToSwapWorld: bool = true
 # This is auto set boolean in main function
 var player_ableToMelee
+var player_ableToThrow
 var player_ableToShoot
 # Used in projectile spawn and targeting
 var player_position

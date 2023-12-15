@@ -49,6 +49,7 @@ func _init_day():
 	$BGM.play()
 	Global.worldType = "Day"
 	Global.player_ableToMelee = true
+	Global.player_ableToThrow = true
 	Global.player_ableToShoot = false
 	$Node2D/TileMap.set_layer_enabled(1,true)
 	$Node2D/TileMap.set_layer_enabled(2,false)

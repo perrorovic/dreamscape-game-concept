@@ -48,6 +48,8 @@ func _physics_process(_delta):
 	Global.player_position = global_position
 	Global.player_meleeSlashSpawn = $Weapon/MeleeSlashSpawn.global_position
 	Global.player_rotation = rotation_degrees
+	
+	print($Timer/ThrowCooldown.time_left)
 	# Below are function for process
 	_loot_at()
 	_movement()
@@ -201,13 +203,18 @@ func _melee():
 		$Timer/MeleeCooldown.start(0.4)
 	#Special Attack (Throw) then cannot attack for certain duration until weapon spawn back
 	#UNDER CONSTRUCTION FOR MAKING THROWABLE WEAPON
-	elif Input.is_action_pressed("mouse2") and Global.player_ableToMelee == true and Global.worldType == "Day":
+	elif Input.is_action_pressed("mouse2") and Global.player_ableToMelee == true and Global.player_ableToThrow == true and Global.worldType == "Day":
 		Global.player_ableToMelee = false
+		Global.player_ableToThrow = false
 		$Weapon/MeleeWeapon.hide()
 		var player_direction = (get_global_mouse_position() - position).normalized()
 		# Create animation with tween to weapon move while still maintaining look_at() func
 		_weapon_stroke(player_direction, 10)
 		mouse2_melee.emit($Weapon/MeleeSlashSpawn.global_position, $Weapon.rotation_degrees, player_direction)
+		#MeleeCooldown timer started by Melee_Throw after it hit wall/enemy/after timed out (3s)
+		$Timer/ThrowCooldown.start()
+		$"../UI/PlayerMelee/MeleeOnHand".modulate = Color("#4a4a4a")
+		
 		#$Timer/MeleeCooldown.start(2)
 		
 	
@@ -316,6 +323,7 @@ func _dead():
 	# Animation death is simple foreground color that dim to black
 	# Show key to respawn
 
+
 # This function being called by the items to the player character to refill resources
 func _on_items_pickup(type):
 	print(type)
@@ -337,6 +345,12 @@ func _on_items_pickup(type):
 # --------------------------------------------------------------------------
 
 func _update_animation():
+	
+	#Update Special Attack UI Cooldown | Set wait_time on timer, currently at 10s
+	$"../UI/PlayerMelee/SpecialAttack".value = $Timer/ThrowCooldown.wait_time - $Timer/ThrowCooldown.time_left
+	
+	
+	
 	#Set animation to walking or idling
 	#Set Dust Particles to spawn if player is moving
 	if velocity == Vector2.ZERO:
@@ -361,11 +375,13 @@ func _update_animation():
 	
 	#if UI on cooldown and get pressed then do feedback animation
 	if Global.player_ableToDash == false and Input.is_action_just_pressed("dash"):
-		$"../UI/UIAnimation2".play("unable_dash")
+		$"../UI/PlayerDash/UIDashAnimation".play("unable_dash")
 	if player_isEmptyReloading == true and Input.is_action_just_pressed("mouse1"):
-		$"../UI/UIAnimation3".play("unable_shoot")
+		$"../UI/PlayerAmmo/UIAmmoAnimation".play("unable_shoot")
 	if Global.player_ableToSwapWorld == false and Input.is_action_just_pressed("swap"):
-		$"../UI/UIAnimation4".play("unable_change")
+		$"../UI/WorldType/UIWorldAnimation".play("unable_change")
+	if Global.player_ableToThrow == false and Input.is_action_just_pressed("mouse2"):
+		$"../UI/PlayerMelee/UISpecialAttackAnimation".play("unable_throw")
 
 # --------------------------------------------------------------------------
 # Timer with signal feedback that being used by the player character
@@ -381,6 +397,10 @@ func _on_melee_cooldown_timeout():
 	#UNDER CONSTRUCTION OF MAKING THROWABLE WEAPON
 	if $Weapon/MeleeWeapon.visible == false:
 		$Weapon/MeleeWeapon.visible = true
+		$"../UI/PlayerMelee/MeleeOnHand".modulate = Color("#ffffff")
+
+func _on_throw_cooldown_timeout():
+	Global.player_ableToThrow = true
 
 func _on_ranged_cooldown_timeout():
 	Global.player_ableToShoot = true
@@ -406,3 +426,5 @@ func _on_meme_2_body_entered(_body):
 	$"../WHOLEMEME/VideoStreamPlayer2".play()
 	$"../WHOLEMEME/Meme2".set_collision_mask_value(1, false)
 	pass
+
+

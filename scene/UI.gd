@@ -17,9 +17,18 @@ func _process(_delta):
 	$Minimap/SubViewportContainer/SubViewport/sprite_Character.position = $"../Character".position
 	$Minimap/SubViewportContainer/SubViewport/sprite_Character.rotation_degrees = Global.player_rotation
 	
-	_expand_map()
+	_toggle_map()
+	_check_world()
 	
-
+	
+func _check_world():
+	if Global.worldType == "Day":
+		$PlayerAmmo.hide()
+		$PlayerMelee.show()
+	if Global.worldType == "Night":
+		$PlayerAmmo.show()
+		$PlayerMelee.hide()
+		
 func _init_map():
 	for i in $"../CheckpointsTemp".get_child_count():
 		var checkpoint = sprite_Checkpoint.instantiate()
@@ -56,7 +65,7 @@ func _update_Items(item_name, set_position):
 		items.z_index = 2
 		items.position = set_position
 
-func _expand_map():
+func _toggle_map():
 	#Map change to Minimap
 	if Input.is_action_just_pressed("expand_map") and map_isExpanded == true:
 		map_isExpanded = false

@@ -23,9 +23,9 @@ func _on_body_entered(body):
 	if body.has_method("_hit"):
 		body._hit(damage, iframe_type, set_direction, knockback_power)
 	print("started timer")
-	$"../../Character/Timer/MeleeCooldown".start(2)
+	$"../../Character/Timer/MeleeCooldown".start(1)
 	queue_free()
 
 func _on_timeout_timeout():
-	$"../../Character/Timer/MeleeCooldown".start(2)
+	$"../../Character/Timer/MeleeCooldown".start(1)
 	queue_free()

@@ -212,6 +212,10 @@ one_shot = true
 wait_time = 0.4
 one_shot = true
 
+[node name="ThrowCooldown" type="Timer" parent="Timer"]
+wait_time = 10.0
+one_shot = true
+
 [node name="ReloadAutoCooldown" type="Timer" parent="Timer"]
 wait_time = 3.0
 one_shot = true
@@ -331,6 +335,7 @@ metadata/_edit_lock_ = true
 
 [connection signal="timeout" from="Timer/RangedCooldown" to="." method="_on_ranged_cooldown_timeout"]
 [connection signal="timeout" from="Timer/MeleeCooldown" to="." method="_on_melee_cooldown_timeout"]
+[connection signal="timeout" from="Timer/ThrowCooldown" to="." method="_on_throw_cooldown_timeout"]
 [connection signal="timeout" from="Timer/DashDuration" to="." method="_on_dash_duration_timeout"]
 [connection signal="timeout" from="Timer/DashCooldown" to="." method="_on_dash_cooldown_timeout"]
 [connection signal="timeout" from="Timer/SwapWorldCooldown" to="." method="_on_swap_world_cooldown_timeout"]
