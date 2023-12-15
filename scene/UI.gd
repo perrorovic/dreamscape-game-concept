@@ -23,10 +23,10 @@ func _process(_delta):
 	
 func _check_world():
 	if Global.worldType == "Day":
-		$PlayerAmmo.hide()
+		$PlayerRanged.hide()
 		$PlayerMelee.show()
 	if Global.worldType == "Night":
-		$PlayerAmmo.show()
+		$PlayerRanged.show()
 		$PlayerMelee.hide()
 		
 func _init_map():

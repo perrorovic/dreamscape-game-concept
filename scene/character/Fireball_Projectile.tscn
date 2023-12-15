@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://dukv6a50u8wxy"]
+
+[ext_resource type="Script" path="res://scene/character/Fireball_Projectile.gd" id="1_bjbok"]
+[ext_resource type="Texture2D" uid="uid://c65iqtbil2r4y" path="res://assets/character/Fireball.png" id="2_x53f1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6oqw6"]
+radius = 6.0
+height = 20.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_loahk"]
+radius = 336.251
+
+[node name="Fireball_Projectile" type="Area2D"]
+collision_layer = 32
+collision_mask = 70
+script = ExtResource("1_bjbok")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("2_x53f1")
+flip_v = true
+
+[node name="Fireball_Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CapsuleShape2D_6oqw6")
+
+[node name="Explosion_AoE" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 6
+
+[node name="Explosion_range" type="CollisionShape2D" parent="Explosion_AoE"]
+shape = SubResource("CircleShape2D_loahk")
+
+[node name="MidairExplosionWaittime" type="Timer" parent="."]
+
+[node name="Timeout" type="Timer" parent="."]
+wait_time = 1.1
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="Explosion_AoE" to="." method="_on_explosion_aoe_body_entered"]
+[connection signal="timeout" from="MidairExplosionWaittime" to="." method="_on_midair_explosion_waittime_timeout"]
+[connection signal="timeout" from="Timeout" to="." method="_on_timeout_timeout"]

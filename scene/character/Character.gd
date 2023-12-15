@@ -7,6 +7,7 @@ extends CharacterBody2D
 signal mouse1_melee(player_position, player_rotation, player_direction)
 signal mouse2_melee(player_position, player_rotation, player_direction)
 signal mouse1_ranged(player_position, player_rotation, player_direction)
+signal mouse2_ranged(player_position, player_rotation, player_direction)
 
 @onready var scene = get_node("/root/Node2D/")
 signal scene_change_world_type()
@@ -38,18 +39,19 @@ func _ready():
 	$Weapon/RangedWeapon.hide()
 	# Set the values of the player health (Should move the health into UIs node)
 	$"../UI/PlayerHealth/Progress".max_value = Global.player_healthMax
-	$"../UI/PlayerAmmo/Progress".max_value = Global.player_ammoMax
+	$"../UI/PlayerRanged/Ammo".max_value = Global.player_ammoMax
 
 func _physics_process(_delta):
 	# Update the player health value all the time
 	$"../UI/PlayerHealth/Progress".value = Global.player_health
-	$"../UI/PlayerAmmo/Progress".value = Global.player_ammo
+	$"../UI/PlayerRanged/Ammo".value = Global.player_ammo
 	# Set the location for melee projectile to spawn by using hit marker
 	Global.player_position = global_position
 	Global.player_meleeSlashSpawn = $Weapon/MeleeSlashSpawn.global_position
 	Global.player_rotation = rotation_degrees
 	
-	print($Timer/ThrowCooldown.time_left)
+	print($Timer/FireballCooldown.time_left)
+	
 	# Below are function for process
 	_loot_at()
 	_movement()
@@ -217,12 +219,11 @@ func _melee():
 		
 		#$Timer/MeleeCooldown.start(2)
 		
-	
 
 # This function make the ranged projectile for the player character action
 # @kepponn are responsible for this one
 func _ranged():
-	$"../UI/PlayerAmmo/Progress".value = Global.player_ammo
+	$"../UI/PlayerRanged/Ammo".value = Global.player_ammo
 	#if shooting on any ammo except last ammo (1 ammo or more {2,3,4,5,...} left), auto reload timer will be started
 	if Global.player_ammo > 1 and Input.is_action_pressed("mouse1") and Global.player_ableToShoot == true and Global.worldType == "Night":
 		Global.player_ableToShoot = false
@@ -274,6 +275,22 @@ func _ranged():
 			print("Adding Ammo")
 			player_isAddingAmmo = false
 		$Timer/ReloadTickCooldown.start(0.2)
+		
+	
+	if Input.is_action_pressed("mouse2") and Global.player_ableToFireball == true and Global.worldType == "Night":
+		Global.player_ableToShoot = false
+		Global.player_ableToFireball = false
+		var player_direction = (get_global_mouse_position() - position).normalized()
+#		send signal into ["res://Main.gd"] script to spawn ranged bullet based on these parameter
+#		all parameter will be set into ["res://Scene/BulletProjectile.gd"] in there
+		# Create animation with tween to weapon move while still maintaining look_at() func
+		_weapon_stroke(player_direction, -3)
+		mouse2_ranged.emit($Weapon/RangedBulletSpawn.global_position, $Weapon.rotation_degrees, player_direction)
+		#RangedCooldown timer is used on time out to change Global.player_ableToShoot to true 
+		#RangedCooldown is basically used to add delay time between spawning each bullet
+		$Timer/FireballCooldown.start()
+		$Timer/RangedCooldown.start()
+		
 
 # This function make the player dash with immunity frame
 func _dash():
@@ -336,7 +353,7 @@ func _on_items_pickup(type):
 	elif type == "ammo":
 		$Timer/ReloadTickCooldown.stop()
 		Global.player_ammo = Global.player_ammoMax
-		$"../UI/PlayerAmmo/Progress".value = Global.player_ammoMax
+		$"../UI/PlayerRanged/Amoo".value = Global.player_ammoMax
 		Global.player_ableToShoot = true
 		
 # --------------------------------------------------------------------------
@@ -348,7 +365,7 @@ func _update_animation():
 	
 	#Update Special Attack UI Cooldown | Set wait_time on timer, currently at 10s
 	$"../UI/PlayerMelee/SpecialAttack".value = $Timer/ThrowCooldown.wait_time - $Timer/ThrowCooldown.time_left
-	
+	$"../UI/PlayerRanged/SpecialAttack".value = $Timer/FireballCooldown.wait_time - $Timer/FireballCooldown.time_left
 	
 	
 	#Set animation to walking or idling
@@ -377,11 +394,13 @@ func _update_animation():
 	if Global.player_ableToDash == false and Input.is_action_just_pressed("dash"):
 		$"../UI/PlayerDash/UIDashAnimation".play("unable_dash")
 	if player_isEmptyReloading == true and Input.is_action_just_pressed("mouse1"):
-		$"../UI/PlayerAmmo/UIAmmoAnimation".play("unable_shoot")
+		$"../UI/PlayerRanged/UIAmmoAnimation".play("unable_shoot")
 	if Global.player_ableToSwapWorld == false and Input.is_action_just_pressed("swap"):
 		$"../UI/WorldType/UIWorldAnimation".play("unable_change")
 	if Global.player_ableToThrow == false and Input.is_action_just_pressed("mouse2"):
-		$"../UI/PlayerMelee/UISpecialAttackAnimation".play("unable_throw")
+		$"../UI/PlayerMelee/UISpecialAttackAnimation".play("unable_special")
+	if Global.player_ableToFireball == false and Input.is_action_just_pressed("mouse2"):
+		$"../UI/PlayerRanged/UISpecialAttackAnimation".play("unable_special")
 
 # --------------------------------------------------------------------------
 # Timer with signal feedback that being used by the player character
@@ -405,12 +424,17 @@ func _on_throw_cooldown_timeout():
 func _on_ranged_cooldown_timeout():
 	Global.player_ableToShoot = true
 
+func _on_fireball_cooldown_timeout():
+	Global.player_ableToFireball = true
+
 func _on_dash_duration_timeout():
 	player_moveSpeed = player_moveSpeedDefault
 	set_collision_mask_value(1, true)
 
 func _on_dash_cooldown_timeout():
 	Global.player_ableToDash = true
+	
+
 
 # --------------------------------------------------------------------------
 # TO BE DELETED LATER @kepponn RETARDOING

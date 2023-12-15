@@ -194,7 +194,7 @@ position = Vector2(1017, -200)
 position = Vector2(1918, 121)
 
 [node name="Character" parent="." instance=ExtResource("10_tc7wq")]
-position = Vector2(2102, 897)
+position = Vector2(1106, 1001)
 scale = Vector2(1.5, 1.5)
 
 [node name="PointLight2D" type="PointLight2D" parent="Character"]
@@ -214,3 +214,4 @@ metadata/_edit_lock_ = true
 [connection signal="mouse1_melee" from="Character" to="." method="_on_player_mouse1_melee"]
 [connection signal="mouse1_ranged" from="Character" to="." method="_on_player_mouse1_ranged"]
 [connection signal="mouse2_melee" from="Character" to="." method="_on_character_mouse_2_melee"]
+[connection signal="mouse2_ranged" from="Character" to="." method="_on_character_mouse_2_ranged"]

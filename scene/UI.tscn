@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://bio2wxum33qhf"]
+[gd_scene load_steps=30 format=3 uid="uid://bio2wxum33qhf"]
 
 [ext_resource type="Script" path="res://scene/UI.gd" id="1_o72nb"]
 [ext_resource type="Texture2D" uid="uid://bv6dhqfhvo4iw" path="res://assets/ui/ammo.png" id="2_0wt5f"]
 [ext_resource type="Texture2D" uid="uid://dmjgpd6ykxqao" path="res://assets/ui/sun.png" id="2_wk60b"]
 [ext_resource type="Texture2D" uid="uid://br5hquqxbuat6" path="res://assets/ui/dash.png" id="3_x81ot"]
 [ext_resource type="TileSet" uid="uid://esvtc00mqhdh" path="res://assets/tilesets/MainTileset.tres" id="5_te0qn"]
+[ext_resource type="Texture2D" uid="uid://dq1jrsg5jqgop" path="res://assets/character/StaffRanged.png" id="5_vexeo"]
 [ext_resource type="Texture2D" uid="uid://b726cv0udrp3s" path="res://FrameMinimap.png" id="5_yk2xj"]
 [ext_resource type="PackedScene" uid="uid://13f0wxuarn6x" path="res://assets/ui/sprite_character.tscn" id="6_32iow"]
 [ext_resource type="Texture2D" uid="uid://dinak8w45fe5i" path="res://assets/character/SwordMelee.png" id="8_tip0q"]
@@ -110,7 +111,7 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("../../PlayerAmmo/Progress:position")
+tracks/8/path = NodePath("../../PlayerRanged/Ammo:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -122,7 +123,7 @@ tracks/8/keys = {
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("../../PlayerAmmo/Progress:rotation")
+tracks/9/path = NodePath("../../PlayerRanged/Ammo:rotation")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
@@ -134,7 +135,7 @@ tracks/9/keys = {
 tracks/10/type = "value"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("../../PlayerAmmo/Progress:scale")
+tracks/10/path = NodePath("../../PlayerRanged/Ammo:scale")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
@@ -146,7 +147,7 @@ tracks/10/keys = {
 tracks/11/type = "value"
 tracks/11/imported = false
 tracks/11/enabled = true
-tracks/11/path = NodePath("../../PlayerAmmo/Progress:self_modulate")
+tracks/11/path = NodePath("../../PlayerRanged/Ammo:self_modulate")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
@@ -368,59 +369,6 @@ tracks/3/keys = {
 "values": [Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_jf33p"]
-resource_name = "unable_shoot"
-length = 0.5
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../../PlayerAmmo/Progress:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(527, 463), Vector2(528, 463), Vector2(527, 462), Vector2(527, 463)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../../PlayerAmmo/Progress:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [0.0, 0.0174533, 0.0, 0.0174533]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../../PlayerAmmo/Progress:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.45),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(0.3, 0.3), Vector2(0.33, 0.33), Vector2(0.3, 0.3)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../../PlayerAmmo/Progress:self_modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.45),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 0.0666667, 0.247059, 1), Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="Animation" id="Animation_63vpy"]
 resource_name = "unable_shoot_default"
 length = 0.001
@@ -428,7 +376,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../../PlayerAmmo/Progress:position")
+tracks/0/path = NodePath("../../PlayerRanged/Ammo:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -440,7 +388,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../../PlayerAmmo/Progress:rotation")
+tracks/1/path = NodePath("../../PlayerRanged/Ammo:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -452,7 +400,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../../PlayerAmmo/Progress:scale")
+tracks/2/path = NodePath("../../PlayerRanged/Ammo:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -464,7 +412,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../../PlayerAmmo/Progress:self_modulate")
+tracks/3/path = NodePath("../../PlayerRanged/Ammo:self_modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -472,6 +420,59 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_jf33p"]
+resource_name = "unable_shoot"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../PlayerRanged/Ammo:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(527, 463), Vector2(528, 463), Vector2(527, 462), Vector2(527, 463)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../PlayerRanged/Ammo:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0174533, 0.0, 0.0174533]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../PlayerRanged/Ammo:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.3, 0.3), Vector2(0.33, 0.33), Vector2(0.3, 0.3)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../../PlayerRanged/Ammo:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.0666667, 0.247059, 1), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_peaj0"]
@@ -483,6 +484,342 @@ _data = {
 "unable_dash_default": SubResource("Animation_v354m"),
 "unable_shoot": SubResource("Animation_jf33p"),
 "unable_shoot_default": SubResource("Animation_63vpy")
+}
+
+[sub_resource type="Animation" id="Animation_nrmxx"]
+resource_name = "unable_change"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(450, 442), Vector2(451, 442), Vector2(450, 441), Vector2(450, 442)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0174533, 0.0, 0.0174533]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.1, 0.1), Vector2(0.106, 0.106), Vector2(0.1, 0.1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.0666667, 0.247059, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_5p3dh"]
+resource_name = "unable_change_default"
+length = 0.001
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(450, 442)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.1, 0.1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_650ef"]
+_data = {
+"unable_change": SubResource("Animation_nrmxx"),
+"unable_change_default": SubResource("Animation_5p3dh")
+}
+
+[sub_resource type="Animation" id="Animation_pyp6v"]
+resource_name = "unable_dash"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../PlayerDash/Progress:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(371, 455), Vector2(372, 455), Vector2(371, 454), Vector2(371, 455)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../PlayerDash/Progress:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0174533, 0.0, 0.0174533]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../PlayerDash/Progress:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.15, 0.15), Vector2(0.156, 0.156), Vector2(0.15, 0.15)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../../PlayerDash/Progress:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.0666667, 0.247059, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ywddd"]
+resource_name = "unable_dash_default"
+length = 0.001
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../PlayerDash/Progress:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(371, 455)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../PlayerDash/Progress:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../PlayerDash/Progress:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.15, 0.15)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../../PlayerDash/Progress:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5dvi7"]
+_data = {
+"unable_dash": SubResource("Animation_pyp6v"),
+"unable_dash_default": SubResource("Animation_ywddd")
+}
+
+[sub_resource type="Animation" id="Animation_sngti"]
+resource_name = "unable_shoot"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../PlayerRanged/Ammo:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(527, 463), Vector2(528, 463), Vector2(527, 462), Vector2(527, 463)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../PlayerRanged/Ammo:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0174533, 0.0, 0.0174533]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../PlayerRanged/Ammo:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.3, 0.3), Vector2(0.33, 0.33), Vector2(0.3, 0.3)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../../PlayerRanged/Ammo:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.0666667, 0.247059, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_f20hs"]
+resource_name = "unable_change_default"
+length = 0.001
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(450, 442)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.1, 0.1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mivvl"]
+_data = {
+"unable_change_default": SubResource("Animation_f20hs"),
+"unable_shoot": SubResource("Animation_sngti")
 }
 
 [sub_resource type="Animation" id="Animation_cav3l"]
@@ -592,7 +929,7 @@ tracks/3/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vobtf"]
 _data = {
 "RESET": SubResource("Animation_cav3l"),
-"unable_throw": SubResource("Animation_g27kj")
+"unable_special": SubResource("Animation_g27kj")
 }
 
 [node name="UI" type="CanvasLayer"]
@@ -604,19 +941,29 @@ libraries = {
 "": SubResource("AnimationLibrary_peaj0")
 }
 
-[node name="WorldType" type="Node" parent="."]
+[node name="WorldType" type="Control" parent="."]
+self_modulate = Color(1, 0.766667, 0.811765, 1)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 450.0
+offset_top = 441.667
+offset_right = 450.0
+offset_bottom = 441.667
+rotation = 0.0174533
+scale = Vector2(0.1012, 0.1012)
 
 [node name="Progress" type="TextureProgressBar" parent="WorldType"]
 top_level = true
+layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -30.0
-offset_top = -98.0
-offset_right = 570.0
-offset_bottom = 502.0
+offset_left = 450.0
+offset_top = 442.0
+offset_right = 1050.0
+offset_bottom = 1042.0
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(0.1, 0.1)
@@ -630,10 +977,16 @@ texture_progress = ExtResource("2_wk60b")
 tint_under = Color(0.152941, 0.152941, 0.152941, 1)
 metadata/_edit_lock_ = true
 
-[node name="UIWorldAnimation" type="AnimationPlayer" parent="WorldType"]
+[node name="UIWorldAnimation2 OLD" type="AnimationPlayer" parent="WorldType"]
 root_node = NodePath("../Progress")
 libraries = {
 "": SubResource("AnimationLibrary_peaj0")
+}
+
+[node name="UIWorldAnimation" type="AnimationPlayer" parent="WorldType"]
+root_node = NodePath("../Progress")
+libraries = {
+"": SubResource("AnimationLibrary_650ef")
 }
 
 [node name="BossHealth" type="Node" parent="."]
@@ -670,12 +1023,49 @@ grow_vertical = 0
 show_percentage = false
 metadata/_edit_lock_ = true
 
-[node name="PlayerAmmo" type="Control" parent="."]
-visible = false
+[node name="PlayerDash" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 
-[node name="Progress" type="TextureProgressBar" parent="PlayerAmmo"]
+[node name="Progress" type="TextureProgressBar" parent="PlayerDash"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 371.0
+offset_top = 455.0
+offset_right = 804.0
+offset_bottom = 730.001
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.15, 0.15)
+step = 0.1
+value = 100.0
+fill_mode = 1
+texture_under = ExtResource("3_x81ot")
+texture_progress = ExtResource("3_x81ot")
+tint_under = Color(0.290196, 0.290196, 0.290196, 1)
+metadata/_edit_lock_ = true
+
+[node name="UIDashAnimation2 OLD" type="AnimationPlayer" parent="PlayerDash"]
+root_node = NodePath("../../WorldType/Progress")
+libraries = {
+"": SubResource("AnimationLibrary_peaj0")
+}
+
+[node name="UIDashAnimation" type="AnimationPlayer" parent="PlayerDash"]
+root_node = NodePath("../Progress")
+libraries = {
+"": SubResource("AnimationLibrary_5dvi7")
+}
+
+[node name="PlayerRanged" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Ammo" type="TextureProgressBar" parent="PlayerRanged"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -697,51 +1087,75 @@ texture_progress = ExtResource("2_0wt5f")
 tint_under = Color(0.290196, 0.290196, 0.290196, 1)
 metadata/_edit_lock_ = true
 
-[node name="UIAmmoAnimation" type="AnimationPlayer" parent="PlayerAmmo"]
+[node name="SpecialAttack" type="TextureProgressBar" parent="PlayerRanged"]
+layout_mode = 0
+offset_left = 348.0
+offset_top = 387.0
+offset_right = 613.001
+offset_bottom = 470.0
+scale = Vector2(0.603, 0.228)
+pivot_offset = Vector2(132, 44)
+max_value = 10.0
+step = 0.1
+value = 5.0
+nine_patch_stretch = true
+texture_under = ExtResource("5_vexeo")
+texture_progress = ExtResource("5_vexeo")
+tint_under = Color(0.290196, 0.290196, 0.290196, 1)
+
+[node name="UIAmmoAnimation2 OLD" type="AnimationPlayer" parent="PlayerRanged"]
 root_node = NodePath("../../WorldType/Progress")
 libraries = {
 "": SubResource("AnimationLibrary_peaj0")
 }
 
-[node name="PlayerDash" type="Node" parent="."]
+[node name="UIAmmoAnimation" type="AnimationPlayer" parent="PlayerRanged"]
+root_node = NodePath("../Ammo")
+libraries = {
+"": SubResource("AnimationLibrary_mivvl")
+}
 
-[node name="Progress" type="TextureProgressBar" parent="PlayerDash"]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -109.0
-offset_top = -85.0
-offset_right = 324.0
-offset_bottom = 190.001
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(0.15, 0.15)
-step = 0.1
-value = 100.0
-fill_mode = 1
-texture_under = ExtResource("3_x81ot")
-texture_progress = ExtResource("3_x81ot")
-tint_under = Color(0.290196, 0.290196, 0.290196, 1)
+[node name="UISpecialAttackAnimation" type="AnimationPlayer" parent="PlayerRanged"]
+libraries = {
+"": SubResource("AnimationLibrary_vobtf")
+}
+
+[node name="PlayerMelee" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
 metadata/_edit_lock_ = true
 
-[node name="UIDashAnimation" type="AnimationPlayer" parent="PlayerDash"]
-root_node = NodePath("../../WorldType/Progress")
+[node name="MeleeOnHand" type="TextureRect" parent="PlayerMelee"]
+layout_mode = 0
+offset_left = 528.0
+offset_top = 464.0
+offset_right = 592.0
+offset_bottom = 488.0
+texture = ExtResource("8_tip0q")
+expand_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="SpecialAttack" type="TextureProgressBar" parent="PlayerMelee"]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 0
+offset_left = 348.0
+offset_top = 387.0
+offset_right = 613.002
+offset_bottom = 470.0
+scale = Vector2(0.603, 0.228)
+pivot_offset = Vector2(132, 44)
+max_value = 10.0
+step = 0.1
+nine_patch_stretch = true
+texture_under = ExtResource("8_tip0q")
+texture_progress = ExtResource("8_tip0q")
+tint_under = Color(0.290196, 0.290196, 0.290196, 1)
+
+[node name="UISpecialAttackAnimation" type="AnimationPlayer" parent="PlayerMelee"]
 libraries = {
-"": SubResource("AnimationLibrary_peaj0")
+"": SubResource("AnimationLibrary_vobtf")
 }
-
-[node name="PlayerDeath" type="Node" parent="."]
-
-[node name="Foreground" type="ColorRect" parent="PlayerDeath"]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
 
 [node name="Minimap" type="Node" parent="."]
 
@@ -790,37 +1204,13 @@ scale = Vector2(0.2, 0.2)
 
 [node name="Items" type="Node2D" parent="Minimap/SubViewportContainer/SubViewport"]
 
-[node name="PlayerMelee" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-metadata/_edit_lock_ = true
+[node name="PlayerDeath" type="Node" parent="."]
 
-[node name="MeleeOnHand" type="TextureRect" parent="PlayerMelee"]
-layout_mode = 0
-offset_left = 528.0
-offset_top = 464.0
-offset_right = 592.0
-offset_bottom = 488.0
-texture = ExtResource("8_tip0q")
-expand_mode = 1
-metadata/_edit_lock_ = true
-
-[node name="SpecialAttack" type="TextureProgressBar" parent="PlayerMelee"]
-modulate = Color(1, 1, 0, 1)
-layout_mode = 0
-offset_left = 348.0
-offset_top = 387.0
-offset_right = 613.002
-offset_bottom = 470.0
-scale = Vector2(0.603, 0.228)
-pivot_offset = Vector2(132, 44)
-max_value = 10.0
-step = 0.1
-texture_under = ExtResource("8_tip0q")
-texture_progress = ExtResource("8_tip0q")
-tint_under = Color(0.290196, 0.290196, 0.290196, 1)
-
-[node name="UISpecialAttackAnimation" type="AnimationPlayer" parent="PlayerMelee"]
-libraries = {
-"": SubResource("AnimationLibrary_vobtf")
-}
+[node name="Foreground" type="ColorRect" parent="PlayerDeath"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

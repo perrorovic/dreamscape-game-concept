@@ -6,6 +6,7 @@ var player_ableToSwapWorld: bool = true
 var player_ableToMelee
 var player_ableToThrow
 var player_ableToShoot
+var player_ableToFireball
 # Used in projectile spawn and targeting
 var player_position
 var player_rotation
