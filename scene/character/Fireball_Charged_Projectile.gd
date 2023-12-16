@@ -20,7 +20,7 @@ func _process(delta):
 		position += set_direction * speed * delta
 
 #Explode after colliding
-func _on_body_entered(body):
+func _on_body_entered(_body):
 	$Explosion_AoE.set_collision_mask_value(7,true)
 	$AnimationPlayer.play("Explode")
 	exploded = true
@@ -38,5 +38,5 @@ func _on_explosion_aoe_body_entered(body):
 		body._hit(damage, iframe_type, set_direction, knockback_power)
 		
 #Queue free after animation is finished
-func _on_animation_player_animation_finished(anim_name):
+func _on_animation_player_animation_finished(_anim_name):
 	queue_free()

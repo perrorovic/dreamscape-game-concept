@@ -104,6 +104,9 @@ func _on_player_mouse1_melee(player_position, player_rotation, player_direction)
 	$ProjectileTemp.add_child(melee,true)
 
 func _on_character_mouse_2_melee(player_position, player_rotation, player_direction):
+	# Debugger
+	# W 0:00:02:0394   The identifier "throw" will be shadowed below in the block.
+	# W 0:00:02:0394   The local variable "throw" is shadowing an already-declared variable at line 18.
 	var throw = throw.instantiate() as Area2D
 	throw.set_direction = player_direction
 	throw.position = player_position
@@ -118,6 +121,9 @@ func _on_player_mouse1_ranged(player_position, player_rotation, player_direction
 	$ProjectileTemp.add_child(bullet,true)
 
 func _on_character_mouse_2_ranged(player_position, player_rotation, player_direction, is_Charged):
+	# Debugger for both "fireball" and "fireball_Charged"
+	# W 0:00:02:0394   The identifier "fireball" will be shadowed below in the block.
+	#W 0:00:02:0394   The local variable "fireball" is shadowing an already-declared variable at line 20.
 	if is_Charged == false:
 		var fireball = fireball.instantiate() as Area2D
 		fireball.set_rotation_degree = player_rotation + 90

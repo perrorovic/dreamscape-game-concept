@@ -12,14 +12,19 @@ signal mouse2_ranged(player_position, player_rotation, player_direction, is_Char
 @onready var scene = get_node("/root/Node2D/")
 signal scene_change_world_type()
 
+# This is signal used in itself for calling other method
+signal update_movement()
+
 # --------------------------------------------------------------------------
 # Player character property are listed and set with type and value here
 # --------------------------------------------------------------------------
 
 # Player movement speed are listed here
-const speed_modifier: float = 1.5
-@export var player_moveSpeed: float = 128.0 * speed_modifier
-const player_moveSpeedDefault: float = 128.0 * speed_modifier
+const move_speed: float = 128.0
+var speed_modifier: float = 1.5
+const speed_modifierDefault: float = 1.5
+@export var player_moveSpeed: float = move_speed * speed_modifier
+var player_moveSpeedDefault: float = move_speed * speed_modifier
 # This being used in _movement() for user input
 var direction: Vector2
 # This being used in _ranged() for reloading and auto-reload feature
@@ -40,6 +45,7 @@ func _ready():
 	$Filter.color = Color("#db9042")
 	$Weapon/MeleeWeapon.show()
 	$Weapon/RangedWeapon.hide()
+	$Weapon/RangedWeapon/ChargingParticles.emitting = false
 	# Set the values of the player health (Should move the health into UIs node)
 	$"../UI/PlayerHealth/Progress".max_value = Global.player_healthMax
 	$"../UI/PlayerRanged/Ammo".max_value = Global.player_ammoMax
@@ -53,8 +59,11 @@ func _physics_process(_delta):
 	Global.player_meleeSlashSpawn = $Weapon/MeleeSlashSpawn.global_position
 	Global.player_rotation = rotation_degrees
 	
+	#print(player_moveSpeed)
+	#print(speed_modifier)
+	
 	#print($Timer/FireballCooldown.time_left)
-	print($Timer/CastingTime.time_left)
+	#print($Timer/CastingTime.time_left)
 	
 	# Below are function for process
 	_loot_at()
@@ -69,12 +78,25 @@ func _physics_process(_delta):
 # Function of _movement() (This function move the player around based on user-input)
 # --------------------------------------------------------------------------
 
+func _update_movement(method: String = "update", speed_modifierTemp: float = 0):
+	# Set default state of the function if no param is specified
+	if method == "update":
+		# Update the movement to current 'speed_modifier'
+		player_moveSpeed = move_speed * speed_modifier
+	elif method == "set":
+		# Update the movement to new set 'speed_modifier'
+		speed_modifier = speed_modifierTemp
+		player_moveSpeed = move_speed * speed_modifier
+	print(player_moveSpeed)
+	print(speed_modifier)
+
 func _movement():
 	# To change movement speed if player is casting fireball
-	if player_isCasting == true:
-		player_moveSpeed = 75
-	elif player_isCasting == false:
-		player_moveSpeed = player_moveSpeedDefault
+	# This make the dash UNUSABLE.
+	#if player_isCasting == true:
+		#player_moveSpeed = 75
+	#elif player_isCasting == false:
+		#player_moveSpeed = player_moveSpeedDefault
 		
 	# Get the user input and move the player character accordingly
 	direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -227,7 +249,6 @@ func _melee():
 		$"../UI/PlayerMelee/MeleeOnHand".modulate = Color("#4a4a4a")
 		
 		#$Timer/MeleeCooldown.start(2)
-		
 
 # This function make the ranged projectile for the player character action
 # @kepponn are responsible for this one
@@ -262,7 +283,7 @@ func _ranged():
 		Global.player_ammo -= 1
 		player_isEmptyReloading = true
 		$Timer/ReloadTickCooldown.start(1)
-
+	
 	if player_isEmptyReloading == true and player_isAddingAmmo == false and $Timer/ReloadTickCooldown.time_left <= 0:
 		print("Empty Reload")
 		player_isAddingAmmo = true
@@ -293,14 +314,20 @@ func _ranged():
 	if Input.is_action_just_pressed("mouse2") and Global.player_ableToFireball == true and player_isCasting == false and Global.worldType == "Night":
 		Global.player_ableToShoot = false
 		player_isCasting = true
+		# Using speed_modifier to change the speed
+		connect("update_movement", Callable(self, "_update_movement") , 4)
+		update_movement.emit("set" ,0.5)
+		# Set the default state of the particles
 		$Weapon/RangedWeapon/ChargingParticles.emitting = true
+		$Weapon/RangedWeapon/ChargingParticles.self_modulate = Color("ffffff")
 		$Timer/CastingTime.start()
 	
 	# After mouse2 is released, will emit signal depending on if player is done casting or not yet
-	
-	
 	if Input.is_action_just_released("mouse2") and player_isCasting == true:
 		Global.player_ableToFireball = false
+		# Revert to default speed modifier
+		connect("update_movement", Callable(self, "_update_movement") , 4)
+		update_movement.emit("set", speed_modifierDefault)
 		var player_direction = (get_global_mouse_position() - position).normalized()
 	#	send signal into ["res://Main.gd"] script to spawn ranged bullet based on these parameter
 	#	all parameter will be set into ["res://Scene/BulletProjectile.gd"] in there
@@ -324,7 +351,7 @@ func _ranged():
 		$Timer/RangedCooldown.start()
 		player_isCasting = false
 		$Weapon/RangedWeapon/ChargingParticles.emitting = false
-		
+
 # This function make the player dash with immunity frame
 func _dash():
 	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):
@@ -373,7 +400,6 @@ func _dead():
 	# Animation death is simple foreground color that dim to black
 	# Show key to respawn
 
-
 # This function being called by the items to the player character to refill resources
 func _on_items_pickup(type):
 	print(type)
@@ -386,7 +412,7 @@ func _on_items_pickup(type):
 	elif type == "ammo":
 		$Timer/ReloadTickCooldown.stop()
 		Global.player_ammo = Global.player_ammoMax
-		$"../UI/PlayerRanged/Amoo".value = Global.player_ammoMax
+		$"../UI/PlayerRanged/Ammo".value = Global.player_ammoMax
 		Global.player_ableToShoot = true
 		
 # --------------------------------------------------------------------------
@@ -395,11 +421,9 @@ func _on_items_pickup(type):
 # --------------------------------------------------------------------------
 
 func _update_animation():
-	
 	#Update Special Attack UI Cooldown | Set wait_time on timer, currently at 10s
 	$"../UI/PlayerMelee/SpecialAttack".value = $Timer/ThrowCooldown.wait_time - $Timer/ThrowCooldown.time_left
 	$"../UI/PlayerRanged/SpecialAttack".value = $Timer/FireballCooldown.wait_time - $Timer/FireballCooldown.time_left
-	
 	
 	#Set animation to walking or idling
 	#Set Dust Particles to spawn if player is moving
@@ -447,7 +471,9 @@ func _on_swap_world_cooldown_timeout():
 func _on_melee_cooldown_timeout():
 	Global.player_ableToMelee = true
 	#UNDER CONSTRUCTION OF MAKING THROWABLE WEAPON
-	if $Weapon/MeleeWeapon.visible == false:
+	# FIXED - Bug showing both weapon if the melee is thrown and world change to night
+	# Because of this didnt check the world type before setting the visible property
+	if $Weapon/MeleeWeapon.visible == false and Global.worldType == "Day":
 		$Weapon/MeleeWeapon.visible = true
 		$"../UI/PlayerMelee/MeleeOnHand".modulate = Color("#ffffff")
 
@@ -457,17 +483,25 @@ func _on_throw_cooldown_timeout():
 func _on_ranged_cooldown_timeout():
 	Global.player_ableToShoot = true
 
+func _on_casting_timeout():
+	# Sending different color particle for charged fireball
+	# Should be better if you could check for the time and change the color slowly
+	# and pop a flash on the staff to indicate the fireball is fully charged
+	$Weapon/RangedWeapon/ChargingParticles.self_modulate = Color("ff0000")
+
 func _on_fireball_cooldown_timeout():
 	Global.player_ableToFireball = true
 
 func _on_dash_duration_timeout():
-	player_moveSpeed = player_moveSpeedDefault
+	# This update the movement speed to the CURRENT state (with param '0')
+	# For example if the movement is slowed then it will return the movement with the slowed stats as well
+	# This signal + function did not MUTATE any VARIABLES!
+	connect("update_movement", Callable(self, "_update_movement") , 4)
+	update_movement.emit()
 	set_collision_mask_value(1, true)
 
 func _on_dash_cooldown_timeout():
 	Global.player_ableToDash = true
-	
-
 
 # --------------------------------------------------------------------------
 # TO BE DELETED LATER @kepponn RETARDOING
@@ -483,5 +517,3 @@ func _on_meme_2_body_entered(_body):
 	$"../WHOLEMEME/VideoStreamPlayer2".play()
 	$"../WHOLEMEME/Meme2".set_collision_mask_value(1, false)
 	pass
-
-

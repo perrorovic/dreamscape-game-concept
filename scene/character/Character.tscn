@@ -282,6 +282,7 @@ position = Vector2(74, 90)
 texture = ExtResource("4_6ht37")
 
 [node name="ChargingParticles" type="GPUParticles2D" parent="Weapon/RangedWeapon"]
+self_modulate = Color(1, 0, 0, 1)
 position = Vector2(78, 6)
 scale = Vector2(8, 8)
 emitting = false
@@ -368,6 +369,7 @@ metadata/_edit_lock_ = true
 
 [connection signal="timeout" from="Timer/RangedCooldown" to="." method="_on_ranged_cooldown_timeout"]
 [connection signal="timeout" from="Timer/FireballCooldown" to="." method="_on_fireball_cooldown_timeout"]
+[connection signal="timeout" from="Timer/CastingTime" to="." method="_on_casting_timeout"]
 [connection signal="timeout" from="Timer/MeleeCooldown" to="." method="_on_melee_cooldown_timeout"]
 [connection signal="timeout" from="Timer/ThrowCooldown" to="." method="_on_throw_cooldown_timeout"]
 [connection signal="timeout" from="Timer/DashDuration" to="." method="_on_dash_duration_timeout"]
