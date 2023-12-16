@@ -1,8 +1,8 @@
 extends Area2D
 
-@export var speed: int = 250
+@export var speed: int = 225
 @export var damage: int = 300
-@export var knockback_power: int = 400
+@export var knockback_power: int = 250
 # Variables from signals
 var set_rotation_degree
 var set_direction

@@ -7,7 +7,7 @@ extends CharacterBody2D
 signal mouse1_melee(player_position, player_rotation, player_direction)
 signal mouse2_melee(player_position, player_rotation, player_direction)
 signal mouse1_ranged(player_position, player_rotation, player_direction)
-signal mouse2_ranged(player_position, player_rotation, player_direction)
+signal mouse2_ranged(player_position, player_rotation, player_direction, is_Charged)
 
 @onready var scene = get_node("/root/Node2D/")
 signal scene_change_world_type()
@@ -25,6 +25,9 @@ var direction: Vector2
 # This being used in _ranged() for reloading and auto-reload feature
 var player_isEmptyReloading: bool = false
 var player_isAddingAmmo: bool = false
+# This being used in _ranged() for special attack
+var player_isCasting: bool = false
+var is_Charged: bool = false
 # This is for knockback and go together with _movement() to check for any knockbacks
 var knockback_tweenValue: Vector2 = Vector2(0,0)
 
@@ -50,7 +53,8 @@ func _physics_process(_delta):
 	Global.player_meleeSlashSpawn = $Weapon/MeleeSlashSpawn.global_position
 	Global.player_rotation = rotation_degrees
 	
-	print($Timer/FireballCooldown.time_left)
+	#print($Timer/FireballCooldown.time_left)
+	print($Timer/CastingTime.time_left)
 	
 	# Below are function for process
 	_loot_at()
@@ -66,6 +70,12 @@ func _physics_process(_delta):
 # --------------------------------------------------------------------------
 
 func _movement():
+	# To change movement speed if player is casting fireball
+	if player_isCasting == true:
+		player_moveSpeed = 75
+	elif player_isCasting == false:
+		player_moveSpeed = player_moveSpeedDefault
+		
 	# Get the user input and move the player character accordingly
 	direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * player_moveSpeed + knockback_tweenValue
@@ -204,7 +214,6 @@ func _melee():
 		mouse1_melee.emit($Weapon/MeleeSlashSpawn.global_position, $Weapon.rotation_degrees, player_direction)
 		$Timer/MeleeCooldown.start(0.4)
 	#Special Attack (Throw) then cannot attack for certain duration until weapon spawn back
-	#UNDER CONSTRUCTION FOR MAKING THROWABLE WEAPON
 	elif Input.is_action_pressed("mouse2") and Global.player_ableToMelee == true and Global.player_ableToThrow == true and Global.worldType == "Day":
 		Global.player_ableToMelee = false
 		Global.player_ableToThrow = false
@@ -276,22 +285,46 @@ func _ranged():
 			player_isAddingAmmo = false
 		$Timer/ReloadTickCooldown.start(0.2)
 		
-	
-	if Input.is_action_pressed("mouse2") and Global.player_ableToFireball == true and Global.worldType == "Night":
+		
+	# --------------------------------------------------------------------------
+	# Special Attack (Fireball) deal AoE damage around the explosion (Knockback still bugged)
+	# --------------------------------------------------------------------------
+	# After mouse2 is pressed (only triggered once because we using casting timer otherwise it will keep reseting) character will start casting
+	if Input.is_action_just_pressed("mouse2") and Global.player_ableToFireball == true and player_isCasting == false and Global.worldType == "Night":
 		Global.player_ableToShoot = false
+		player_isCasting = true
+		$Weapon/RangedWeapon/ChargingParticles.emitting = true
+		$Timer/CastingTime.start()
+	
+	# After mouse2 is released, will emit signal depending on if player is done casting or not yet
+	
+	
+	if Input.is_action_just_released("mouse2") and player_isCasting == true:
 		Global.player_ableToFireball = false
 		var player_direction = (get_global_mouse_position() - position).normalized()
-#		send signal into ["res://Main.gd"] script to spawn ranged bullet based on these parameter
-#		all parameter will be set into ["res://Scene/BulletProjectile.gd"] in there
+	#	send signal into ["res://Main.gd"] script to spawn ranged bullet based on these parameter
+	#	all parameter will be set into ["res://Scene/BulletProjectile.gd"] in there
 		# Create animation with tween to weapon move while still maintaining look_at() func
 		_weapon_stroke(player_direction, -3)
-		mouse2_ranged.emit($Weapon/RangedBulletSpawn.global_position, $Weapon.rotation_degrees, player_direction)
+		
+		# if casting is not done yet, it will release normal fireball,
+		if $Timer/CastingTime.time_left > 0:
+			print("Fireball")
+			is_Charged = false
+			mouse2_ranged.emit($Weapon/RangedBulletSpawn.global_position, $Weapon.rotation_degrees, player_direction, is_Charged)
+		# if casting is done, it will cast enhanced fireball which will have different sprite, more damage, larger AoE, and higher knockback power
+		elif $Timer/CastingTime.time_left <= 0:
+			print("Charged Fireball")
+			is_Charged = true
+			mouse2_ranged.emit($Weapon/RangedBulletSpawn.global_position, $Weapon.rotation_degrees, player_direction, is_Charged)
+		
 		#RangedCooldown timer is used on time out to change Global.player_ableToShoot to true 
-		#RangedCooldown is basically used to add delay time between spawning each bullet
+		#RangedCooldown is basically used to add delay time between spawning each bullet	
 		$Timer/FireballCooldown.start()
 		$Timer/RangedCooldown.start()
+		player_isCasting = false
+		$Weapon/RangedWeapon/ChargingParticles.emitting = false
 		
-
 # This function make the player dash with immunity frame
 func _dash():
 	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):

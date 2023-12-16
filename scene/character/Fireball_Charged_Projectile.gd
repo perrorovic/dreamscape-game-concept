@@ -1,8 +1,8 @@
 extends Area2D
 
-@export var speed: int = 265
-@export var damage: int = 200
-@export var knockback_power: int = 300
+@export var speed: int = 300
+@export var damage: int = 500
+@export var knockback_power: int = 425
 # Variables from signals
 var set_rotation_degree
 var set_direction
@@ -25,7 +25,7 @@ func _on_body_entered(body):
 	$AnimationPlayer.play("Explode")
 	exploded = true
 
-#Explode after x second of airtime 
+#Explode after x second of airtime
 func _on_midair_explosion_waittime_timeout():
 	$Explosion_AoE.set_collision_mask_value(7,true)
 	$AnimationPlayer.play("Explode")
@@ -34,9 +34,9 @@ func _on_midair_explosion_waittime_timeout():
 #Explosion mechanic : deal damage, knockback, and any other shit
 func _on_explosion_aoe_body_entered(body):
 	if body.has_method("_hit"):
-		print("Enemy take damage by explosion")
+		print("Enemy take damage by Charged explosion")
 		body._hit(damage, iframe_type, set_direction, knockback_power)
-
+		
 #Queue free after animation is finished
 func _on_animation_player_animation_finished(anim_name):
 	queue_free()

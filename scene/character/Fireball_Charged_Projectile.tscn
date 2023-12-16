@@ -1,26 +1,26 @@
-[gd_scene load_steps=15 format=3 uid="uid://dukv6a50u8wxy"]
+[gd_scene load_steps=15 format=3 uid="uid://ccu0n46dq3tw8"]
 
-[ext_resource type="Script" path="res://scene/character/Fireball_Projectile.gd" id="1_bjbok"]
-[ext_resource type="Texture2D" uid="uid://c65iqtbil2r4y" path="res://assets/character/Fireball.png" id="2_x53f1"]
-[ext_resource type="Texture2D" uid="uid://bgjpqynh8ymq" path="res://assets/character/Explosion_effect/Frame1.png" id="3_jht3n"]
-[ext_resource type="Texture2D" uid="uid://b0ho32fwj1jsm" path="res://assets/character/Explosion_effect/Frame2.png" id="4_mewpc"]
-[ext_resource type="Texture2D" uid="uid://cqts2k12f3ybj" path="res://assets/character/Explosion_effect/Frame3.png" id="5_ncte6"]
-[ext_resource type="Texture2D" uid="uid://chcc4r850a6os" path="res://assets/character/Explosion_effect/Frame4.png" id="6_rrpin"]
-[ext_resource type="Texture2D" uid="uid://c653cb737jn1d" path="res://assets/character/Explosion_effect/Frame5.png" id="7_egw4t"]
-[ext_resource type="Texture2D" uid="uid://d82defoornxg" path="res://assets/character/Explosion_effect/Frame6.png" id="8_hr7am"]
-[ext_resource type="Texture2D" uid="uid://u8yy5i1fvxpu" path="res://assets/character/Explosion_effect/Frame7.png" id="9_a0am4"]
+[ext_resource type="Script" path="res://scene/character/Fireball_Charged_Projectile.gd" id="1_4bqyr"]
+[ext_resource type="Texture2D" uid="uid://u172ih70ba65" path="res://assets/character/Charged_Fireball.png" id="2_wnj4d"]
+[ext_resource type="Texture2D" uid="uid://bgjpqynh8ymq" path="res://assets/character/Explosion_effect/Frame1.png" id="3_6spbc"]
+[ext_resource type="Texture2D" uid="uid://b0ho32fwj1jsm" path="res://assets/character/Explosion_effect/Frame2.png" id="4_4sogj"]
+[ext_resource type="Texture2D" uid="uid://cqts2k12f3ybj" path="res://assets/character/Explosion_effect/Frame3.png" id="5_i40tn"]
+[ext_resource type="Texture2D" uid="uid://chcc4r850a6os" path="res://assets/character/Explosion_effect/Frame4.png" id="6_bme4r"]
+[ext_resource type="Texture2D" uid="uid://c653cb737jn1d" path="res://assets/character/Explosion_effect/Frame5.png" id="7_jj3xs"]
+[ext_resource type="Texture2D" uid="uid://d82defoornxg" path="res://assets/character/Explosion_effect/Frame6.png" id="8_ngtj5"]
+[ext_resource type="Texture2D" uid="uid://u8yy5i1fvxpu" path="res://assets/character/Explosion_effect/Frame7.png" id="9_baq5t"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6oqw6"]
-radius = 6.0
-height = 20.0
+radius = 11.0
+height = 28.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_loahk"]
-radius = 106.532
+radius = 202.515
 
-[sub_resource type="Animation" id="Animation_kqcxx"]
+[sub_resource type="Animation" id="Animation_jpqvv"]
 resource_name = "Explode"
 length = 0.18
-step = 0.01
+step = 0.03
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -31,7 +31,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.03, 0.06, 0.09, 0.12, 0.15, 0.18),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("3_jht3n"), ExtResource("4_mewpc"), ExtResource("5_ncte6"), ExtResource("6_rrpin"), ExtResource("7_egw4t"), ExtResource("8_hr7am"), ExtResource("9_a0am4")]
+"values": [ExtResource("3_6spbc"), ExtResource("4_4sogj"), ExtResource("5_i40tn"), ExtResource("6_bme4r"), ExtResource("7_jj3xs"), ExtResource("8_ngtj5"), ExtResource("9_baq5t")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -43,10 +43,10 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1.2, 1.2)]
+"values": [Vector2(2.3, 2.3)]
 }
 
-[sub_resource type="Animation" id="Animation_cmu21"]
+[sub_resource type="Animation" id="Animation_tpwti"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -58,7 +58,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("2_x53f1")]
+"values": [ExtResource("2_wnj4d")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -70,27 +70,29 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0.08, 0.08)]
+"values": [Vector2(0.06, 0.06)]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_fabhl"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_78kfj"]
 _data = {
-"Explode": SubResource("Animation_kqcxx"),
-"RESET": SubResource("Animation_cmu21")
+"Explode": SubResource("Animation_jpqvv"),
+"RESET": SubResource("Animation_tpwti")
 }
 
-[node name="Fireball_Projectile" type="Area2D"]
+[node name="Fireball_Charged_Projectile" type="Area2D"]
 collision_layer = 32
 collision_mask = 70
-script = ExtResource("1_bjbok")
+script = ExtResource("1_4bqyr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.08, 0.08)
-texture = ExtResource("2_x53f1")
+modulate = Color(0, 0.592157, 0.894118, 1)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("2_wnj4d")
 flip_v = true
 
-[node name="Fireball_Collision" type="CollisionShape2D" parent="."]
-position = Vector2(0, -3)
+[node name="Fireball_Charged_Collision" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -5)
 shape = SubResource("CapsuleShape2D_6oqw6")
 
 [node name="Explosion_AoE" type="Area2D" parent="."]
@@ -98,13 +100,14 @@ collision_layer = 32
 collision_mask = 6
 
 [node name="Explosion_range" type="CollisionShape2D" parent="Explosion_AoE"]
+scale = Vector2(1.00251, 1)
 shape = SubResource("CircleShape2D_loahk")
 
 [node name="MidairExplosionWaittime" type="Timer" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_fabhl")
+"": SubResource("AnimationLibrary_78kfj")
 }
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

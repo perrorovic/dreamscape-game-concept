@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://caxjcyt48xmp0"]
+[gd_scene load_steps=33 format=3 uid="uid://caxjcyt48xmp0"]
 
 [ext_resource type="Script" path="res://scene/character/Character.gd" id="1_pch7d"]
 [ext_resource type="AudioStream" uid="uid://cp6q4ybnwntmk" path="res://sound/Step/step1.mp3" id="3_pbu7b"]
@@ -9,11 +9,29 @@
 [ext_resource type="AudioStream" uid="uid://bv74f6y4hx1x7" path="res://sound/Step/step6.mp3" id="7_rlqsk"]
 [ext_resource type="AudioStream" uid="uid://cy1e7xeyl38ar" path="res://sound/Step/step8.mp3" id="8_52yx0"]
 [ext_resource type="Texture2D" uid="uid://dinak8w45fe5i" path="res://assets/character/SwordMelee.png" id="9_ymd6k"]
+[ext_resource type="Texture2D" uid="uid://c4al2nk043nfc" path="res://assets/Items.png" id="10_0apqs"]
 [ext_resource type="Texture2D" uid="uid://blesyk1m5ciu2" path="res://assets/character/body/hands.png" id="11_81uel"]
 [ext_resource type="Texture2D" uid="uid://byyqbsdg2vp6g" path="res://assets/character/body/body.png" id="11_ooxyq"]
 [ext_resource type="Texture2D" uid="uid://cg515qs46dm88" path="res://assets/character/body/head.png" id="12_hqshi"]
 [ext_resource type="Texture2D" uid="uid://dmgupducypuew" path="res://assets/character/body/complete.png" id="15_1inr2"]
 [ext_resource type="Texture2D" uid="uid://cay5earnqa3a0" path="res://assets/character/Running_Dust_Particles4.png" id="15_lso1j"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bjl5u"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 50.0
+orbit_velocity_min = 0.1
+orbit_velocity_max = 0.25
+radial_velocity_min = -100.0
+radial_velocity_max = -20.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 0.2
+linear_accel_max = 0.5
+radial_accel_min = 0.2
+radial_accel_max = 0.5
+scale_min = 0.01
+scale_max = 0.04
+color = Color(0.572549, 1, 1, 1)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m5ns1"]
 radius = 7.0
@@ -212,6 +230,10 @@ one_shot = true
 wait_time = 10.0
 one_shot = true
 
+[node name="CastingTime" type="Timer" parent="Timer"]
+wait_time = 3.0
+one_shot = true
+
 [node name="MeleeCooldown" type="Timer" parent="Timer"]
 wait_time = 0.4
 one_shot = true
@@ -258,6 +280,14 @@ texture = ExtResource("9_ymd6k")
 [node name="RangedWeapon" type="Sprite2D" parent="Weapon"]
 position = Vector2(74, 90)
 texture = ExtResource("4_6ht37")
+
+[node name="ChargingParticles" type="GPUParticles2D" parent="Weapon/RangedWeapon"]
+position = Vector2(78, 6)
+scale = Vector2(8, 8)
+emitting = false
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_bjl5u")
+texture = ExtResource("10_0apqs")
 
 [node name="Hand" type="Sprite2D" parent="Weapon"]
 visible = false

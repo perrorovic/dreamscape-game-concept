@@ -18,6 +18,7 @@ var meleeNew: PackedScene = preload("res://scene/character/Melee_Trust.tscn")
 var throw: PackedScene = preload("res://scene/character/Melee_Throw.tscn")
 var rangedProjectile: PackedScene = preload("res://scene/character/Bullet_Projectile.tscn")
 var fireball: PackedScene = preload("res://scene/character/Fireball_Projectile.tscn")
+var fireball_Charged: PackedScene = preload("res://scene/character/Fireball_Charged_Projectile.tscn")
 # Boss projectile
 var boss_shootProjectile: PackedScene = preload("res://scene/boss/Boss_Shoot_Projectile.tscn")
 var boss_bombProjectileDay: PackedScene = preload("res://scene/boss/Boss_Bomb_Projectile_Day.tscn")
@@ -116,12 +117,19 @@ func _on_player_mouse1_ranged(player_position, player_rotation, player_direction
 	bullet.position = player_position
 	$ProjectileTemp.add_child(bullet,true)
 
-func _on_character_mouse_2_ranged(player_position, player_rotation, player_direction):
-	var fireball = fireball.instantiate() as Area2D
-	fireball.set_rotation_degree = player_rotation + 90
-	fireball.set_direction = player_direction
-	fireball.position = player_position
-	$ProjectileTemp.add_child(fireball,true)
+func _on_character_mouse_2_ranged(player_position, player_rotation, player_direction, is_Charged):
+	if is_Charged == false:
+		var fireball = fireball.instantiate() as Area2D
+		fireball.set_rotation_degree = player_rotation + 90
+		fireball.set_direction = player_direction
+		fireball.position = player_position
+		$ProjectileTemp.add_child(fireball,true)
+	elif is_Charged == true:
+		var fireball_Charged = fireball_Charged.instantiate() as Area2D
+		fireball_Charged.set_rotation_degree = player_rotation + 90
+		fireball_Charged.set_direction = player_direction
+		fireball_Charged.position = player_position
+		$ProjectileTemp.add_child(fireball_Charged,true)
 
 # --------------------------------------------------------------------------
 # Boss signal listed here, all the signal are from "res://scene/boss/Boss.gd"
