@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bqsj2yytmrvb0" path="res://scene/enemy/Enemy_Parent.tscn" id="1_jsb24"]
 [ext_resource type="Script" path="res://scene/enemy/Enemy_Ranged.gd" id="2_b3hhx"]
-[ext_resource type="Texture2D" uid="uid://bubqhu0hrg5j3" path="res://charaTBD - Copy.png" id="3_o628x"]
+[ext_resource type="Texture2D" uid="uid://bubqhu0hrg5j3" path="res://assets/unused/charaTBD - Copy.png" id="3_o628x"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0ethq"]
 radius = 15.7143

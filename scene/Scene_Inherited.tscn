@@ -2,10 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://dl1enj0x41grc" path="res://scene/Scene_Parent.tscn" id="1_baggf"]
 [ext_resource type="Script" path="res://scene/Scene_Inherited.gd" id="2_blk5e"]
-[ext_resource type="VideoStream" path="res://ZZZZZZ.ogv" id="3_0jf7t"]
 [ext_resource type="PackedScene" uid="uid://deqom7y7q7256" path="res://scene/entity/Checkpoint.tscn" id="3_eprs1"]
+[ext_resource type="VideoStream" path="res://ZZZZZZ.ogv" id="3_sbutg"]
 [ext_resource type="PackedScene" uid="uid://dcvyp41e6a18i" path="res://scene/entity/Items_Dash.tscn" id="4_0pxpg"]
-[ext_resource type="VideoStream" path="res://ZZZZZ.ogv" id="4_ndoon"]
+[ext_resource type="VideoStream" path="res://ZZZZZ.ogv" id="4_cvfhm"]
 [ext_resource type="PackedScene" uid="uid://b1welbqokla26" path="res://scene/entity/Items_Ammo.tscn" id="5_ba7h8"]
 [ext_resource type="PackedScene" uid="uid://dwm6w62b4sx6s" path="res://scene/entity/Items_Health.tscn" id="6_nbb5p"]
 [ext_resource type="PackedScene" uid="uid://brdcc0ktpcj86" path="res://scene/enemy/Enemy_Melee.tscn" id="7_b5eh1"]
@@ -59,7 +59,7 @@ offset_left = -57.0
 offset_top = 892.0
 offset_right = 193.0
 offset_bottom = 1056.0
-stream = ExtResource("3_0jf7t")
+stream = ExtResource("3_sbutg")
 expand = true
 
 [node name="Meme2" type="Area2D" parent="WHOLEMEME" index="3"]
@@ -90,7 +90,7 @@ offset_left = 2564.0
 offset_top = 1284.0
 offset_right = 2814.0
 offset_bottom = 1448.0
-stream = ExtResource("4_ndoon")
+stream = ExtResource("4_cvfhm")
 expand = true
 
 [node name="Checkpoint" parent="CheckpointsTemp" index="0" instance=ExtResource("3_eprs1")]

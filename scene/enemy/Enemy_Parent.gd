@@ -130,10 +130,36 @@ func _patrol():
 # --------------------------------------------------------------------------
 
 func _hit(damage: int, iframe_type: String, set_direction, knockback_power):
-	# W 0:00:13:0722   start: Target object freed before starting, aborting Tweener.
-  	# <C++ Source>   scene/animation/tween.cpp:548 @ start()
-	# Check https://docs.godotengine.org/en/stable/classes/class_tween.html#class-tween-method-bind-node
-
+	# Can only do this if enemy is not on iframe
+	if iframe == false:
+		# Change iframe to true so enemy can't be hit more than once
+		iframe = true
+		print("Enemy is hit")
+		# To make enemy aggro to player if hit enemy while enemy is patrolling
+		is_following = true
+		is_patrolling = false
+		$AggroCooldown.start(5)
+		# Enemy take damage
+		health -= damage
+		# Add hit feedback tween to the entity
+		# This report to debbuger "start: Target object freed before starting, aborting Tweener."
+		# Fixed by binding the tween to itself https://docs.godotengine.org/en/stable/classes/class_tween.html#class-tween-method-bind-node
+		var hit_feedback_tween
+		hit_feedback_tween = get_tree().create_tween().bind_node(self)
+		# Color feedback tween 
+		hit_feedback_tween.tween_property($Sprite2D, "self_modulate", Color("#ff113f"), 0.1)
+		hit_feedback_tween.tween_property($Sprite2D, "self_modulate", Color("#ffffff"), 0.1)
+		# Knockback feedback tween
+		var knockback = set_direction * knockback_power
+		knockback_tweenValue = knockback
+		hit_feedback_tween.parallel().tween_property(self, "knockback_tweenValue", Vector2(0,0), 0.25)
+		
+		# Set how long the iframe is for each type of attack, either set all of them same as the lowest one or a little bit higher than the lowest one, or each type of attack have its own time
+		if iframe_type == "melee":
+			$IframeDuration.start(0.5)
+		elif iframe_type =="ranged":
+			$IframeDuration.start(0.15)
+	
 	# drop chance for each type of the enemies make a function for it and call it with the enemy_type param
 	if health <= 0:
 		# There's gonna be something more nicer than this right
@@ -156,36 +182,6 @@ func _hit(damage: int, iframe_type: String, set_direction, knockback_power):
 		connect("item_dropped", Callable(UI, "_update_Items"), 4)
 		item_dropped.emit(item_name, position)
 		queue_free()
-	
-	# Can only do this if enemy is not on iframe
-	if iframe == false:
-		# Change iframe to true so enemy can't be hit more than once
-		iframe = true
-		print("Enemy is hit")
-		# To make enemy aggro to player if hit enemy while enemy is patrolling
-		is_following = true
-		is_patrolling = false
-		$AggroCooldown.start(5)
-		# Enemy take damage
-		health -= damage
-		# Add hit feedback tween to the entity
-		var hit_feedback_tween
-		hit_feedback_tween = get_tree().create_tween()
-		# Color feedback tween 
-		hit_feedback_tween.tween_property($Sprite2D, "self_modulate", Color("#ff113f"), 0.1)
-		hit_feedback_tween.tween_property($Sprite2D, "self_modulate", Color("#ffffff"), 0.1)
-		# Knockback feedback tween
-		var knockback = set_direction * knockback_power
-		knockback_tweenValue = knockback
-		hit_feedback_tween.parallel().tween_property(self, "knockback_tweenValue", Vector2(0,0), 0.25)
-		
-		# Set how long the iframe is for each type of attack, either set all of them same as the lowest one or a little bit higher than the lowest one, or each type of attack have its own time
-		if iframe_type == "melee":
-			$IframeDuration.start(0.5)
-		elif iframe_type =="ranged":
-			$IframeDuration.start(0.15)
-	
-	
 
 # --------------------------------------------------------------------------
 # Timer with signal feedback that being used by Enemy_Parent

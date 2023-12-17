@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dirgfiextdn8q"
-path="res://.godot/imported/TrapTBD.png-7a5ad454e7e4e798b814550c83cc6e38.ctex"
+uid="uid://dv4nnjcasgsv8"
+path="res://.godot/imported/WallTBD.png-f7fb516fb76a4ae453f90e62fafd35a2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TrapTBD.png"
-dest_files=["res://.godot/imported/TrapTBD.png-7a5ad454e7e4e798b814550c83cc6e38.ctex"]
+source_file="res://assets/unused/WallTBD.png"
+dest_files=["res://.godot/imported/WallTBD.png-f7fb516fb76a4ae453f90e62fafd35a2.ctex"]
 
 [params]
 

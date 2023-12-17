@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n18c6h1q8h05"
-path="res://.godot/imported/sun32.png-625b08f55c7a6ae8af2ad6ed13ac7d4d.ctex"
+uid="uid://bubqhu0hrg5j3"
+path="res://.godot/imported/charaTBD - Copy.png-664da991152a80d744582af1ac41240e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sun32.png"
-dest_files=["res://.godot/imported/sun32.png-625b08f55c7a6ae8af2ad6ed13ac7d4d.ctex"]
+source_file="res://assets/unused/charaTBD - Copy.png"
+dest_files=["res://.godot/imported/charaTBD - Copy.png-664da991152a80d744582af1ac41240e.ctex"]
 
 [params]
 

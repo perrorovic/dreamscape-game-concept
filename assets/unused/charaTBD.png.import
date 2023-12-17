@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dv4nnjcasgsv8"
-path="res://.godot/imported/WallTBD.png-ca55801fccf2e42f6e79d7bc05cf20c2.ctex"
+uid="uid://dn4belqy0k0hw"
+path="res://.godot/imported/charaTBD.png-efb42a3a10db29cf88185962de80b48f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://WallTBD.png"
-dest_files=["res://.godot/imported/WallTBD.png-ca55801fccf2e42f6e79d7bc05cf20c2.ctex"]
+source_file="res://assets/unused/charaTBD.png"
+dest_files=["res://.godot/imported/charaTBD.png-efb42a3a10db29cf88185962de80b48f.ctex"]
 
 [params]
 

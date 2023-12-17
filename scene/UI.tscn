@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://br5hquqxbuat6" path="res://assets/ui/dash.png" id="3_x81ot"]
 [ext_resource type="TileSet" uid="uid://esvtc00mqhdh" path="res://assets/tilesets/MainTileset.tres" id="5_te0qn"]
 [ext_resource type="Texture2D" uid="uid://dq1jrsg5jqgop" path="res://assets/character/StaffRanged.png" id="5_vexeo"]
-[ext_resource type="Texture2D" uid="uid://b726cv0udrp3s" path="res://FrameMinimap.png" id="5_yk2xj"]
+[ext_resource type="Texture2D" uid="uid://b726cv0udrp3s" path="res://assets/ui/FrameMinimap.png" id="5_yk2xj"]
 [ext_resource type="PackedScene" uid="uid://13f0wxuarn6x" path="res://assets/ui/sprite_character.tscn" id="6_32iow"]
 [ext_resource type="Texture2D" uid="uid://dinak8w45fe5i" path="res://assets/character/SwordMelee.png" id="8_tip0q"]
 

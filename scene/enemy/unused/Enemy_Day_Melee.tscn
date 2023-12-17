@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bgm28uvfjb2m7"]
 
 [ext_resource type="Script" path="res://scene/enemy/unused/Enemy_Day_Melee.gd" id="1_g2a15"]
-[ext_resource type="Texture2D" uid="uid://bubqhu0hrg5j3" path="res://charaTBD - Copy.png" id="2_hnmhs"]
+[ext_resource type="Texture2D" uid="uid://bubqhu0hrg5j3" path="res://assets/unused/charaTBD - Copy.png" id="2_hnmhs"]
 [ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="3_lv8ah"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ow03b"]

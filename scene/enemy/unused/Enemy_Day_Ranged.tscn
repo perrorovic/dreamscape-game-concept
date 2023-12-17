@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cyvfkwge6l5tl"]
 
 [ext_resource type="Script" path="res://scene/enemy/unused/Enemy_Day_Ranged.gd" id="1_vsl1k"]
-[ext_resource type="Texture2D" uid="uid://bubqhu0hrg5j3" path="res://charaTBD - Copy.png" id="2_xjqnn"]
+[ext_resource type="Texture2D" uid="uid://bubqhu0hrg5j3" path="res://assets/unused/charaTBD - Copy.png" id="2_xjqnn"]
 [ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="3_cm0j4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ow03b"]

@@ -59,7 +59,6 @@ func _init_world():
 	minimaptilemap_temp.name = "MinimapTileMap"
 	minimaptilemap_temp.set_layer_enabled(1,true)
 	minimaptilemap_temp.set_layer_enabled(2,true)
-	
 	$UI/Minimap/SubViewportContainer/SubViewport.add_child(minimaptilemap_temp, true)
 	# How dark the world are (blend mode is subtraction)
 	$DirectionalLight2D.energy = 0.5
