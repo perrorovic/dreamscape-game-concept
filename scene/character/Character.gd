@@ -9,7 +9,7 @@ signal mouse2_melee(player_position, player_rotation, player_direction)
 signal mouse1_ranged(player_position, player_rotation, player_direction)
 signal mouse2_ranged(player_position, player_rotation, player_direction, is_Charged)
 
-@onready var scene = get_node("/root/Node2D/")
+@onready var scene = get_node("/root/Scene/")
 signal scene_change_world_type()
 
 # This is signal used in itself for calling other method
@@ -58,13 +58,6 @@ func _physics_process(_delta):
 	Global.player_position = global_position
 	Global.player_meleeSlashSpawn = $Weapon/MeleeSlashSpawn.global_position
 	Global.player_rotation = rotation_degrees
-	
-	#print(player_moveSpeed)
-	#print(speed_modifier)
-	
-	#print($Timer/FireballCooldown.time_left)
-	#print($Timer/CastingTime.time_left)
-	
 	# Below are function for process
 	_loot_at()
 	_movement()
@@ -502,18 +495,3 @@ func _on_dash_duration_timeout():
 
 func _on_dash_cooldown_timeout():
 	Global.player_ableToDash = true
-
-# --------------------------------------------------------------------------
-# TO BE DELETED LATER @kepponn RETARDOING
-# DONT FORGET TO DELETE THIS SHEET AND DISCONNECT THE SIGNAL ON WHOLEMEME/MEME
-# --------------------------------------------------------------------------
-
-func _on_meme_body_entered(_body):
-	$"../WHOLEMEME/VideoStreamPlayer".play()
-	$"../WHOLEMEME/Meme".set_collision_mask_value(1, false)
-	pass
-
-func _on_meme_2_body_entered(_body):
-	$"../WHOLEMEME/VideoStreamPlayer2".play()
-	$"../WHOLEMEME/Meme2".set_collision_mask_value(1, false)
-	pass

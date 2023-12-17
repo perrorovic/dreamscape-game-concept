@@ -1,5 +1,8 @@
 # --------------------------------------------------------------------------
 # This script are available to be extended with 'extends Scene_Parent' by other script
+# To inherit this scene: scene > new inherited scene > (the scene you want to inherit)
+# Remember to DETACH the PARENT script and create the new script for the CHILDERN
+# And also redeclare the PARENT _ready() function to the CHILDERN
 # --------------------------------------------------------------------------
 
 extends Node2D
@@ -15,10 +18,10 @@ class_name Scene_Parent
 # Player projectile
 var meleeProjectile: PackedScene = preload("res://scene/character/Melee_Projectile.tscn")
 var meleeNew: PackedScene = preload("res://scene/character/Melee_Trust.tscn")
-var throw: PackedScene = preload("res://scene/character/Melee_Throw.tscn")
+var throwProjectile: PackedScene = preload("res://scene/character/Melee_Throw.tscn")
 var rangedProjectile: PackedScene = preload("res://scene/character/Bullet_Projectile.tscn")
-var fireball: PackedScene = preload("res://scene/character/Fireball_Projectile.tscn")
-var fireball_Charged: PackedScene = preload("res://scene/character/Fireball_Charged_Projectile.tscn")
+var fireballProjectile: PackedScene = preload("res://scene/character/Fireball_Projectile.tscn")
+var fireball_ChargedProjectile: PackedScene = preload("res://scene/character/Fireball_Charged_Projectile.tscn")
 # Boss projectile
 var boss_shootProjectile: PackedScene = preload("res://scene/boss/Boss_Shoot_Projectile.tscn")
 var boss_bombProjectileDay: PackedScene = preload("res://scene/boss/Boss_Bomb_Projectile_Day.tscn")
@@ -40,22 +43,39 @@ var moon: Texture2D = preload("res://assets/ui/fullmoon.png") #17a995
 # Function of _ready() and _process() are listed below:
 # --------------------------------------------------------------------------
 
+# In a inherited scene please re-declare _ready() function
 func _ready():
+	print("Scene Parent | Debugger Scene")
+	_init_world()
 	_init_day()
 
 func _process(_delta):
 	pass
 
+func _init_world():
+	# This create new MinimapTileMap for the Minimap
+	var minimaptilemap_temp = TileMap.new()
+	minimaptilemap_temp = $TileMap.duplicate(8)
+	minimaptilemap_temp.name = "MinimapTileMap"
+	minimaptilemap_temp.set_layer_enabled(1,true)
+	minimaptilemap_temp.set_layer_enabled(2,true)
+	
+	$UI/Minimap/SubViewportContainer/SubViewport.add_child(minimaptilemap_temp, true)
+	# How dark the world are (blend mode is subtraction)
+	$DirectionalLight2D.energy = 0.5
+	# BUG - UI.hide() didnt hide EVERYTHING in the UI nodes.. What causing this?
+	$UI.show()
+	$Music/BackgroundMusic.play()
+
 func _init_day():
 	# Initation of the world scene, set needed property to the world settings
-	$BGM.play()
 	Global.worldType = "Day"
 	Global.player_ableToMelee = true
 	Global.player_ableToThrow = true
 	Global.player_ableToShoot = false
 	Global.player_ableToFireball = true
-	$Node2D/TileMap.set_layer_enabled(1,true)
-	$Node2D/TileMap.set_layer_enabled(2,false)
+	$TileMap.set_layer_enabled(1,true)
+	$TileMap.set_layer_enabled(2,false)
 	
 # --------------------------------------------------------------------------
 # Check the world type and assign the needed property accordingly
@@ -65,29 +85,29 @@ func _init_day():
 func _change_world_type():
 	if Global.worldType == "Day":
 		# This enable the tilemap 'Day_Env' layer
-		$Node2D/TileMap.set_layer_enabled(1,true)
+		$TileMap.set_layer_enabled(1,true)
 		# This disable the tilemap 'Night_Env' layer
-		$Node2D/TileMap.set_layer_enabled(2,false)
+		$TileMap.set_layer_enabled(2,false)
 		# Change filter and lightning for night worldType
 		# This line of code are moved to "res://scene/character/Character.gd"
 		$Character/PointLight2D.shadow_enabled = false
 		$Character/PointLight2D.energy = 2
 		# In day world sound are normal
-		$"BGM".pitch_scale = 1
+		$Music/BackgroundMusic.pitch_scale = 1
 		# Set the UI accordingly to the day worldType
 		$"UI/WorldType/Progress".texture_under = sun
 		$"UI/WorldType/Progress".texture_progress = sun
 	if Global.worldType == "Night":
 		# This disable the tilemap 'Day_Env' layer
-		$Node2D/TileMap.set_layer_enabled(1,false)
+		$TileMap.set_layer_enabled(1,false)
 		# This enable the tilemap 'Night_Env' layer
-		$Node2D/TileMap.set_layer_enabled(2,true)
+		$TileMap.set_layer_enabled(2,true)
 		# Change filter and lightning for night worldType
 		# This line of code are moved to "res://scene/character/Character.gd"
 		$Character/PointLight2D.shadow_enabled = true
 		$Character/PointLight2D.energy = 2.5
 		# In night world sound are speed-up a little bit
-		$BGM.pitch_scale = 1.12
+		$Music/BackgroundMusic.pitch_scale = 1.12
 		# Set the UI accordingly to the night worldType
 		$"UI/WorldType/Progress".texture_under = moon
 		$"UI/WorldType/Progress".texture_progress = moon
@@ -104,10 +124,7 @@ func _on_player_mouse1_melee(player_position, player_rotation, player_direction)
 	$ProjectileTemp.add_child(melee,true)
 
 func _on_character_mouse_2_melee(player_position, player_rotation, player_direction):
-	# Debugger
-	# W 0:00:02:0394   The identifier "throw" will be shadowed below in the block.
-	# W 0:00:02:0394   The local variable "throw" is shadowing an already-declared variable at line 18.
-	var throw = throw.instantiate() as Area2D
+	var throw = throwProjectile.instantiate() as Area2D
 	throw.set_direction = player_direction
 	throw.position = player_position
 	throw.set_rotation_degree = player_rotation
@@ -121,21 +138,23 @@ func _on_player_mouse1_ranged(player_position, player_rotation, player_direction
 	$ProjectileTemp.add_child(bullet,true)
 
 func _on_character_mouse_2_ranged(player_position, player_rotation, player_direction, is_Charged):
-	# Debugger for both "fireball" and "fireball_Charged"
-	# W 0:00:02:0394   The identifier "fireball" will be shadowed below in the block.
-	#W 0:00:02:0394   The local variable "fireball" is shadowing an already-declared variable at line 20.
 	if is_Charged == false:
-		var fireball = fireball.instantiate() as Area2D
+		var fireball = fireballProjectile.instantiate() as Area2D
 		fireball.set_rotation_degree = player_rotation + 90
 		fireball.set_direction = player_direction
 		fireball.position = player_position
 		$ProjectileTemp.add_child(fireball,true)
 	elif is_Charged == true:
-		var fireball_Charged = fireball_Charged.instantiate() as Area2D
+		var fireball_Charged = fireball_ChargedProjectile.instantiate() as Area2D
 		fireball_Charged.set_rotation_degree = player_rotation + 90
 		fireball_Charged.set_direction = player_direction
 		fireball_Charged.position = player_position
 		$ProjectileTemp.add_child(fireball_Charged,true)
+
+# --------------------------------------------------------------------------
+# This dont have node connect signals shown but still work as intended because it connected manually
+# Enemy signal with inheritance all listed below:
+# --------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------
 # Boss signal listed here, all the signal are from "res://scene/boss/Boss.gd"
@@ -164,10 +183,9 @@ func _on_boss_action_bomb(boss_position):
 		var boss_bomb = boss_bombProjectileNight.instantiate() as Area2D
 		boss_bomb.position = boss_position
 		$EnemyProjectileTemp.add_child(boss_bomb,true)
-
+		
 # --------------------------------------------------------------------------
-# This dont have node connect signals shown but still work as intended because it connected manually
-# Enemy signal with inheritance all listed below:
+# Enemies signal listed here, all the signal are from "res://scene/enemy/Enemy_Parent.gd"
 # --------------------------------------------------------------------------
 
 # Signal from $EnemyTemp ["res://scene/enemy/Enemy_Melee.gd"]
@@ -192,7 +210,6 @@ func _on_enemy_ranged_attack(enemy_position, target_direction):
 
 # Signal from $EnemyTemp ["res://scene/enemy/Enemy_Parent.gd"]
 func _on_enemy_drop(item_name, enemy_position):
-	
 	if item_name == "health":
 		var item_dropped = items_health.instantiate() as Area2D
 		item_dropped.position = enemy_position
@@ -208,8 +225,3 @@ func _on_enemy_drop(item_name, enemy_position):
 		item_dropped.position = enemy_position
 		$ItemTemp.call_deferred("add_child", item_dropped,true)
 		print("Dash Dropped")
-		
-	
-
-
-

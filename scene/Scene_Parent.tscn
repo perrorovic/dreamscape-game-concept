@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://dl1enj0x41grc"]
+
+[ext_resource type="Script" path="res://scene/Scene_Parent.gd" id="1_73vnf"]
+[ext_resource type="AudioStream" uid="uid://b4x6eksm6skkq" path="res://sound/BGM/Missing_Persons_-_Jeremy_Blake.mp3" id="2_80bs0"]
+[ext_resource type="TileSet" uid="uid://esvtc00mqhdh" path="res://assets/tilesets/MainTileset.tres" id="3_pio1f"]
+[ext_resource type="PackedScene" uid="uid://caxjcyt48xmp0" path="res://scene/character/Character.tscn" id="4_t681f"]
+[ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="5_obrd2"]
+[ext_resource type="PackedScene" uid="uid://bio2wxum33qhf" path="res://scene/UI.tscn" id="6_62nxy"]
+
+[node name="Scene" type="Node2D"]
+script = ExtResource("1_73vnf")
+
+[node name="Music" type="Node" parent="."]
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("2_80bs0")
+volume_db = -25.0
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("3_pio1f")
+rendering_quadrant_size = 1
+format = 2
+layer_0/name = "Navigation"
+layer_0/z_index = -1
+layer_1/name = "Day_Env"
+layer_1/z_index = 1
+layer_1/tile_data = PackedInt32Array()
+layer_2/name = "Night_Env"
+layer_2/z_index = 1
+layer_2/tile_data = PackedInt32Array()
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+energy = 0.5
+blend_mode = 1
+
+[node name="CheckpointsTemp" type="Node2D" parent="."]
+
+[node name="ItemTemp" type="Node2D" parent="."]
+
+[node name="EnemyProjectileTemp" type="Node2D" parent="."]
+
+[node name="ProjectileTemp" type="Node2D" parent="."]
+
+[node name="EnemyTemp" type="Node2D" parent="."]
+
+[node name="Character" parent="." instance=ExtResource("4_t681f")]
+scale = Vector2(1.5, 1.5)
+
+[node name="PointLight2D" type="PointLight2D" parent="Character"]
+energy = 2.5
+shadow_enabled = true
+texture = ExtResource("5_obrd2")
+texture_scale = 0.4
+metadata/_edit_lock_ = true
+
+[node name="UI" parent="." instance=ExtResource("6_62nxy")]
+
+[connection signal="mouse1_melee" from="Character" to="." method="_on_player_mouse1_melee"]
+[connection signal="mouse1_ranged" from="Character" to="." method="_on_player_mouse1_ranged"]
+[connection signal="mouse2_melee" from="Character" to="." method="_on_character_mouse_2_melee"]
+[connection signal="mouse2_ranged" from="Character" to="." method="_on_character_mouse_2_ranged"]

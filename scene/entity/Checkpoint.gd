@@ -1,6 +1,6 @@
 extends StaticBody2D
 
-@onready var UI = get_node("/root/Node2D/UI")
+@onready var UI = get_node("/root/Scene/UI")
 signal minimap_Activated(position)
 
 

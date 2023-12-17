@@ -13,8 +13,8 @@ class_name Enemy_Parent
 
 signal item_dropped(item_name, enemy_position)
 # Get world node ready to be used in signal
-@onready var world = get_node("/root/Node2D/")
-@onready var UI = get_node("/root/Node2D/UI")
+@onready var world = get_node("/root/Scene/")
+@onready var UI = get_node("/root/Scene/UI")
 
 # --------------------------------------------------------------------------
 # Enemy_Parent property are listed and set with type and value here
@@ -130,6 +130,33 @@ func _patrol():
 # --------------------------------------------------------------------------
 
 func _hit(damage: int, iframe_type: String, set_direction, knockback_power):
+	# W 0:00:13:0722   start: Target object freed before starting, aborting Tweener.
+  	# <C++ Source>   scene/animation/tween.cpp:548 @ start()
+	# Check https://docs.godotengine.org/en/stable/classes/class_tween.html#class-tween-method-bind-node
+
+	# drop chance for each type of the enemies make a function for it and call it with the enemy_type param
+	if health <= 0:
+		# There's gonna be something more nicer than this right
+		var drop_random = randi_range(0,100)
+		#No Drop 50%
+		if drop_random >= 0 and drop_random < 50:
+			print("No Drop")
+		#Drop HP 15%
+		if drop_random >= 50 and drop_random < 65:
+			item_name = "health"
+		#Drop Ammo 25%
+		if drop_random >= 65 and drop_random < 90:
+			item_name = "ammo"
+		#Drop Dash 10%
+		if drop_random >= 90 and drop_random < 100:
+			item_name = "dash"
+		# Emit the signal into the level and queue_free the enemies
+		print("item dropped")
+		connect("item_dropped", Callable(world, "_on_enemy_drop"), 4)
+		connect("item_dropped", Callable(UI, "_update_Items"), 4)
+		item_dropped.emit(item_name, position)
+		queue_free()
+	
 	# Can only do this if enemy is not on iframe
 	if iframe == false:
 		# Change iframe to true so enemy can't be hit more than once
@@ -158,28 +185,7 @@ func _hit(damage: int, iframe_type: String, set_direction, knockback_power):
 		elif iframe_type =="ranged":
 			$IframeDuration.start(0.15)
 	
-	# drop chance for each type of the enemies make a function for it and call it with the enemy_type param
-	if health <= 0:
-		# There's gonna be something more nicer than this right
-		var drop_random = randi_range(0,100)
-		#No Drop 50%
-		if drop_random >= 0 and drop_random < 50:
-			print("No Drop")
-		#Drop HP 15%
-		if drop_random >= 50 and drop_random < 65:
-			item_name = "health"
-		#Drop Ammo 25%
-		if drop_random >= 65 and drop_random < 90:
-			item_name = "ammo"
-		#Drop Dash 10%
-		if drop_random >= 90 and drop_random < 100:
-			item_name = "dash"
-		# Emit the signal into the level and queue_free the enemies
-		print("item dropped")
-		connect("item_dropped", Callable(world, "_on_enemy_drop"), 4)
-		connect("item_dropped", Callable(UI, "_update_Items"), 4)
-		item_dropped.emit(item_name, position)
-		queue_free()
+	
 
 # --------------------------------------------------------------------------
 # Timer with signal feedback that being used by Enemy_Parent

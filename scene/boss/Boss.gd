@@ -4,6 +4,8 @@ extends CharacterBody2D
 # Signal that boss emit. This signal are being used in the level scene
 # --------------------------------------------------------------------------
 
+@onready var world = get_node("/root/Scene/")
+
 signal boss_action_shoot(boss_position, target_direction)
 signal boss_action_bomb(boss_position)
 signal boss_action_slash(boss_position, target_direction)
@@ -34,12 +36,12 @@ func _ready():
 	# Set the left-right view of the boss sprite
 	$Moon.set_flip_h(false)
 	# Set boss UI and hide the UI
-	$"../UI/BossHealth/Progress".max_value = health
-	$"../UI/BossHealth/Progress".hide()
+	$"../../UI/BossHealth/Progress".max_value = health
+	$"../../UI/BossHealth/Progress".hide()
 
 func _process(_delta):
 	# Update the health
-	$"../UI/BossHealth/Progress".value = health
+	$"../../UI/BossHealth/Progress".value = health
 	if boss_ableToAttack:
 		# Boss will look at the player
 		$_look_at_temp.look_at(Global.player_position)
@@ -97,16 +99,19 @@ func _action_shoot():
 #	print("Boss is Shooting!")
 	# This direct the boss into the player
 	var direction: Vector2 = (Global.player_position - position).normalized()
+	connect("boss_action_shoot", Callable(world, "_on_boss_action_shoot"), 4)
 	boss_action_shoot.emit(position, direction)
 	
 func _action_bomb():
 #	print("Boss is Bombing!")
+	connect("boss_action_bomb", Callable(world, "_on_boss_action_bomb"), 4)
 	boss_action_bomb.emit(position)
 	
 func _action_slash():
 #	print("Boss is Slashing!")
 	# This direct the boss into the player
 	var direction: Vector2 = (Global.player_position - position).normalized()
+	connect("boss_action_slash", Callable(world, "_on_boss_action_slash"), 4)
 	boss_action_slash.emit(position, direction)
 
 # --------------------------------------------------------------------------
@@ -122,9 +127,9 @@ func _hit(damage, _iframe_type, _set_direction, _knockback_power):
 func _on_attack_area_body_entered(body: CharacterBody2D):
 	if body.name == "Character":
 		boss_ableToAttack = true
-		$"../UI/BossHealth/Progress".show()
+		$"../../UI/BossHealth/Progress".show()
 
 func _on_attack_area_body_exited(body: CharacterBody2D):
 	if body.name == "Character":
 		boss_ableToAttack = false
-		$"../UI/BossHealth/Progress".hide()
+		$"../../UI/BossHealth/Progress".hide()

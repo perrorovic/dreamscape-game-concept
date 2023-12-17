@@ -1,12 +1,17 @@
 extends CanvasLayer
 
+# Is this really needed to be a scene to preload from?
 var sprite_Checkpoint = preload("res://assets/ui/sprite_checkpoint.tscn")
 var sprite_Items = preload("res://assets/ui/sprite_items.tscn")
 var map_isExpanded = false
 
+# THERE IS SHOULD BE A WAY TO SYNC THE TILEMAP IN THE SCENE INTO THE UI FOR MAP RENDERING...
+
 func _ready():
+	# Set a new minimap tilemap to "$Minimap/SubViewportContainer/SubViewport/MinimapTileMap"
 	# BUG - Sometime the UI would be just filtered red for no reason and will be stuck like that until the player press the button accordingly to reset the button
 	$PlayerDeath/Foreground.hide()
+	$BossHealth/Progress.hide()
 	$UIAnimation.play("RESET")
 	_init_map()
 	_init_Items()
