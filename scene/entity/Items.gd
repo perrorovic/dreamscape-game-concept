@@ -2,7 +2,7 @@ extends Area2D
 class_name Items
 
 @onready var UI = get_node("/root/Scene/UI")
-signal update_Items(index)
+signal update_items(index)
 
 # Set type for items "health" or "dash" or "projectile"
 # This being used in 'func _on_body_entered(body: CharacterBody2D):'
@@ -24,8 +24,8 @@ func _on_body_entered(body: CharacterBody2D):
 		
 		print("Item taken is on index ", get_index())
 		
-		connect("update_Items", Callable(UI, "_remove_Items"), 4)
-		update_Items.emit(get_index())
+		connect("update_items", Callable(UI, "_remove_items"), 4)
+		update_items.emit(get_index())
 		
 		body._on_items_pickup(type)
 		queue_free()

@@ -94,8 +94,8 @@ func _change_world_type():
 		# In day world sound are normal
 		$Music/BackgroundMusic.pitch_scale = 1
 		# Set the UI accordingly to the day worldType
-		$"UI/WorldType/Progress".texture_under = sun
-		$"UI/WorldType/Progress".texture_progress = sun
+		$UI/%WorldTypeUI.texture_under = sun
+		$UI/%WorldTypeUI.texture_progress = sun
 	if Global.worldType == "Night":
 		# This disable the tilemap 'Day_Env' layer
 		$TileMap.set_layer_enabled(1,false)
@@ -108,8 +108,8 @@ func _change_world_type():
 		# In night world sound are speed-up a little bit
 		$Music/BackgroundMusic.pitch_scale = 1.12
 		# Set the UI accordingly to the night worldType
-		$"UI/WorldType/Progress".texture_under = moon
-		$"UI/WorldType/Progress".texture_progress = moon
+		$UI/%WorldTypeUI.texture_under = moon
+		$UI/%WorldTypeUI.texture_progress = moon
 
 # --------------------------------------------------------------------------
 # Player signal listed here, all the signal are from "res://scene/character/Character.gd"
@@ -136,6 +136,7 @@ func _on_player_mouse1_ranged(player_position, player_rotation, player_direction
 	bullet.position = player_position
 	$ProjectileTemp.add_child(bullet,true)
 
+# Explosion set direction should be assigned into the last frame of fireball pos itself
 func _on_character_mouse_2_ranged(player_position, player_rotation, player_direction, is_Charged):
 	if is_Charged == false:
 		var fireball = fireballProjectile.instantiate() as Area2D

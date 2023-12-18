@@ -1,7 +1,7 @@
 extends StaticBody2D
 
 @onready var UI = get_node("/root/Scene/UI")
-signal minimap_Activated(position)
+signal minimap_activated(position)
 
 
 # Called when the node enters the scene tree for the first time.
@@ -28,6 +28,6 @@ func _on_checkpoint_area_body_entered(body):
 		#$PointLight2D.energy = 2
 		Global.player_spawnpoint = position + Vector2(0,25)
 		
-		connect("minimap_Activated", Callable(UI, "_activated_Checkpoint"), 4)
-		minimap_Activated.emit(position)
+		connect("minimap_activated", Callable(UI, "_activated_checkpoint"), 4)
+		minimap_activated.emit(position)
 		

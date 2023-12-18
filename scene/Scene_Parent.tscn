@@ -10,6 +10,8 @@
 [node name="Scene" type="Node2D"]
 script = ExtResource("1_73vnf")
 
+[node name="UI" parent="." instance=ExtResource("6_62nxy")]
+
 [node name="Music" type="Node" parent="."]
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="Music"]
@@ -52,8 +54,6 @@ shadow_enabled = true
 texture = ExtResource("5_obrd2")
 texture_scale = 0.4
 metadata/_edit_lock_ = true
-
-[node name="UI" parent="." instance=ExtResource("6_62nxy")]
 
 [connection signal="mouse1_melee" from="Character" to="." method="_on_player_mouse1_melee"]
 [connection signal="mouse1_ranged" from="Character" to="." method="_on_player_mouse1_ranged"]

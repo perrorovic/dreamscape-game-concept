@@ -36,12 +36,12 @@ func _ready():
 	# Set the left-right view of the boss sprite
 	$Moon.set_flip_h(false)
 	# Set boss UI and hide the UI
-	$"../../UI/BossHealth/Progress".max_value = health
-	$"../../UI/BossHealth/Progress".hide()
+	$"../../UI/%BossHealthUI".max_value = health
+	$"../../UI/%BossHealthUI".hide()
 
 func _process(_delta):
 	# Update the health
-	$"../../UI/BossHealth/Progress".value = health
+	$"../../UI/%BossHealthUI".value = health
 	if boss_ableToAttack:
 		# Boss will look at the player
 		$_look_at_temp.look_at(Global.player_position)
@@ -127,9 +127,9 @@ func _hit(damage, _iframe_type, _set_direction, _knockback_power):
 func _on_attack_area_body_entered(body: CharacterBody2D):
 	if body.name == "Character":
 		boss_ableToAttack = true
-		$"../../UI/BossHealth/Progress".show()
+		$"../../UI/%BossHealthUI".show()
 
 func _on_attack_area_body_exited(body: CharacterBody2D):
 	if body.name == "Character":
 		boss_ableToAttack = false
-		$"../../UI/BossHealth/Progress".hide()
+		$"../../UI/%BossHealthUI".hide()

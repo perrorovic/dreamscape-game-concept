@@ -179,7 +179,7 @@ func _hit(damage: int, iframe_type: String, set_direction, knockback_power):
 		# Emit the signal into the level and queue_free the enemies
 		print("item dropped")
 		connect("item_dropped", Callable(world, "_on_enemy_drop"), 4)
-		connect("item_dropped", Callable(UI, "_update_Items"), 4)
+		connect("item_dropped", Callable(UI, "_update_items"), 4)
 		item_dropped.emit(item_name, position)
 		queue_free()
 

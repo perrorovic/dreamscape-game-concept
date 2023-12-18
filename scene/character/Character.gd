@@ -9,6 +9,16 @@ signal mouse2_melee(player_position, player_rotation, player_direction)
 signal mouse1_ranged(player_position, player_rotation, player_direction)
 signal mouse2_ranged(player_position, player_rotation, player_direction, is_Charged)
 
+@onready var ui_path = get_node("/root/Scene/UI")
+@onready var ui_worldType = $"../UI/%WorldTypeUI"
+@onready var ui_playerHealth = $"../UI/%PlayerHealthUI"
+@onready var ui_playerDash = $"../UI/%PlayerDashUI"
+@onready var ui_playerRangedAmmo = $"../UI/%PlayerRangedAmmoUI"
+@onready var ui_playerRangedSpecialAttack = $"../UI/%PlayerRangedSpecialAttackUI"
+@onready var ui_playerMeleeEquipped = $"../UI/%PlayerMeleeEquippedUI"
+@onready var ui_playerMeleeSpecialAttack = $"../UI/%PlayerMeleeSpecialAttackUI"
+signal ui_feedback(ui_name)
+
 @onready var scene = get_node("/root/Scene/")
 signal scene_change_world_type()
 
@@ -47,13 +57,13 @@ func _ready():
 	$Weapon/RangedWeapon.hide()
 	$Weapon/RangedWeapon/ChargingParticles.emitting = false
 	# Set the values of the player health (Should move the health into UIs node)
-	$"../UI/PlayerHealth/Progress".max_value = Global.player_healthMax
-	$"../UI/PlayerRanged/Ammo".max_value = Global.player_ammoMax
+	ui_playerHealth.max_value = Global.player_healthMax
+	ui_playerRangedAmmo.max_value = Global.player_ammoMax
 
 func _physics_process(_delta):
 	# Update the player health value all the time
-	$"../UI/PlayerHealth/Progress".value = Global.player_health
-	$"../UI/PlayerRanged/Ammo".value = Global.player_ammo
+	ui_playerHealth.value = Global.player_health
+	ui_playerRangedAmmo.value = Global.player_ammo
 	# Set the location for melee projectile to spawn by using hit marker
 	Global.player_position = global_position
 	Global.player_meleeSlashSpawn = $Weapon/MeleeSlashSpawn.global_position
@@ -133,7 +143,7 @@ func _swap_world_type():
 		connect("scene_change_world_type", Callable(scene, "_change_world_type"), 4)
 		scene_change_world_type.emit()
 	# Set the progress value with timer time_left (this isnt dynamic and will break when you change the timer. Set for 5s)
-	$"../UI/WorldType/Progress".value = 100 - $Timer/SwapWorldCooldown.time_left * 20
+	ui_worldType.value = 100 - $Timer/SwapWorldCooldown.time_left * 20
 
 func _swap_world_type_to_day():
 	# Show melee weapon in day
@@ -239,14 +249,14 @@ func _melee():
 		mouse2_melee.emit($Weapon/MeleeSlashSpawn.global_position, $Weapon.rotation_degrees, player_direction)
 		#MeleeCooldown timer started by Melee_Throw after it hit wall/enemy/after timed out (3s)
 		$Timer/ThrowCooldown.start()
-		$"../UI/PlayerMelee/MeleeOnHand".modulate = Color("#4a4a4a")
+		ui_playerMeleeEquipped.modulate = Color("#4a4a4a")
 		
 		#$Timer/MeleeCooldown.start(2)
 
 # This function make the ranged projectile for the player character action
 # @kepponn are responsible for this one
 func _ranged():
-	$"../UI/PlayerRanged/Ammo".value = Global.player_ammo
+	ui_playerRangedAmmo.value = Global.player_ammo
 	#if shooting on any ammo except last ammo (1 ammo or more {2,3,4,5,...} left), auto reload timer will be started
 	if Global.player_ammo > 1 and Input.is_action_pressed("mouse1") and Global.player_ableToShoot == true and Global.worldType == "Night":
 		Global.player_ableToShoot = false
@@ -357,7 +367,7 @@ func _dash():
 			player_moveSpeed += 750 #Timer 0.1, fixed FPS 120 much better because afterimage running at 120 fps 
 			set_collision_mask_value(1, false)
 	if Global.player_ableToDash == false:
-		$"../UI/PlayerDash/Progress".value = $"../UI/PlayerDash/Progress".max_value * (1 - $Timer/DashCooldown.time_left / $Timer/DashCooldown.wait_time)
+		ui_playerDash.value = ui_playerDash.max_value * (1 - $Timer/DashCooldown.time_left / $Timer/DashCooldown.wait_time)
 
 # --------------------------------------------------------------------------
 # Function of player that being called by other entities such as: enemies and items pickups
@@ -401,11 +411,11 @@ func _on_items_pickup(type):
 	elif type == "dash":
 		$Timer/DashCooldown.stop()
 		Global.player_ableToDash = true
-		$"../UI/PlayerDash/Progress".value = $"../UI/PlayerDash/Progress".max_value
+		ui_playerDash.value = ui_playerDash.max_value
 	elif type == "ammo":
 		$Timer/ReloadTickCooldown.stop()
 		Global.player_ammo = Global.player_ammoMax
-		$"../UI/PlayerRanged/Ammo".value = Global.player_ammoMax
+		ui_playerRangedAmmo.value = Global.player_ammoMax
 		Global.player_ableToShoot = true
 		
 # --------------------------------------------------------------------------
@@ -415,8 +425,8 @@ func _on_items_pickup(type):
 
 func _update_animation():
 	#Update Special Attack UI Cooldown | Set wait_time on timer, currently at 10s
-	$"../UI/PlayerMelee/SpecialAttack".value = $Timer/ThrowCooldown.wait_time - $Timer/ThrowCooldown.time_left
-	$"../UI/PlayerRanged/SpecialAttack".value = $Timer/FireballCooldown.wait_time - $Timer/FireballCooldown.time_left
+	ui_playerMeleeSpecialAttack.value = $Timer/ThrowCooldown.wait_time - $Timer/ThrowCooldown.time_left
+	ui_playerRangedSpecialAttack.value = $Timer/FireballCooldown.wait_time - $Timer/FireballCooldown.time_left
 	
 	#Set animation to walking or idling
 	#Set Dust Particles to spawn if player is moving
@@ -440,17 +450,37 @@ func _update_animation():
 	if get_global_mouse_position().x < position.x:
 		$Dash_Afterimage.scale.x = 1
 	
+	# UI on cooldown and get pressed then do feedback animation
+	# BUG where when pressed for the first time for the action it blink red
+	# Maybe add a timer check for it
+	if Global.player_ableToSwapWorld == false and Input.is_action_just_pressed("swap") and $Timer/SwapWorldCooldown.time_left < $Timer/SwapWorldCooldown.wait_time:
+		connect("ui_feedback", Callable(ui_path, "_ui_feedback"), 4)
+		ui_feedback.emit(ui_worldType)
+	if Global.player_ableToDash == false and Input.is_action_just_pressed("dash") and $Timer/DashDuration.time_left < $Timer/DashDuration.wait_time:
+		connect("ui_feedback", Callable(ui_path, "_ui_feedback"), 4)
+		ui_feedback.emit(ui_playerDash)
+	# What the timer for player_isEmptyReloading action?
+	if player_isEmptyReloading == true and Input.is_action_just_pressed("mouse1") and $Timer/ReloadAutoCooldown.time_left < $Timer/ReloadAutoCooldown.wait_time:
+		connect("ui_feedback", Callable(ui_path, "_ui_feedback"), 4)
+		ui_feedback.emit(ui_playerRangedAmmo)
+	if Global.player_ableToThrow == false and Input.is_action_just_pressed("mouse2") and $Timer/ThrowCooldown.time_left < $Timer/ThrowCooldown.wait_time:
+		connect("ui_feedback", Callable(ui_path, "_ui_feedback"), 4)
+		ui_feedback.emit(ui_playerMeleeSpecialAttack)
+	if Global.player_ableToFireball == false and Input.is_action_just_pressed("mouse2") and $Timer/FireballCooldown.time_left < $Timer/FireballCooldown.wait_time:
+		connect("ui_feedback", Callable(ui_path, "_ui_feedback"), 4)
+		ui_feedback.emit(ui_playerRangedSpecialAttack)
+	# Fuck animation
 	#if UI on cooldown and get pressed then do feedback animation
-	if Global.player_ableToDash == false and Input.is_action_just_pressed("dash"):
-		$"../UI/PlayerDash/UIDashAnimation".play("unable_dash")
-	if player_isEmptyReloading == true and Input.is_action_just_pressed("mouse1"):
-		$"../UI/PlayerRanged/UIAmmoAnimation".play("unable_shoot")
-	if Global.player_ableToSwapWorld == false and Input.is_action_just_pressed("swap"):
-		$"../UI/WorldType/UIWorldAnimation".play("unable_change")
-	if Global.player_ableToThrow == false and Input.is_action_just_pressed("mouse2"):
-		$"../UI/PlayerMelee/UISpecialAttackAnimation".play("unable_special")
-	if Global.player_ableToFireball == false and Input.is_action_just_pressed("mouse2"):
-		$"../UI/PlayerRanged/UISpecialAttackAnimation".play("unable_special")
+	#if Global.player_ableToDash == false and Input.is_action_just_pressed("dash"):
+		#$"../UI/PlayerDash/UIDashAnimation".play("unable_dash")
+	#if player_isEmptyReloading == true and Input.is_action_just_pressed("mouse1"):
+		#$"../UI/PlayerRanged/UIAmmoAnimation".play("unable_shoot")
+	#if Global.player_ableToSwapWorld == false and Input.is_action_just_pressed("swap"):
+		#$"../UI/WorldType/UIWorldAnimation".play("unable_change")
+	#if Global.player_ableToThrow == false and Input.is_action_just_pressed("mouse2"):
+		#$"../UI/PlayerMelee/UISpecialAttackAnimation".play("unable_special")
+	#if Global.player_ableToFireball == false and Input.is_action_just_pressed("mouse2"):
+		#$"../UI/PlayerRanged/UISpecialAttackAnimation".play("unable_special")
 
 # --------------------------------------------------------------------------
 # Timer with signal feedback that being used by the player character
@@ -468,7 +498,7 @@ func _on_melee_cooldown_timeout():
 	# Because of this didnt check the world type before setting the visible property
 	if $Weapon/MeleeWeapon.visible == false and Global.worldType == "Day":
 		$Weapon/MeleeWeapon.visible = true
-		$"../UI/PlayerMelee/MeleeOnHand".modulate = Color("#ffffff")
+		ui_playerMeleeEquipped.modulate = Color("#ffffff")
 
 func _on_throw_cooldown_timeout():
 	Global.player_ableToThrow = true
