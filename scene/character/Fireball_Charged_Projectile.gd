@@ -21,13 +21,19 @@ func _process(delta):
 
 #Explode after colliding
 func _on_body_entered(_body):
+	#Remove set collision mask 1 if want to remove self damage from explosion
+	
 	$Explosion_AoE.set_collision_mask_value(7,true)
+	$Explosion_AoE.set_collision_mask_value(1,true)
 	$AnimationPlayer.play("Explode")
 	exploded = true
 
 #Explode after x second of airtime
 func _on_midair_explosion_waittime_timeout():
+	#Remove set collision mask 1 if want to remove self damage from explosion
+	
 	$Explosion_AoE.set_collision_mask_value(7,true)
+	$Explosion_AoE.set_collision_mask_value(1,true)
 	$AnimationPlayer.play("Explode")
 	exploded = true
 	
@@ -35,7 +41,11 @@ func _on_midair_explosion_waittime_timeout():
 func _on_explosion_aoe_body_entered(body):
 	if body.has_method("_hit"):
 		print("Enemy take damage by Charged explosion")
+		print(set_direction)
 		body._hit(damage, iframe_type, set_direction, knockback_power)
+	if body.has_method("_player_hit"):
+		print("player take damage by charged explosion")
+		body._player_hit(damage)
 		
 #Queue free after animation is finished
 func _on_animation_player_animation_finished(_anim_name):

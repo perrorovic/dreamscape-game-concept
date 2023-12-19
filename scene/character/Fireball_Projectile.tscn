@@ -19,8 +19,8 @@ radius = 106.532
 
 [sub_resource type="Animation" id="Animation_kqcxx"]
 resource_name = "Explode"
-length = 0.18
-step = 0.01
+length = 0.4
+step = 0.06
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -28,7 +28,7 @@ tracks/0/path = NodePath("Sprite2D:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.03, 0.06, 0.09, 0.12, 0.15, 0.18),
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18, 0.24, 0.3, 0.36),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [ExtResource("3_jht3n"), ExtResource("4_mewpc"), ExtResource("5_ncte6"), ExtResource("6_rrpin"), ExtResource("7_egw4t"), ExtResource("8_hr7am"), ExtResource("9_a0am4")]
@@ -80,6 +80,7 @@ _data = {
 }
 
 [node name="Fireball_Projectile" type="Area2D"]
+z_index = 1
 collision_layer = 32
 collision_mask = 70
 script = ExtResource("1_bjbok")

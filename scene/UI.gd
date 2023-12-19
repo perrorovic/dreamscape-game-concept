@@ -49,16 +49,35 @@ func _ui_feedback(ui_name):
 	print("ui feedback for ", ui_name)
 
 func _check_world():
-	if Global.worldType == "Day":
-		%PlayerMeleeEquippedUI.show()
-		%PlayerMeleeSpecialAttackUI.show()
-		%PlayerRangedAmmoUI.hide()
-		%PlayerRangedSpecialAttackUI.hide()
-	if Global.worldType == "Night":
-		%PlayerMeleeEquippedUI.hide()
-		%PlayerMeleeSpecialAttackUI.hide()
-		%PlayerRangedAmmoUI.show()
-		%PlayerRangedSpecialAttackUI.show()
+	#if Global.worldType == "Day":
+		#%PlayerMeleeEquippedUI.show()
+		#%PlayerMeleeSpecialAttackUI.show()
+		#%PlayerRangedAmmoUI.hide()
+		#%PlayerRangedSpecialAttackUI.hide()
+	#if Global.worldType == "Night":
+		#%PlayerMeleeEquippedUI.hide()
+		#%PlayerMeleeSpecialAttackUI.hide()
+		#%PlayerRangedAmmoUI.show()
+		#%PlayerRangedSpecialAttackUI.show()
+	
+	## This node will be used later on
+	#if Global.worldType == "Day":
+		#if Global.player_haveSword == true:
+			#%PlayerMeleeEquippedUI.show()
+			#if Global.player_ableToThrow == true:
+				#%PlayerMeleeSpecialAttackUI.show()
+		#if Global.player_haveStaff == true:
+			#%PlayerRangedAmmoUI.hide()
+			#%PlayerRangedSpecialAttackUI.hide()
+	#if Global.worldType == "Night":
+		#if Global.player_haveSword == true:
+			#%PlayerMeleeEquippedUI.hide()
+			#%PlayerMeleeSpecialAttackUI.hide()
+		#if Global.player_haveStaff == true:
+			#%PlayerRangedAmmoUI.show()
+			#if Global.player_ableToFireball == true:
+				#%PlayerRangedSpecialAttackUI.show()
+		pass
 		
 func _init_map():
 	# Getting all checkpoint in the world to the minimap
@@ -102,12 +121,15 @@ func _toggle_map():
 	#Map change to Minimap
 	if Input.is_action_just_pressed("expand_map") and map_isExpanded == true:
 		map_isExpanded = false
+		print(get_viewport().size)
 		$Minimap/SubViewportContainer/SubViewport.size = Vector2(100,100)
 		$Minimap/SubViewportContainer.size = Vector2(100,100)
-		$Minimap/SubViewportContainer.position = Vector2(848,13)
+		$Minimap/SubViewportContainer.position = Vector2(get_viewport().size - $Minimap/SubViewportContainer/SubViewport.size - Vector2i(30,get_viewport().size.y - 130))
+		print($Minimap/SubViewportContainer.position)
 	#Map change to World Map
 	elif  Input.is_action_just_pressed("expand_map") and map_isExpanded == false:
+		print(get_viewport().size)
 		map_isExpanded = true
 		$Minimap/SubViewportContainer/SubViewport.size = Vector2(300,300)
 		$Minimap/SubViewportContainer.size = Vector2(300,300)
-		$Minimap/SubViewportContainer.position = Vector2(330,100)
+		$Minimap/SubViewportContainer.position = Vector2(get_viewport().size/2 - $Minimap/SubViewportContainer/SubViewport.size/2)

@@ -45,6 +45,8 @@ blend_mode = 1
 
 [node name="EnemyTemp" type="Node2D" parent="."]
 
+[node name="InteractableTemp" type="Node2D" parent="."]
+
 [node name="Character" parent="." instance=ExtResource("4_t681f")]
 scale = Vector2(1.5, 1.5)
 

@@ -45,7 +45,10 @@ var player_isCasting: bool = false
 var is_Charged: bool = false
 # This is for knockback and go together with _movement() to check for any knockbacks
 var knockback_tweenValue: Vector2 = Vector2(0,0)
-
+# This used for interaction
+var player_canInteract: bool = false
+var interactable_temp
+signal player_interact(interactable_temp)
 # --------------------------------------------------------------------------
 # Function of _ready() and _physics_process() are listed below:
 # --------------------------------------------------------------------------
@@ -76,6 +79,7 @@ func _physics_process(_delta):
 	_dash()
 	_ranged()
 	_update_animation()
+	_interact()
 
 # --------------------------------------------------------------------------
 # Function of _movement() (This function move the player around based on user-input)
@@ -417,7 +421,7 @@ func _on_items_pickup(type):
 		Global.player_ammo = Global.player_ammoMax
 		ui_playerRangedAmmo.value = Global.player_ammoMax
 		Global.player_ableToShoot = true
-		
+	
 # --------------------------------------------------------------------------
 # Function of _update_animation() (Animation of the character are being add and modify here)
 # @kepponn are responsible for this
@@ -493,7 +497,6 @@ func _on_swap_world_cooldown_timeout():
 
 func _on_melee_cooldown_timeout():
 	Global.player_ableToMelee = true
-	#UNDER CONSTRUCTION OF MAKING THROWABLE WEAPON
 	# FIXED - Bug showing both weapon if the melee is thrown and world change to night
 	# Because of this didnt check the world type before setting the visible property
 	if $Weapon/MeleeWeapon.visible == false and Global.worldType == "Day":
@@ -525,3 +528,20 @@ func _on_dash_duration_timeout():
 
 func _on_dash_cooldown_timeout():
 	Global.player_ableToDash = true
+
+func _on_interaction_area_body_entered(body):
+	print("body entered")
+	player_canInteract = true
+	interactable_temp = body
+	
+func _on_interaction_area_body_exited(body):
+	player_canInteract = false
+	
+func _interact():
+	if player_canInteract == true:
+		print(interactable_temp.name)
+		player_interact.emit(interactable_temp)
+		
+
+
+

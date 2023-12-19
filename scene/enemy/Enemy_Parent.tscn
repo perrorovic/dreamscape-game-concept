@@ -5,7 +5,7 @@
 
 [node name="Enemy_Parent" type="CharacterBody2D"]
 collision_layer = 64
-collision_mask = 71
+collision_mask = 193
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_mjhv5")

@@ -16,14 +16,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_31v6c"]
 size = Vector2(157, 20)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6mg77"]
-size = Vector2(288, 193)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_df44g"]
+size = Vector2(259.5, 228.25)
 
 [node name="Scene" instance=ExtResource("1_baggf")]
 script = ExtResource("2_blk5e")
-
-[node name="UI" parent="." index="0"]
-visible = true
 
 [node name="WHOLEMEME" type="Control" parent="." index="2"]
 layout_mode = 3
@@ -143,30 +140,6 @@ position = Vector2(2671, 1341)
 [node name="Items_Health4" parent="ItemTemp" index="9" instance=ExtResource("6_nbb5p")]
 position = Vector2(2796, 1033)
 
-[node name="Items_Health5" parent="ItemTemp" index="10" instance=ExtResource("6_nbb5p")]
-position = Vector2(-1581, -221)
-
-[node name="Items_Health6" parent="ItemTemp" index="11" instance=ExtResource("6_nbb5p")]
-position = Vector2(-1367, -475)
-
-[node name="Items_Health8" parent="ItemTemp" index="12" instance=ExtResource("6_nbb5p")]
-position = Vector2(-1344, -855)
-
-[node name="Items_Health9" parent="ItemTemp" index="13" instance=ExtResource("6_nbb5p")]
-position = Vector2(-1081, -719)
-
-[node name="Items_Health10" parent="ItemTemp" index="14" instance=ExtResource("6_nbb5p")]
-position = Vector2(-795, -575)
-
-[node name="Items_Health7" parent="ItemTemp" index="15" instance=ExtResource("6_nbb5p")]
-position = Vector2(-1223, -1222)
-
-[node name="Items_Dash4" parent="ItemTemp" index="16" instance=ExtResource("4_0pxpg")]
-position = Vector2(-792, -180)
-
-[node name="Items_Dash5" parent="ItemTemp" index="17" instance=ExtResource("4_0pxpg")]
-position = Vector2(-782, -340)
-
 [node name="Enemy_Melee" parent="EnemyTemp" index="0" instance=ExtResource("7_b5eh1")]
 position = Vector2(881, 493)
 
@@ -174,36 +147,28 @@ position = Vector2(881, 493)
 position = Vector2(772, 834)
 enemy_type = "Night"
 
-[node name="Enemy_Melee3" parent="EnemyTemp" index="2" instance=ExtResource("7_b5eh1")]
-position = Vector2(-475, 5)
-
-[node name="Enemy_Melee4" parent="EnemyTemp" index="3" instance=ExtResource("7_b5eh1")]
-position = Vector2(-192, 2)
-
-[node name="Enemy_Ranged" parent="EnemyTemp" index="4" instance=ExtResource("8_uudt3")]
+[node name="Enemy_Ranged" parent="EnemyTemp" index="2" instance=ExtResource("8_uudt3")]
 position = Vector2(559, 48)
 enemy_type = "Day"
 
-[node name="Enemy_Ranged2" parent="EnemyTemp" index="5" instance=ExtResource("8_uudt3")]
+[node name="Enemy_Ranged2" parent="EnemyTemp" index="3" instance=ExtResource("8_uudt3")]
 position = Vector2(1017, -200)
 
-[node name="Boss" parent="EnemyTemp" index="6" instance=ExtResource("9_q4n52")]
+[node name="Boss" parent="EnemyTemp" index="4" instance=ExtResource("9_q4n52")]
 position = Vector2(1918, 121)
 
 [node name="Interactable_Sword" parent="InteractableTemp" index="0" instance=ExtResource("12_e81gg")]
 position = Vector2(-1247, -1064)
-collision_layer = 2
-collision_mask = 2
 
 [node name="Tutorial" type="Node" parent="." index="11"]
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="Tutorial" index="0"]
-offset_left = -1329.0
-offset_top = -981.0
-offset_right = -1165.0
-offset_bottom = -956.0
+offset_left = -1337.0
+offset_top = -940.0
+offset_right = -1148.0
+offset_bottom = -915.0
 bbcode_enabled = true
-text = "Pick up your weapon"
+text = "Press F to pickup Sword"
 fit_content = true
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Tutorial" index="1"]
@@ -224,18 +189,18 @@ bbcode_enabled = true
 text = "[center]Press Shift or Spacebar to dash"
 fit_content = true
 
-[node name="EnableDash" type="StaticBody2D" parent="Tutorial" index="3"]
-position = Vector2(-769, -545)
-collision_layer = 4
+[node name="EnableDash" type="Area2D" parent="Tutorial" index="3"]
+position = Vector2(-784, -480)
+collision_layer = 128
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tutorial/EnableDash" index="0"]
-position = Vector2(1, 0)
-shape = SubResource("RectangleShape2D_6mg77")
+position = Vector2(-15.75, -82.125)
+shape = SubResource("RectangleShape2D_df44g")
 
 [node name="Character" parent="." index="12"]
-position = Vector2(-1254, -676)
+position = Vector2(-1244, -861)
 
 [connection signal="body_entered" from="WHOLEMEME/Meme" to="." method="_on_meme_body_entered"]
 [connection signal="body_entered" from="WHOLEMEME/Meme2" to="." method="_on_meme_2_body_entered"]
-[connection signal="player_interact" from="Character" to="." method="_on_player_interact_key_item"]
+[connection signal="player_interact" from="Character" to="." method="_on_player_interact"]

@@ -37,6 +37,10 @@ color = Color(0.572549, 1, 1, 1)
 radius = 7.0
 height = 36.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dv34u"]
+radius = 22.0
+height = 56.0
+
 [sub_resource type="Animation" id="Animation_4e480"]
 length = 0.001
 tracks/0/type = "value"
@@ -186,10 +190,6 @@ scale_max = 0.2
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mdk4q"]
-radius = 28.0
-height = 72.0
-
 [node name="Character" type="CharacterBody2D"]
 position = Vector2(0, -12)
 collision_mask = 139
@@ -328,6 +328,14 @@ position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 rotation_smoothing_enabled = true
 
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(-2, 2)
+shape = SubResource("CapsuleShape2D_dv34u")
+
 [node name="Filter" type="CanvasModulate" parent="."]
 
 [node name="AnimationCharacter" type="AnimationPlayer" parent="."]
@@ -370,14 +378,6 @@ lifetime = 1.5
 speed_scale = 2.0
 metadata/_edit_lock_ = true
 
-[node name="InteractionArea" type="Area2D" parent="."]
-position = Vector2(-2, 3)
-collision_layer = 0
-collision_mask = 6
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
-shape = SubResource("CapsuleShape2D_mdk4q")
-
 [connection signal="timeout" from="Timer/RangedCooldown" to="." method="_on_ranged_cooldown_timeout"]
 [connection signal="timeout" from="Timer/FireballCooldown" to="." method="_on_fireball_cooldown_timeout"]
 [connection signal="timeout" from="Timer/CastingTime" to="." method="_on_casting_timeout"]
@@ -387,4 +387,3 @@ shape = SubResource("CapsuleShape2D_mdk4q")
 [connection signal="timeout" from="Timer/DashCooldown" to="." method="_on_dash_cooldown_timeout"]
 [connection signal="timeout" from="Timer/SwapWorldCooldown" to="." method="_on_swap_world_cooldown_timeout"]
 [connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
-[connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]

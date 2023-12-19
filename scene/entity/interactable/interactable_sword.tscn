@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://gne0w21plv4s"]
+
+[ext_resource type="Texture2D" uid="uid://dinak8w45fe5i" path="res://assets/character/SwordMelee.png" id="1_y0te5"]
+[ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="2_spr6a"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nmf5r"]
+radius = 17.0
+height = 110.0
+
+[node name="Interactable_Sword" type="StaticBody2D"]
+collision_layer = 128
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_nmf5r")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_y0te5")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(-2.74181e-06, -1.66893e-06)
+scale = Vector2(0.243203, 0.249719)
+energy = 2.0
+texture = ExtResource("2_spr6a")

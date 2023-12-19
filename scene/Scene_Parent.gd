@@ -63,7 +63,7 @@ func _init_world():
 	# How dark the world are (blend mode is subtraction)
 	$DirectionalLight2D.energy = 0.5
 	# BUG - UI.hide() didnt hide EVERYTHING in the UI nodes.. What causing this?
-	$UI.show()
+	#$UI.show()
 	$Music/BackgroundMusic.play()
 
 func _init_day():
