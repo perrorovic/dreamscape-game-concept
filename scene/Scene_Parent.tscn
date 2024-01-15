@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dl1enj0x41grc"]
+[gd_scene load_steps=8 format=3 uid="uid://dl1enj0x41grc"]
 
 [ext_resource type="Script" path="res://scene/Scene_Parent.gd" id="1_73vnf"]
 [ext_resource type="AudioStream" uid="uid://b4x6eksm6skkq" path="res://sound/BGM/Missing_Persons_-_Jeremy_Blake.mp3" id="2_80bs0"]
@@ -6,11 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://caxjcyt48xmp0" path="res://scene/character/Character.tscn" id="4_t681f"]
 [ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="5_obrd2"]
 [ext_resource type="PackedScene" uid="uid://bio2wxum33qhf" path="res://scene/UI.tscn" id="6_62nxy"]
+[ext_resource type="PackedScene" uid="uid://b163wrbe72fm5" path="res://scene/ui/Ingame_Menu.tscn" id="7_5cvhc"]
 
 [node name="Scene" type="Node2D"]
 script = ExtResource("1_73vnf")
 
 [node name="UI" parent="." instance=ExtResource("6_62nxy")]
+
+[node name="IngameMenu" parent="." instance=ExtResource("7_5cvhc")]
+process_mode = 3
 
 [node name="Music" type="Node" parent="."]
 

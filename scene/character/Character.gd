@@ -109,6 +109,7 @@ func _movement():
 	direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = direction * player_moveSpeed + knockback_tweenValue
 	# Play step sfx when the player is moving
+	# The audio bus in the $StepSfx
 	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):
 		if $Timer/StepSfxCooldown.time_left <= 0:
 			var StepSfx = $StepSfx.get_children()

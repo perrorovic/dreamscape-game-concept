@@ -199,18 +199,23 @@ script = ExtResource("1_pch7d")
 
 [node name="Step1" type="AudioStreamPlayer" parent="StepSfx"]
 stream = ExtResource("3_pbu7b")
+bus = &"Effect"
 
 [node name="Step2" type="AudioStreamPlayer" parent="StepSfx"]
 stream = ExtResource("4_1rxhg")
+bus = &"Effect"
 
 [node name="Step3" type="AudioStreamPlayer" parent="StepSfx"]
 stream = ExtResource("5_2q2xs")
+bus = &"Effect"
 
 [node name="Step4" type="AudioStreamPlayer" parent="StepSfx"]
 stream = ExtResource("6_7nbl7")
+bus = &"Effect"
 
 [node name="Step5" type="AudioStreamPlayer" parent="StepSfx"]
 stream = ExtResource("3_pbu7b")
+bus = &"Effect"
 
 [node name="Step6" type="AudioStreamPlayer" parent="StepSfx"]
 stream = ExtResource("7_rlqsk")
@@ -218,9 +223,11 @@ bus = &"Effect"
 
 [node name="Step7" type="AudioStreamPlayer" parent="StepSfx"]
 stream = ExtResource("8_52yx0")
+bus = &"Effect"
 
 [node name="Step8" type="AudioStreamPlayer" parent="StepSfx"]
 stream = ExtResource("3_pbu7b")
+bus = &"Effect"
 
 [node name="Timer" type="Node" parent="."]
 
@@ -325,6 +332,7 @@ shape = SubResource("CapsuleShape2D_m5ns1")
 metadata/_edit_lock_ = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
+process_mode = 3
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 rotation_smoothing_enabled = true

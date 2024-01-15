@@ -1,6 +1,7 @@
 extends MainMenuParent
 
 func _ready():
+	get_tree().paused = true
 	%MasterVolume.value = Settings.audioMaster_volumeTemp
 	%MusicVolume.value = Settings.audioMusic_volumeTemp
 	%EffectVolume.value = Settings.audioEffect_volumeTemp
@@ -17,6 +18,7 @@ func _ready():
 
 func _on_play_pressed():
 	# Get and play the scene
+	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scene/Scene_Inherited.tscn")
 
 func _on_options_pressed():

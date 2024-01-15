@@ -3,13 +3,8 @@
 [ext_resource type="Script" path="res://scene/ui/MainMenu.gd" id="1_ps8s2"]
 [ext_resource type="AudioStream" uid="uid://ci2rnvue3wj3l" path="res://sound/BGM/(Shorten)_Missing_Persons_-_Jeremy_Blake.wav" id="2_4arup"]
 
-[node name="MainMenu" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="MainMenu" type="CanvasLayer"]
+process_mode = 2
 script = ExtResource("1_ps8s2")
 
 [node name="BackgoundMusic" type="AudioStreamPlayer" parent="."]
@@ -17,7 +12,7 @@ stream = ExtResource("2_4arup")
 bus = &"Music"
 
 [node name="Menu" type="Control" parent="."]
-layout_mode = 1
+layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -80,7 +75,7 @@ text = "Quit"
 
 [node name="Options" type="Control" parent="."]
 visible = false
-layout_mode = 1
+layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

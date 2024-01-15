@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 class_name MainMenuParent
 
 # Remember to put this _ready() function in the child

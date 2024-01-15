@@ -2,13 +2,15 @@ extends Scene_Parent
 
 func _ready():
 	print("Scene Inherited")
-	
 	_init_world()
 	_init_day()
 	_tutorial()
 	
 func _process(_delta):
-	pass
+	if Input.is_action_just_pressed("esc"):
+		$IngameMenu.show()
+		$IngameMenu.esc()
+		get_tree().paused = true
 
 # --------------------------------------------------------------------------
 # TO BE DELETED LATER @kepponn RETARDOING
