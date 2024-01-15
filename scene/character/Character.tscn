@@ -214,6 +214,7 @@ stream = ExtResource("3_pbu7b")
 
 [node name="Step6" type="AudioStreamPlayer" parent="StepSfx"]
 stream = ExtResource("7_rlqsk")
+bus = &"Effect"
 
 [node name="Step7" type="AudioStreamPlayer" parent="StepSfx"]
 stream = ExtResource("8_52yx0")

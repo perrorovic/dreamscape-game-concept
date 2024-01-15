@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" load_steps=6 format=3 uid="uid://esvtc00mqhdh"]
 
-[ext_resource type="Texture2D" uid="uid://ck4cqnxc4tr4k" path="res://assets/tilesets/Tileset.png" id="1_iafcl"]
+[ext_resource type="Texture2D" uid="uid://ck4cqnxc4tr4k" path="res://assets/tilesets/TileSet.png" id="1_iafcl"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_h3rcd"]
 vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)

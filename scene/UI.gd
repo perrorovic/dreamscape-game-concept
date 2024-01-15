@@ -18,7 +18,7 @@ var map_isExpanded = false
 func _ready():
 	# Set a new minimap tilemap to "$Minimap/SubViewportContainer/SubViewport/MinimapTileMap"
 	# BUG - Sometime the UI would be just filtered red for no reason and will be stuck like that until the player press the button accordingly to reset the button
-	%BossHealthUI.hide()
+	_init_ui()
 	_init_map()
 	_init_items()
 
@@ -29,6 +29,9 @@ func _process(_delta):
 	
 	_toggle_map()
 	_check_world()
+
+func _init_ui():
+	%BossHealthUI.hide()
 
 func _ui_feedback(ui_name):
 	# Async signal from player character

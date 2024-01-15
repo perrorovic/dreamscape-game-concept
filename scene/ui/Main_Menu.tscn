@@ -1,0 +1,197 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqcqapws0lmpx"]
+
+[ext_resource type="Script" path="res://scene/ui/MainMenu.gd" id="1_ps8s2"]
+[ext_resource type="AudioStream" uid="uid://ci2rnvue3wj3l" path="res://sound/BGM/(Shorten)_Missing_Persons_-_Jeremy_Blake.wav" id="2_4arup"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ps8s2")
+
+[node name="BackgoundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_4arup")
+bus = &"Music"
+
+[node name="Menu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Play" type="Button" parent="Menu"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -55.5
+offset_right = 100.0
+offset_bottom = -24.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play"
+
+[node name="Options" type="Button" parent="Menu"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -15.5
+offset_right = 100.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Options"
+
+[node name="Quit" type="Button" parent="Menu"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 40.5
+offset_right = 100.0
+offset_bottom = 71.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Quit"
+
+[node name="Options" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Options"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -68.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="DisplayText" type="Button" parent="Options/GridContainer"]
+layout_mode = 2
+text = "Display Mode"
+flat = true
+
+[node name="FullscreenButton" type="Button" parent="Options/GridContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Fullscreen
+"
+
+[node name="WindowedButton" type="Button" parent="Options/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Windowed
+"
+
+[node name="Master" type="Button" parent="Options/GridContainer"]
+layout_mode = 2
+text = "Master"
+flat = true
+
+[node name="MasterVolume" type="HSlider" parent="Options/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+min_value = -30.0
+max_value = 0.0
+rounded = true
+
+[node name="Music" type="Button" parent="Options/GridContainer"]
+layout_mode = 2
+text = "Music"
+flat = true
+
+[node name="MusicVolume" type="HSlider" parent="Options/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+min_value = -30.0
+max_value = 0.0
+value = -5.0
+rounded = true
+
+[node name="Effect" type="Button" parent="Options/GridContainer"]
+layout_mode = 2
+text = "Effect"
+flat = true
+
+[node name="EffectVolume" type="HSlider" parent="Options/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+min_value = -30.0
+max_value = 0.0
+rounded = true
+
+[node name="Back" type="Button" parent="Options"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 88.5
+offset_right = 100.0
+offset_bottom = 119.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "Back"
+
+[connection signal="pressed" from="Menu/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Menu/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Menu/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Options/GridContainer/FullscreenButton" to="." method="_on_options_fullscreen_pressed"]
+[connection signal="pressed" from="Options/GridContainer/WindowedButton" to="." method="_on_options_windowed_pressed"]
+[connection signal="value_changed" from="Options/GridContainer/MasterVolume" to="." method="_on_options_master_volume"]
+[connection signal="value_changed" from="Options/GridContainer/MusicVolume" to="." method="_on_options_music_volume"]
+[connection signal="value_changed" from="Options/GridContainer/EffectVolume" to="." method="_on_options_effect_volume"]
+[connection signal="pressed" from="Options/Back" to="." method="_on_options_back_pressed"]

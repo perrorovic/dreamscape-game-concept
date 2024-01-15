@@ -16,7 +16,7 @@ script = ExtResource("1_73vnf")
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="Music"]
 stream = ExtResource("2_80bs0")
-volume_db = -25.0
+bus = &"Music"
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("3_pio1f")

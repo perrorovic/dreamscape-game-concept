@@ -529,19 +529,19 @@ func _on_dash_duration_timeout():
 func _on_dash_cooldown_timeout():
 	Global.player_ableToDash = true
 
+# --------------------------------------------------------------------------
+# Character tutorial area checker (Getting weapons and upgrade)
+# --------------------------------------------------------------------------
+
 func _on_interaction_area_body_entered(body):
 	print("body entered")
 	player_canInteract = true
 	interactable_temp = body
 	
-func _on_interaction_area_body_exited(body):
+func _on_interaction_area_body_exited(_body):
 	player_canInteract = false
 	
 func _interact():
 	if player_canInteract == true:
 		print(interactable_temp.name)
 		player_interact.emit(interactable_temp)
-		
-
-
-
