@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://dl1enj0x41grc"]
 
 [ext_resource type="Script" path="res://scene/Scene_Parent.gd" id="1_73vnf"]
-[ext_resource type="AudioStream" uid="uid://b4x6eksm6skkq" path="res://sound/BGM/Missing_Persons_-_Jeremy_Blake.mp3" id="2_80bs0"]
 [ext_resource type="TileSet" uid="uid://esvtc00mqhdh" path="res://assets/tilesets/MainTileset.tres" id="3_pio1f"]
+[ext_resource type="AudioStream" uid="uid://divi7urvrbhne" path="res://sound/bgm/starlight-harmonies-185900.mp3" id="4_g5f63"]
 [ext_resource type="PackedScene" uid="uid://caxjcyt48xmp0" path="res://scene/character/Character.tscn" id="4_t681f"]
 [ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="5_obrd2"]
 [ext_resource type="PackedScene" uid="uid://bio2wxum33qhf" path="res://scene/ui/UI.tscn" id="6_62nxy"]
@@ -19,7 +19,7 @@ process_mode = 3
 [node name="Music" type="Node" parent="."]
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="Music"]
-stream = ExtResource("2_80bs0")
+stream = ExtResource("4_g5f63")
 bus = &"Music"
 
 [node name="TileMap" type="TileMap" parent="."]

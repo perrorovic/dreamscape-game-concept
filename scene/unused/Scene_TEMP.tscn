@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://cispg60kl6nn5"]
 
-[ext_resource type="AudioStream" uid="uid://b4x6eksm6skkq" path="res://sound/BGM/Missing_Persons_-_Jeremy_Blake.mp3" id="1_jxot0"]
+[ext_resource type="AudioStream" uid="uid://b4x6eksm6skkq" path="res://sound/bgm/Missing_Persons_-_Jeremy_Blake.mp3" id="1_jxot0"]
 [ext_resource type="TileSet" uid="uid://esvtc00mqhdh" path="res://assets/tilesets/MainTileset.tres" id="2_r450m"]
 [ext_resource type="VideoStream" path="res://ZZZZZZ.ogv" id="3_4ers5"]
 [ext_resource type="VideoStream" path="res://ZZZZZ.ogv" id="4_ygiay"]

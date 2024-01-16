@@ -1,10 +1,50 @@
-[gd_scene load_steps=2 format=3 uid="uid://b163wrbe72fm5"]
+[gd_scene load_steps=7 format=3 uid="uid://b163wrbe72fm5"]
 
 [ext_resource type="Script" path="res://scene/ui/IngameMenu.gd" id="1_s8iie"]
+[ext_resource type="AudioStream" uid="uid://jn52nbs38g3n" path="res://sound/button/foward.mp3" id="2_126au"]
+[ext_resource type="Material" uid="uid://da8l1c8qaxppl" path="res://shaders/BlurMaterialShader.tres" id="2_styhu"]
+[ext_resource type="AudioStream" uid="uid://rcytmmhftgvu" path="res://sound/button/back.mp3" id="3_bva54"]
+[ext_resource type="Material" uid="uid://cil0vsbhbjss8" path="res://shaders/VignetteMaterialShader.tres" id="3_p7x3s"]
+[ext_resource type="AudioStream" uid="uid://b7vakkh6kagho" path="res://sound/button/quit.wav" id="4_kiog1"]
 
 [node name="IngameMenu" type="CanvasLayer"]
 process_mode = 2
 script = ExtResource("1_s8iie")
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Foward" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("2_126au")
+bus = &"Effect"
+
+[node name="Back" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("3_bva54")
+bus = &"Effect"
+
+[node name="QuitMainMenu" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("4_kiog1")
+bus = &"Effect"
+
+[node name="QuitDesktop" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("4_kiog1")
+bus = &"Effect"
+
+[node name="BlurShader" type="ColorRect" parent="."]
+material = ExtResource("2_styhu")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="VignetteShader" type="ColorRect" parent="."]
+material = ExtResource("3_p7x3s")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.05
@@ -199,6 +239,8 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Back"
 
+[connection signal="finished" from="Audio/QuitMainMenu" to="." method="_on_quit_to_menu_audio_finished"]
+[connection signal="finished" from="Audio/QuitDesktop" to="." method="_on_quit_to_desktop_audio_finished"]
 [connection signal="pressed" from="Menu/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="Menu/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Menu/Quit to Main Menu" to="." method="_on_quit_to_menu_pressed"]

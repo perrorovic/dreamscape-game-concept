@@ -20,6 +20,7 @@ func _process(_delta):
 		_on_resume_pressed()
 
 func esc():
+	$Audio/Foward.play(0.25)
 	$Timer.start()
 
 # --------------------------------------------------------------------------
@@ -28,18 +29,25 @@ func esc():
 
 func _on_resume_pressed():
 	hide()
+	$Audio/Back.play(0.25)
 	get_tree().paused = false
 
 func _on_options_pressed():
+	$Audio/Foward.play(0.25)
 	$Menu.hide()
 	$Options.show()
 	
 func _on_options_back_pressed():
+	$Audio/Back.play(0.25)
 	$Options.hide()
 	$Menu.show()
 	
 func _on_quit_to_menu_pressed():
+	$Audio/QuitMainMenu.play()
+func _on_quit_to_menu_audio_finished():
 	get_tree().change_scene_to_file("res://scene/ui/Main_Menu.tscn")
-	
+
 func _on_quit_to_desktop_pressed():
+	$Audio/QuitDesktop.play()
+func _on_quit_to_desktop_audio_finished():
 	get_tree().quit()

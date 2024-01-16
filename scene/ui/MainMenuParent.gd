@@ -45,11 +45,13 @@ func audioMuteCheck(value, audioBus):
 # --------------------------------------------------------------------------
 
 func _on_options_fullscreen_pressed():
+	$Audio/Foward.play(0.25) # This is supposed to be in the parent
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	%FullscreenButton.hide()
 	%WindowedButton.show()
 
 func _on_options_windowed_pressed():
+	$Audio/Foward.play(0.25) # This is supposed to be in the parent
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	%WindowedButton.hide()
 	%FullscreenButton.show()

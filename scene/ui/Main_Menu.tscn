@@ -1,15 +1,115 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqcqapws0lmpx"]
+[gd_scene load_steps=10 format=3 uid="uid://dqcqapws0lmpx"]
 
 [ext_resource type="Script" path="res://scene/ui/MainMenu.gd" id="1_ps8s2"]
-[ext_resource type="AudioStream" uid="uid://ci2rnvue3wj3l" path="res://sound/BGM/(Shorten)_Missing_Persons_-_Jeremy_Blake.wav" id="2_4arup"]
+[ext_resource type="AudioStream" uid="uid://snf1352d2rhi" path="res://sound/button/start.wav" id="2_4cuy6"]
+[ext_resource type="Material" uid="uid://da8l1c8qaxppl" path="res://shaders/BlurMaterialShader.tres" id="2_41eh2"]
+[ext_resource type="Texture2D" uid="uid://cl37iynv4brvk" path="res://autoload/947be1b3a5d95abd596c5327c2f3ac6e.jpg" id="2_e0y60"]
+[ext_resource type="AudioStream" uid="uid://jn52nbs38g3n" path="res://sound/button/foward.mp3" id="3_esipc"]
+[ext_resource type="AudioStream" uid="uid://rcytmmhftgvu" path="res://sound/button/back.mp3" id="4_arydp"]
+[ext_resource type="Material" uid="uid://cil0vsbhbjss8" path="res://shaders/VignetteMaterialShader.tres" id="4_um420"]
+[ext_resource type="AudioStream" uid="uid://b7vakkh6kagho" path="res://sound/button/quit.wav" id="5_c3rfl"]
+[ext_resource type="AudioStream" uid="uid://dhykw8fu8p35p" path="res://sound/bgm/serene-dreamscape-185902.mp3" id="8_bgecx"]
 
 [node name="MainMenu" type="CanvasLayer"]
 process_mode = 2
 script = ExtResource("1_ps8s2")
 
+[node name="Audio" type="Node" parent="."]
+
+[node name="Start" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("2_4cuy6")
+mix_target = 2
+bus = &"Effect"
+
+[node name="Foward" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("3_esipc")
+bus = &"Effect"
+
+[node name="Back" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("4_arydp")
+bus = &"Effect"
+
+[node name="Quit" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("5_c3rfl")
+bus = &"Effect"
+
+[node name="BackgroundImage" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -6.0
+offset_top = -7.0
+offset_right = 34.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_e0y60")
+
+[node name="BlurShader" type="ColorRect" parent="."]
+material = ExtResource("2_41eh2")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="VignetteShader" type="ColorRect" parent="."]
+material = ExtResource("4_um420")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="BackgoundMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_4arup")
+stream = ExtResource("8_bgecx")
 bus = &"Music"
+
+[node name="Multiplayer" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Host" type="Button" parent="Multiplayer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 254.0
+offset_top = -31.5
+offset_right = 354.0
+offset_bottom = -0.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Host
+"
+
+[node name="Join" type="Button" parent="Multiplayer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 254.0
+offset_top = 8.5
+offset_right = 354.0
+offset_bottom = 39.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Join
+"
 
 [node name="Menu" type="Control" parent="."]
 layout_mode = 3
@@ -181,6 +281,10 @@ grow_vertical = 2
 size_flags_horizontal = 4
 text = "Back"
 
+[connection signal="finished" from="Audio/Start" to="." method="_on_play_audio_finished"]
+[connection signal="finished" from="Audio/Quit" to="." method="_on_quit_audio_finished"]
+[connection signal="pressed" from="Multiplayer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="Multiplayer/Join" to="." method="_on_join_pressed"]
 [connection signal="pressed" from="Menu/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Menu/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="Menu/Quit" to="." method="_on_quit_pressed"]
