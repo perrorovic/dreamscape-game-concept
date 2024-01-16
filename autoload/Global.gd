@@ -1,7 +1,7 @@
 extends Node
 # Used in main function
 var worldType: String
-var player_ableToSwapWorld: bool
+var player_ableToSwapWorld: bool = true
 
 # This is used in UI
 var player_haveSword: bool = false

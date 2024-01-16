@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://jkpsi76th5bl"
-path="res://.godot/imported/DayNight_tileset.png-515f697b191b4f8a571448e4405dd012.ctex"
+path="res://.godot/imported/DayNight_tileset.png-e89dd9c73522cb70af286af61844a361.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sound/DayNight_tileset.png"
-dest_files=["res://.godot/imported/DayNight_tileset.png-515f697b191b4f8a571448e4405dd012.ctex"]
+source_file="res://assets/unused/DayNight_tileset.png"
+dest_files=["res://.godot/imported/DayNight_tileset.png-e89dd9c73522cb70af286af61844a361.ctex"]
 
 [params]
 

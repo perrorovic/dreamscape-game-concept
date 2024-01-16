@@ -5,7 +5,7 @@ func _ready():
 	%MasterVolume.value = Settings.audioMaster_volumeTemp
 	%MusicVolume.value = Settings.audioMusic_volumeTemp
 	%EffectVolume.value = Settings.audioEffect_volumeTemp
-	print("Menu Inherited")
+	print("Menu Inherited to Main Menu")
 	$BackgoundMusic.play()
 	$Menu.show()
 	$Options.hide()

@@ -5,11 +5,10 @@ extends MainMenuParent
 
 func _ready():
 	hide()
-	#get_tree().paused = true
 	%MasterVolume.value = Settings.audioMaster_volumeTemp
 	%MusicVolume.value = Settings.audioMusic_volumeTemp
 	%EffectVolume.value = Settings.audioEffect_volumeTemp
-	print("Menu Inherited")
+	print("Menu Inherited to Ingame Menu")
 	$Menu.show()
 	$Options.hide()
 	%FullscreenButton.hide()

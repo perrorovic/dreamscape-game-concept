@@ -45,9 +45,10 @@ var moon: Texture2D = preload("res://assets/ui/fullmoon.png") #17a995
 
 # In a inherited scene please re-declare _ready() function
 func _ready():
-	print("Scene Parent | Debugger Scene")
-	_init_world()
-	_init_day()
+	#print("Scene Parent | Debugger Scene")
+	#_init_world()
+	#_init_day()
+	pass
 
 func _process(_delta):
 	pass

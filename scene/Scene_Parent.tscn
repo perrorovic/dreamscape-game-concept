@@ -5,7 +5,7 @@
 [ext_resource type="TileSet" uid="uid://esvtc00mqhdh" path="res://assets/tilesets/MainTileset.tres" id="3_pio1f"]
 [ext_resource type="PackedScene" uid="uid://caxjcyt48xmp0" path="res://scene/character/Character.tscn" id="4_t681f"]
 [ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="5_obrd2"]
-[ext_resource type="PackedScene" uid="uid://bio2wxum33qhf" path="res://scene/UI.tscn" id="6_62nxy"]
+[ext_resource type="PackedScene" uid="uid://bio2wxum33qhf" path="res://scene/ui/UI.tscn" id="6_62nxy"]
 [ext_resource type="PackedScene" uid="uid://b163wrbe72fm5" path="res://scene/ui/Ingame_Menu.tscn" id="7_5cvhc"]
 
 [node name="Scene" type="Node2D"]

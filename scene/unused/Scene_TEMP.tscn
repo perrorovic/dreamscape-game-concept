@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dcdh88e4al28v" path="res://scene/boss/Boss.tscn" id="11_1f068"]
 [ext_resource type="PackedScene" uid="uid://caxjcyt48xmp0" path="res://scene/character/Character.tscn" id="12_o8il5"]
 [ext_resource type="Texture2D" uid="uid://14wnrv1n5jof" path="res://assets/Lightning.png" id="13_1ryjl"]
-[ext_resource type="PackedScene" uid="uid://bio2wxum33qhf" path="res://scene/UI.tscn" id="14_xx2a8"]
+[ext_resource type="PackedScene" uid="uid://bio2wxum33qhf" path="res://scene/ui/UI.tscn" id="14_xx2a8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wgnca"]
 size = Vector2(157, 20)

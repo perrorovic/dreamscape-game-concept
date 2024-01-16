@@ -1,11 +1,24 @@
 extends CanvasLayer
 class_name MainMenuParent
 
+# --------------------------------------------------------------------------
 # Remember to put this _ready() function in the child
+# Current child:
+# "res://scene/ui/MainMenu.gd"
+# "res://scene/ui/IngameMenu.gd"
+# --------------------------------------------------------------------------
+
 func _ready():
-	%MasterVolume.value = Settings.audioMaster_volumeTemp
-	%MusicVolume.value = Settings.audioMusic_volumeTemp
-	%EffectVolume.value = Settings.audioEffect_volumeTemp
+	#get_tree().paused = true or hide()
+	#%MasterVolume.value = Settings.audioMaster_volumeTemp
+	#%MusicVolume.value = Settings.audioMusic_volumeTemp
+	#%EffectVolume.value = Settings.audioEffect_volumeTemp
+	#print("Menu Inherited")
+	#$Menu.show()
+	#$Options.hide()
+	#%FullscreenButton.hide()
+	#%WindowedButton.show()
+	pass
 
 # --------------------------------------------------------------------------
 # Audio volume settings

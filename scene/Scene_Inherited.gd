@@ -34,6 +34,7 @@ func _tutorial():
 	$Character/Weapon/MeleeWeapon.hide()
 	$Character/Weapon/RangedWeapon.hide()
 	
+	Global.player_ableToSwapWorld = false
 	Global.player_ableToMelee = false
 	Global.player_ableToThrow = false
 	Global.player_ableToShoot = false
