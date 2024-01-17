@@ -2,15 +2,12 @@ extends MainMenuParent
 
 func _ready():
 	get_tree().paused = true
-	%MasterVolume.value = Settings.audioMaster_volumeTemp
-	%MusicVolume.value = Settings.audioMusic_volumeTemp
-	%EffectVolume.value = Settings.audioEffect_volumeTemp
+	_displaySettings()
+	_audioSettings()
 	print("Menu Inherited to Main Menu")
 	$BackgoundMusic.play()
 	$Menu.show()
 	$Options.hide()
-	%FullscreenButton.hide()
-	%WindowedButton.show()
 
 # --------------------------------------------------------------------------
 # BaseButton function via pressed() signals
@@ -19,7 +16,6 @@ func _ready():
 func _on_play_pressed():
 	# Get and play the scene
 	$Audio/Start.play()
-
 func _on_play_audio_finished():
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scene/Scene_Inherited.tscn")

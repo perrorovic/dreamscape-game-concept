@@ -2,6 +2,7 @@ extends CanvasLayer
 class_name MainMenuParent
 
 # --------------------------------------------------------------------------
+# This function should be a scene with all node needed and simply imported for both main-menu and in-game menu
 # Remember to put this _ready() function in the child
 # Current child:
 # "res://scene/ui/MainMenu.gd"
@@ -10,15 +11,25 @@ class_name MainMenuParent
 
 func _ready():
 	#get_tree().paused = true or hide()
-	#%MasterVolume.value = Settings.audioMaster_volumeTemp
-	#%MusicVolume.value = Settings.audioMusic_volumeTemp
-	#%EffectVolume.value = Settings.audioEffect_volumeTemp
+	#_displaySettings()
+	#_audioSettings()
 	#print("Menu Inherited")
 	#$Menu.show()
 	#$Options.hide()
-	#%FullscreenButton.hide()
-	#%WindowedButton.show()
 	pass
+
+func _displaySettings():
+	if Settings.displayMode_fullscreen:
+		%FullscreenButton.show()
+		%WindowedButton.hide()
+	else:
+		%FullscreenButton.hide()
+		%WindowedButton.show()
+
+func _audioSettings():
+	%MasterVolume.value = Settings.audioMaster_volumeTemp
+	%MusicVolume.value = Settings.audioMusic_volumeTemp
+	%EffectVolume.value = Settings.audioEffect_volumeTemp
 
 # --------------------------------------------------------------------------
 # Audio volume settings
@@ -47,14 +58,20 @@ func audioMuteCheck(value, audioBus):
 func _on_options_fullscreen_pressed():
 	$Audio/Foward.play(0.25) # This is supposed to be in the parent
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-	%FullscreenButton.hide()
-	%WindowedButton.show()
+	Settings.displayMode_fullscreen = false
+	_displaySettings()
+	print("Display mode changed: Windowed")
+	#%FullscreenButton.hide()
+	#%WindowedButton.show()
 
 func _on_options_windowed_pressed():
 	$Audio/Foward.play(0.25) # This is supposed to be in the parent
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-	%WindowedButton.hide()
-	%FullscreenButton.show()
+	Settings.displayMode_fullscreen = true
+	_displaySettings()
+	print("Display mode changed: Fullscreen")
+	#%WindowedButton.hide()
+	#%FullscreenButton.show()
 	
 # --------------------------------------------------------------------------
 # Audio volume slider settings

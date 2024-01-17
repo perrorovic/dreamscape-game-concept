@@ -5,14 +5,11 @@ extends MainMenuParent
 
 func _ready():
 	hide()
-	%MasterVolume.value = Settings.audioMaster_volumeTemp
-	%MusicVolume.value = Settings.audioMusic_volumeTemp
-	%EffectVolume.value = Settings.audioEffect_volumeTemp
+	_displaySettings()
+	_audioSettings()
 	print("Menu Inherited to Ingame Menu")
 	$Menu.show()
 	$Options.hide()
-	%FullscreenButton.hide()
-	%WindowedButton.show()
 
 func _process(_delta):
 	# This was supposed to be 'esc' as well but it launch both function in the same time
