@@ -236,28 +236,35 @@ position = Vector2(-1247, -1064)
 collision_layer = 2
 collision_mask = 2
 
-[node name="Character2" parent="." index="13" instance=ExtResource("13_nwfjl")]
-position = Vector2(-1464, -415)
+[node name="Camera" parent="." index="13"]
+position = Vector2(-1517, -456)
+
+[node name="Character" parent="Camera" index="0"]
+position = Vector2(-64, -12)
+
+[node name="Character2" parent="Camera" index="1" instance=ExtResource("13_nwfjl")]
+position = Vector2(64, -12)
 scale = Vector2(1.5, 1.5)
 script = ExtResource("14_fs1b2")
 
-[node name="PointLight2D" type="PointLight2D" parent="Character2" index="11"]
+[node name="PointLight2D" type="PointLight2D" parent="Camera/Character2" index="11"]
 energy = 2.5
 shadow_enabled = true
 texture = ExtResource("14_uy2pu")
 texture_scale = 0.4
 metadata/_edit_lock_ = true
 
-[node name="Character" parent="." index="14"]
-position = Vector2(-1568, -476)
-
-[node name="Camera2D" type="Camera2D" parent="Character" index="12"]
+[node name="Camera2D" type="Camera2D" parent="Camera" index="2"]
+process_mode = 3
+position = Vector2(-4, -8)
 position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 rotation_smoothing_enabled = true
 
 [connection signal="body_entered" from="WHOLEMEME/Meme" to="." method="_on_meme_body_entered"]
 [connection signal="body_entered" from="WHOLEMEME/Meme2" to="." method="_on_meme_2_body_entered"]
-[connection signal="mouse1_melee" from="Character2" to="." method="_on_player_mouse1_melee"]
-[connection signal="mouse1_ranged" from="Character2" to="." method="_on_player_mouse1_ranged"]
-[connection signal="mouse2_melee" from="Character2" to="." method="_on_character_mouse_2_melee"]
-[connection signal="mouse2_ranged" from="Character2" to="." method="_on_character_mouse_2_ranged"]
+[connection signal="mouse1_melee" from="Camera/Character2" to="." method="_on_player_mouse1_melee"]
+[connection signal="mouse1_ranged" from="Camera/Character2" to="." method="_on_player_mouse1_ranged"]
+[connection signal="mouse2_melee" from="Camera/Character2" to="." method="_on_character_mouse_2_melee"]
+[connection signal="mouse2_ranged" from="Camera/Character2" to="." method="_on_character_mouse_2_ranged"]
+[connection signal="player_interact" from="Camera/Character2" to="." method="_on_player_interact_key_item"]

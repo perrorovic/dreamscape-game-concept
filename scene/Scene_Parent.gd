@@ -70,10 +70,10 @@ func _init_world():
 func _init_day():
 	# Initation of the world scene, set needed property to the world settings
 	Global.worldType = "Day"
-	Global.player_ableToMelee = true
-	Global.player_ableToThrow = true
-	Global.player_ableToShoot = false
-	Global.player_ableToFireball = true
+	Global.player1.player_ableToMelee = true
+	Global.player1.player_ableToThrow = true
+	Global.player1.player_ableToShoot = false
+	Global.player1.player_ableToFireball = true
 	$TileMap.set_layer_enabled(1,true)
 	$TileMap.set_layer_enabled(2,false)
 	

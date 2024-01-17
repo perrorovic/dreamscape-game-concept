@@ -57,7 +57,7 @@ signal player_interact(interactable_temp)
 
 func _ready():
 	# Set color for filter and visibility for the weapon according to the world type
-	$Filter.color = Color("#db9042")
+	#$Filter.color = Color("#db9042")
 	$Weapon/MeleeWeapon.show()
 	$Weapon/RangedWeapon.hide()
 	$Weapon/RangedWeapon/ChargingParticles.emitting = false
@@ -67,12 +67,12 @@ func _ready():
 
 func _physics_process(_delta):
 	# Update the player health value all the time
-	ui_playerHealth.value = Global.player1.player_health
-	ui_playerRangedAmmo.value = Global.player1.player_ammo
+	ui_playerHealth.value = Global.player2.player_health
+	ui_playerRangedAmmo.value = Global.player2.player_ammo
 	# Set the location for melee projectile to spawn by using hit marker
-	Global.player1.player_position = global_position
-	Global.player1.player_meleeSlashSpawn = $Weapon/MeleeSlashSpawn.global_position
-	Global.player1.player_rotation = rotation_degrees
+	Global.player2.player_position = global_position
+	Global.player2.player_meleeSlashSpawn = $Weapon/MeleeSlashSpawn.global_position
+	Global.player2.player_rotation = rotation_degrees
 	# Below are function for process
 	_loot_at()
 	_movement()
@@ -80,7 +80,7 @@ func _physics_process(_delta):
 	_melee()
 	_dash()
 	_ranged()
-	_update_animation()
+	#_update_animation()
 	_interact()
 
 # --------------------------------------------------------------------------
@@ -108,7 +108,7 @@ func _movement():
 		#player_moveSpeed = player_moveSpeedDefault
 		
 	# Get the user input and move the player character accordingly
-	direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	direction = Input.get_vector("j", "l", "i", "k")
 	velocity = direction * player_moveSpeed + knockback_tweenValue
 	# Play step sfx when the player is moving
 	# The audio bus in the $StepSfx
@@ -132,23 +132,23 @@ func _movement():
 func _swap_world_type():
 	# Animation problem of smooth modulating the color because the tilemaps are two different thing, day and night
 	# Swap world type to night
-	if Input.is_action_just_pressed("swap") and Global.worldType == "Day" and Global.player1.player_ableToSwapWorld == true:
+	if Input.is_action_just_pressed("swap") and Global.worldType == "Day" and Global.player2.player_ableToSwapWorld == true:
 		# Animation world filter with tween
-		var filterTween = get_tree().create_tween()
-		filterTween.tween_property($Filter, "color", Color("#17a995"), 1)
+		#var filterTween = get_tree().create_tween()
+		#filterTween.tween_property($Filter, "color", Color("#17a995"), 1)
 		_swap_world_type_to_night()
 		# Signal to scene to change the world type
-		connect("scene_change_world_type", Callable(scene, "_change_world_type"), 4)
-		scene_change_world_type.emit()
+		#connect("scene_change_world_type", Callable(scene, "_change_world_type"), 4)
+		#scene_change_world_type.emit()
 	# Swap world type to day
-	elif Input.is_action_just_pressed("swap") and Global.worldType == "Night" and Global.player1.player_ableToSwapWorld == true:
+	elif Input.is_action_just_pressed("swap") and Global.worldType == "Night" and Global.player2.player_ableToSwapWorld == true:
 		# Animation world filter with tween
-		var filterTween = get_tree().create_tween()
-		filterTween.tween_property($Filter, "color", Color("#db9042"), 1)
+		#var filterTween = get_tree().create_tween()
+		#filterTween.tween_property($Filter, "color", Color("#db9042"), 1)
 		_swap_world_type_to_day()
 		# Signal to scene to change the world type
-		connect("scene_change_world_type", Callable(scene, "_change_world_type"), 4)
-		scene_change_world_type.emit()
+		#connect("scene_change_world_type", Callable(scene, "_change_world_type"), 4)
+		#scene_change_world_type.emit()
 	# Set the progress value with timer time_left (this isnt dynamic and will break when you change the timer. Set for 5s)
 	ui_worldType.value = 100 - $Timer/SwapWorldCooldown.time_left * 20
 
@@ -157,10 +157,10 @@ func _swap_world_type_to_day():
 	$Weapon/MeleeWeapon.show()
 	$Weapon/RangedWeapon.hide()
 	# Change the world type and change the value in globals
-	Global.worldType = "Day"
-	Global.player1.player_ableToSwapWorld = false
-	Global.player1.player_ableToMelee = true
-	Global.player1.player_ableToShoot = false
+	#Global.worldType = "Day"
+	Global.player2.player_ableToSwapWorld = false
+	Global.player2.player_ableToMelee = true
+	Global.player2.player_ableToShoot = false
 	# IS THIS EVEN NEEDED ANYMORE? WE ONLY USING 1 TILEMAP FOR NOW
 	# Change the collision mask of the player suitable for day worldType
 	#set_collision_mask_value(2, true)
@@ -173,10 +173,10 @@ func _swap_world_type_to_night():
 	$Weapon/MeleeWeapon.hide()
 	$Weapon/RangedWeapon.show()
 	# Change the world type and change the value in globals
-	Global.worldType = "Night"
-	Global.player1.player_ableToSwapWorld = false
-	Global.player1.player_ableToMelee = false
-	Global.player1.player_ableToShoot = true
+	#Global.worldType = "Night"
+	Global.player2.player_ableToSwapWorld = false
+	Global.player2.player_ableToMelee = false
+	Global.player2.player_ableToShoot = true
 	# IS THIS EVEN NEEDED ANYMORE? WE ONLY USING 1 TILEMAP FOR NOW
 	# Change the collision mask of the player suitable for night worldType
 	#set_collision_mask_value(2, false)
@@ -238,17 +238,17 @@ func _weapon_stroke(player_direction: Vector2, stroke_power: int):
 # This function make the melee projectile for the player character action
 func _melee():
 	#Basic Attack (Thrust)
-	if Input.is_action_pressed("mouse1") and Global.player1.player_ableToMelee == true and Global.worldType == "Day":
-		Global.player1.player_ableToMelee = false
+	if Input.is_action_pressed("enter") and Global.player2.player_ableToMelee == true and Global.worldType == "Day":
+		Global.player2.player_ableToMelee = false
 		var player_direction = (get_global_mouse_position() - position).normalized()
 		# Create animation with tween to weapon move while still maintaining look_at() func
 		_weapon_stroke(player_direction, 10)
 		mouse1_melee.emit($Weapon/MeleeSlashSpawn.global_position, $Weapon.rotation_degrees, player_direction)
 		$Timer/MeleeCooldown.start(0.4)
 	#Special Attack (Throw) then cannot attack for certain duration until weapon spawn back
-	elif Input.is_action_pressed("mouse2") and Global.player1.player_ableToMelee == true and Global.player1.player_ableToThrow == true and Global.worldType == "Day":
-		Global.player1.player_ableToMelee = false
-		Global.player1.player_ableToThrow = false
+	elif Input.is_action_pressed("mouse2") and Global.player2.player_ableToMelee == true and Global.player2.player_ableToThrow == true and Global.worldType == "Day":
+		Global.player2.player_ableToMelee = false
+		Global.player2.player_ableToThrow = false
 		$Weapon/MeleeWeapon.hide()
 		var player_direction = (get_global_mouse_position() - position).normalized()
 		# Create animation with tween to weapon move while still maintaining look_at() func
@@ -263,17 +263,17 @@ func _melee():
 # This function make the ranged projectile for the player character action
 # @kepponn are responsible for this one
 func _ranged():
-	ui_playerRangedAmmo.value = Global.player1.player_ammo
+	ui_playerRangedAmmo.value = Global.player2.player_ammo
 	#if shooting on any ammo except last ammo (1 ammo or more {2,3,4,5,...} left), auto reload timer will be started
-	if Global.player1.player_ammo > 1 and Input.is_action_pressed("mouse1") and Global.player1.player_ableToShoot == true and Global.worldType == "Night":
-		Global.player1.player_ableToShoot = false
+	if Global.player2.player_ammo > 1 and Input.is_action_pressed("enter") and Global.player2.player_ableToShoot == true and Global.worldType == "Night":
+		Global.player2.player_ableToShoot = false
 		var player_direction = (get_global_mouse_position() - position).normalized()
 #		send signal into ["res://Main.gd"] script to spawn ranged bullet based on these parameter
 #		all parameter will be set into ["res://Scene/BulletProjectile.gd"] in there
 		# Create animation with tween to weapon move while still maintaining look_at() func
 		_weapon_stroke(player_direction, -3)
 		mouse1_ranged.emit($Weapon/RangedBulletSpawn.global_position, $Weapon.rotation_degrees, player_direction)
-		Global.player1.player_ammo -= 1
+		Global.player2.player_ammo -= 1
 		player_isAddingAmmo = false
 		$Timer/ReloadAutoCooldown.start(2.5)
 		#RangedCooldown timer is used on time out to change Global.player_ableToShoot to true 
@@ -282,36 +282,36 @@ func _ranged():
 		$Timer/ReloadTickCooldown.stop()
 	
 	#if shooting on last ammo (1 ammo left)
-	elif Global.player1.player_ammo == 1 and Input.is_action_pressed("mouse1") and Global.player1.player_ableToShoot == true:
-		Global.player1.player_ableToShoot = false
+	elif Global.player2.player_ammo == 1 and Input.is_action_pressed("enter") and Global.player2.player_ableToShoot == true:
+		Global.player2.player_ableToShoot = false
 		var player_direction = (get_global_mouse_position() - position).normalized()
 #		send signal into ["res://Main.gd"] script to spawn ranged bullet based on these parameter
 #		all parameter will be set into ["res://Scene/BulletProjectile.gd"] in there
 		# Create animation with tween to weapon move while still maintaining look_at() func
 		_weapon_stroke(player_direction, -3)
 		mouse1_ranged.emit($Weapon/RangedBulletSpawn.global_position, $Weapon.rotation_degrees, player_direction)
-		Global.player1.player_ammo -= 1
+		Global.player2.player_ammo -= 1
 		player_isEmptyReloading = true
 		$Timer/ReloadTickCooldown.start(1)
 	
 	if player_isEmptyReloading == true and player_isAddingAmmo == false and $Timer/ReloadTickCooldown.time_left <= 0:
 		print("Empty Reload")
 		player_isAddingAmmo = true
-		if $Timer/ReloadTickCooldown.time_left <= 0 and Global.player1.player_ammo < Global.player1.player_ammoMax:
-			Global.player1.player_ammo += 1
+		if $Timer/ReloadTickCooldown.time_left <= 0 and Global.player2.player_ammo < Global.player2.player_ammoMax:
+			Global.player2.player_ammo += 1
 			print("Adding Ammo")
 			player_isAddingAmmo = false
-		if Global.player1.player_ammo == Global.player1.player_ammoMax:
-			Global.player1.player_ableToShoot = true
+		if Global.player2.player_ammo == Global.player2.player_ammoMax:
+			Global.player2.player_ableToShoot = true
 			player_isEmptyReloading = false
 		$Timer/ReloadTickCooldown.start(0.2)
 	#dont touch this shiet
 	#After idling for 3 second after shooting
-	elif $Timer/ReloadAutoCooldown.time_left <= 0 and Global.player1.player_ammo < Global.player1.player_ammoMax and player_isAddingAmmo == false and $Timer/ReloadTickCooldown.time_left <= 0 :
+	elif $Timer/ReloadAutoCooldown.time_left <= 0 and Global.player2.player_ammo < Global.player2.player_ammoMax and player_isAddingAmmo == false and $Timer/ReloadTickCooldown.time_left <= 0 :
 		print("Auto Reload")
 		player_isAddingAmmo = true
-		if $Timer/ReloadTickCooldown.time_left <= 0 and Global.player1.player_ammo < Global.player1.player_ammoMax:
-			Global.player1.player_ammo += 1
+		if $Timer/ReloadTickCooldown.time_left <= 0 and Global.player2.player_ammo < Global.player2.player_ammoMax:
+			Global.player2.player_ammo += 1
 			print("Adding Ammo")
 			player_isAddingAmmo = false
 		$Timer/ReloadTickCooldown.start(0.2)
@@ -321,8 +321,8 @@ func _ranged():
 	# Special Attack (Fireball) deal AoE damage around the explosion (Knockback still bugged)
 	# --------------------------------------------------------------------------
 	# After mouse2 is pressed (only triggered once because we using casting timer otherwise it will keep reseting) character will start casting
-	if Input.is_action_just_pressed("mouse2") and Global.player1.player_ableToFireball == true and player_isCasting == false and Global.worldType == "Night":
-		Global.player1.player_ableToShoot = false
+	if Input.is_action_just_pressed("mouse2") and Global.player2.player_ableToFireball == true and player_isCasting == false and Global.worldType == "Night":
+		Global.player2.player_ableToShoot = false
 		player_isCasting = true
 		# Using speed_modifier to change the speed
 		connect("update_movement", Callable(self, "_update_movement") , 4)
@@ -334,7 +334,7 @@ func _ranged():
 	
 	# After mouse2 is released, will emit signal depending on if player is done casting or not yet
 	if Input.is_action_just_released("mouse2") and player_isCasting == true:
-		Global.player1.player_ableToFireball = false
+		Global.player2.player_ableToFireball = false
 		# Revert to default speed modifier
 		connect("update_movement", Callable(self, "_update_movement") , 4)
 		update_movement.emit("set", speed_modifierDefault)
@@ -364,16 +364,16 @@ func _ranged():
 
 # This function make the player dash with immunity frame
 func _dash():
-	if Input.is_action_pressed("move_down") or Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right") or Input.is_action_pressed("move_up"):
-		if Input.is_action_just_pressed("dash") and Global.player1.player_ableToDash == true : #and Global.worldType == "Day":
+	if Input.is_action_pressed("k") or Input.is_action_pressed("j") or Input.is_action_pressed("l") or Input.is_action_pressed("i"):
+		if Input.is_action_just_pressed("shift") and Global.player2.player_ableToDash == true : #and Global.worldType == "Day":
 			$Timer/DashDuration.start()
 			$Timer/DashCooldown.start()
-			Global.player1.player_ableToDash = false
+			Global.player2.player_ableToDash = false
 			#default Timer = 0.05, Mvspd = 1500, fixed FPS 30
 			#default2 Timer = 0.3, Mvspd = 500, fixed FPS 30
 			player_moveSpeed += 750 #Timer 0.1, fixed FPS 120 much better because afterimage running at 120 fps 
 			set_collision_mask_value(1, false)
-	if Global.player1.player_ableToDash == false:
+	if Global.player2.player_ableToDash == false:
 		ui_playerDash.value = ui_playerDash.max_value * (1 - $Timer/DashCooldown.time_left / $Timer/DashCooldown.wait_time)
 
 # --------------------------------------------------------------------------
@@ -389,8 +389,8 @@ func _player_hit(damage):
 	hit_feedback_tween.tween_property($Sprite, "modulate", Color("#ff113f"), 0.1)
 	hit_feedback_tween.tween_property($Sprite, "modulate", Color("#ffffff"), 0.1)
 	# This decrease the player health by the damage received
-	Global.player1.player_health -= damage
-	if Global.player1.player_health <= 0:
+	Global.player2.player_health -= damage
+	if Global.player2.player_health <= 0:
 		_dead()
 
 # This function are being called by enemy projectile into the player
@@ -403,9 +403,9 @@ func _knockback(set_direction, knockback_power):
 # This one is being called by _player_hit() if health reaches 0
 func _dead():
 	# Reset position of the player into the latest spawn point
-	position = Global.player1.player_spawnpoint
+	position = Global.player2.player_spawnpoint
 	# Reset player health to full
-	Global.player1.player_health = Global.player1.player_healthMax
+	Global.player2.player_health = Global.player2.player_healthMax
 	# Play animation death and reset to middle
 	# Animation death is simple foreground color that dim to black
 	# Show key to respawn
@@ -414,16 +414,16 @@ func _dead():
 func _on_items_pickup(type):
 	print(type)
 	if type == "health":
-		Global.player1.player_health += 25
+		Global.player2.player_health += 25
 	elif type == "dash":
 		$Timer/DashCooldown.stop()
-		Global.player1.player_ableToDash = true
+		Global.player2.player_ableToDash = true
 		ui_playerDash.value = ui_playerDash.max_value
 	elif type == "ammo":
 		$Timer/ReloadTickCooldown.stop()
-		Global.player1.player_ammo = Global.player1.player_ammoMax
-		ui_playerRangedAmmo.value = Global.player1.player_ammoMax
-		Global.player1.player_ableToShoot = true
+		Global.player2.player_ammo = Global.player2.player_ammoMax
+		ui_playerRangedAmmo.value = Global.player2.player_ammoMax
+		Global.player2.player_ableToShoot = true
 	
 # --------------------------------------------------------------------------
 # Function of _update_animation() (Animation of the character are being add and modify here)
@@ -460,20 +460,20 @@ func _update_animation():
 	# UI on cooldown and get pressed then do feedback animation
 	# BUG where when pressed for the first time for the action it blink red
 	# Maybe add a timer check for it
-	if Global.player1.player_ableToSwapWorld == false and Input.is_action_just_pressed("swap") and $Timer/SwapWorldCooldown.time_left < $Timer/SwapWorldCooldown.wait_time:
+	if Global.player2.player_ableToSwapWorld == false and Input.is_action_just_pressed("swap") and $Timer/SwapWorldCooldown.time_left < $Timer/SwapWorldCooldown.wait_time:
 		connect("ui_feedback", Callable(ui_path, "_ui_feedback"), 4)
 		ui_feedback.emit(ui_worldType)
-	if Global.player1.player_ableToDash == false and Input.is_action_just_pressed("dash") and $Timer/DashDuration.time_left < $Timer/DashDuration.wait_time:
+	if Global.player2.player_ableToDash == false and Input.is_action_just_pressed("dash") and $Timer/DashDuration.time_left < $Timer/DashDuration.wait_time:
 		connect("ui_feedback", Callable(ui_path, "_ui_feedback"), 4)
 		ui_feedback.emit(ui_playerDash)
 	# What the timer for player_isEmptyReloading action?
-	if player_isEmptyReloading == true and Input.is_action_just_pressed("mouse1") and $Timer/ReloadAutoCooldown.time_left < $Timer/ReloadAutoCooldown.wait_time:
+	if player_isEmptyReloading == true and Input.is_action_just_pressed("enter") and $Timer/ReloadAutoCooldown.time_left < $Timer/ReloadAutoCooldown.wait_time:
 		connect("ui_feedback", Callable(ui_path, "_ui_feedback"), 4)
 		ui_feedback.emit(ui_playerRangedAmmo)
-	if Global.player1.player_ableToThrow == false and Input.is_action_just_pressed("mouse2") and $Timer/ThrowCooldown.time_left < $Timer/ThrowCooldown.wait_time:
+	if Global.player2.player_ableToThrow == false and Input.is_action_just_pressed("mouse2") and $Timer/ThrowCooldown.time_left < $Timer/ThrowCooldown.wait_time:
 		connect("ui_feedback", Callable(ui_path, "_ui_feedback"), 4)
 		ui_feedback.emit(ui_playerMeleeSpecialAttack)
-	if Global.player1.player_ableToFireball == false and Input.is_action_just_pressed("mouse2") and $Timer/FireballCooldown.time_left < $Timer/FireballCooldown.wait_time:
+	if Global.player2.player_ableToFireball == false and Input.is_action_just_pressed("mouse2") and $Timer/FireballCooldown.time_left < $Timer/FireballCooldown.wait_time:
 		connect("ui_feedback", Callable(ui_path, "_ui_feedback"), 4)
 		ui_feedback.emit(ui_playerRangedSpecialAttack)
 	# Fuck animation
@@ -496,10 +496,10 @@ func _update_animation():
 # --------------------------------------------------------------------------
 
 func _on_swap_world_cooldown_timeout():
-	Global.player1.player_ableToSwapWorld = true
+	Global.player2.player_ableToSwapWorld = true
 
 func _on_melee_cooldown_timeout():
-	Global.player1.player_ableToMelee = true
+	Global.player2.player_ableToMelee = true
 	# FIXED - Bug showing both weapon if the melee is thrown and world change to night
 	# Because of this didnt check the world type before setting the visible property
 	if $Weapon/MeleeWeapon.visible == false and Global.worldType == "Day":
@@ -507,10 +507,10 @@ func _on_melee_cooldown_timeout():
 		ui_playerMeleeEquipped.modulate = Color("#ffffff")
 
 func _on_throw_cooldown_timeout():
-	Global.player1.player_ableToThrow = true
+	Global.player2.player_ableToThrow = true
 
 func _on_ranged_cooldown_timeout():
-	Global.player1.player_ableToShoot = true
+	Global.player2.player_ableToShoot = true
 
 func _on_casting_timeout():
 	# Sending different color particle for charged fireball
@@ -519,7 +519,7 @@ func _on_casting_timeout():
 	$Weapon/RangedWeapon/ChargingParticles.self_modulate = Color("ff0000")
 
 func _on_fireball_cooldown_timeout():
-	Global.player1.player_ableToFireball = true
+	Global.player2.player_ableToFireball = true
 
 func _on_dash_duration_timeout():
 	# This update the movement speed to the CURRENT state (with param '0')
@@ -530,7 +530,7 @@ func _on_dash_duration_timeout():
 	set_collision_mask_value(1, true)
 
 func _on_dash_cooldown_timeout():
-	Global.player1.player_ableToDash = true
+	Global.player2.player_ableToDash = true
 
 # --------------------------------------------------------------------------
 # Character tutorial area checker (Getting weapons and upgrade)

@@ -25,7 +25,7 @@ func _ready():
 func _process(_delta):
 	minimap_camera.position = $"../Character".position
 	minimap_characterSprite.position = $"../Character".position
-	minimap_characterSprite.rotation_degrees = Global.player_rotation
+	minimap_characterSprite.rotation_degrees = Global.player1.player_rotation
 	
 	_toggle_map()
 	_check_world()

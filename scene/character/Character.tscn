@@ -331,12 +331,6 @@ position = Vector2(-2, 3)
 shape = SubResource("CapsuleShape2D_m5ns1")
 metadata/_edit_lock_ = true
 
-[node name="Camera2D" type="Camera2D" parent="."]
-process_mode = 3
-position_smoothing_enabled = true
-position_smoothing_speed = 10.0
-rotation_smoothing_enabled = true
-
 [node name="Filter" type="CanvasModulate" parent="."]
 
 [node name="AnimationCharacter" type="AnimationPlayer" parent="."]
